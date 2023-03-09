@@ -110,7 +110,11 @@
         await Shell.Current.GoToAsync("//LoginPage");
     -->
 
-    <!-- Optional Templates 
+  <TabBar>
+    <ShellContent Route="LoginPage" ContentTemplate="{DataTemplate local:LoginPage}" />
+  </TabBar>
+
+  <!-- Optional Templates 
     // These may be provided inline as below or as separate classes.
 
     // This header appears at the top of the Flyout.
