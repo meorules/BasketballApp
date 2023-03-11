@@ -78,24 +78,24 @@
         FlyoutDisplayOptions="AsMultipleItems" will create a separate flyout item for each child element    
         https://docs.microsoft.com/dotnet/api/xamarin.forms.shellgroupitem.flyoutdisplayoptions?view=xamarin-forms
     -->
-    <FlyoutItem Title="About" Icon="icon_about.png">
+  <FlyoutItem Title="About" Icon="icon_about.png">
     <ShellContent Route="HomePage" ContentTemplate="{DataTemplate local:HomePage}" />
-    </FlyoutItem>
+  </FlyoutItem>
   <FlyoutItem Title="Data Collection" Icon="icon_about.png">
     <ShellContent Route="DataCollectionPage" ContentTemplate="{DataTemplate local:DataCollectionPage}" />
     </FlyoutItem>
     <FlyoutItem Title="Browse Collected Data" Icon="icon_feed.png">
-        <ShellContent Route="" />
-    </FlyoutItem>
+    <ShellContent Route="DataCollectionPage" ContentTemplate="{DataTemplate local:DataCollectionPage}" />
+  </FlyoutItem>
     <FlyoutItem Title="Build or Edit Team" Icon="icon_feed.png">
-      <ShellContent Route=""  />
-    </FlyoutItem>
+    <ShellContent Route="DataCollectionPage" ContentTemplate="{DataTemplate local:DataCollectionPage}" />
+  </FlyoutItem>
     <FlyoutItem Title="Analyse Data" Icon="icon_feed.png">
-      <ShellContent Route=""  />
-    </FlyoutItem>
+    <ShellContent Route="DataCollectionPage" ContentTemplate="{DataTemplate local:DataCollectionPage}" />
+  </FlyoutItem>
     <FlyoutItem Title="Export Data" Icon="icon_feed.png">
-      <ShellContent Route=""  />
-    </FlyoutItem>
+    <ShellContent Route="DataCollectionPage" ContentTemplate="{DataTemplate local:DataCollectionPage}" />
+  </FlyoutItem>
 
 
     <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->

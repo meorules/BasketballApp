@@ -1,12 +1,42 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
+             xmlns:tt="clr-namespace:TouchTracking.Forms;assembly=TouchTracking.Forms"
              x:Class="BasketballApp.Views.DataCollectionPage">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
+  <ContentPage.Content>
+    <skia:SKCanvasView x:Name="canvasView"
+                       PaintSurface="OnCanvasViewPaintSurface"/>
+    
+
+
+
+
+
+    <!--<AbsoluteLayout x:Name="myabs">
+
+      <skia:SKCanvasView  
+                   AbsoluteLayout.LayoutBounds="0,0,1,1"  
+                    AbsoluteLayout.LayoutFlags="SizeProportional"  
+                     
+                   x:Name="canvasView" >
+        <skia:SKCanvasView.Effects>
+          <tt:TouchEffect Capture="True"  TouchAction="TouchEffect_TouchAction" />
+        </skia:SKCanvasView.Effects>
+      </skia:SKCanvasView>
+
+      <StackLayout>
+        <ImageButton WidthRequest="50" HeightRequest="50" BackgroundColor="Transparent" Source="hamburger.png" Clicked="ImageButton_Clicked" ></ImageButton>
+        <Frame IsVisible="false" x:Name="myframe"  WidthRequest="100" HeightRequest="70">
+          <StackLayout>
+            <Label FontSize="Small" Text="Edit"/>
+            <Label FontSize="Small" Text="Duplicate"/>
+            <Label FontSize="Small" Text="Remove"/>
+          </StackLayout>
+        </Frame>
+      </StackLayout>
+
+    </AbsoluteLayout>-->
+    
+  </ContentPage.Content>
 </ContentPage>
