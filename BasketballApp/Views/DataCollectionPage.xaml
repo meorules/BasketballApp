@@ -5,25 +5,27 @@
              xmlns:tt="clr-namespace:TouchTracking.Forms;assembly=TouchTracking.Forms"
              x:Class="BasketballApp.Views.DataCollectionPage">
   <ContentPage.Content>
-    <skia:SKCanvasView x:Name="canvasView"
-                       PaintSurface="OnCanvasViewPaintSurface"/>
-    
-
-
-
-
-
-    <!--<AbsoluteLayout x:Name="myabs">
-
+    <AbsoluteLayout x:Name="myabs">
+      <BoxView Color="Navy" CornerRadius="10" AbsoluteLayout.LayoutBounds="400,500,1000,1000"/>
       <skia:SKCanvasView  
                    AbsoluteLayout.LayoutBounds="0,0,1,1"  
                     AbsoluteLayout.LayoutFlags="SizeProportional"  
                      
-                   x:Name="canvasView" >
+                   x:Name="canvasView" PaintSurface="OnCanvasViewPaintSurface">
         <skia:SKCanvasView.Effects>
           <tt:TouchEffect Capture="True"  TouchAction="TouchEffect_TouchAction" />
         </skia:SKCanvasView.Effects>
       </skia:SKCanvasView>
+      <BoxView Color="Navy" CornerRadius="10" AbsoluteLayout.LayoutBounds="405,5,400,60"/>
+      <Button BackgroundColor="FloralWhite" TextColor="Black" FontFamily="Material" Text="&#xe037;" Command="{Binding LoginCommand}" AbsoluteLayout.LayoutBounds="410,15,40,40"/>
+      <Button BackgroundColor="FloralWhite" TextColor="Black" FontFamily="Material" Text="&#xe034;" Command="{Binding LoginCommand}" AbsoluteLayout.LayoutBounds="460,15,40,40"/>
+      <BoxView Color="Black" CornerRadius="10" AbsoluteLayout.LayoutBounds="505,16,80,40"/>
+      <Label x:Name="Timer" Padding="2" FontSize="Title" Text="09:36" TextColor="Red" AbsoluteLayout.LayoutBounds="512,17,65,40"/> 
+
+
+    </AbsoluteLayout>
+
+      <!--<
 
       <StackLayout>
         <ImageButton WidthRequest="50" HeightRequest="50" BackgroundColor="Transparent" Source="hamburger.png" Clicked="ImageButton_Clicked" ></ImageButton>
@@ -36,7 +38,7 @@
         </Frame>
       </StackLayout>
 
-    </AbsoluteLayout>-->
+    -->
     
   </ContentPage.Content>
 </ContentPage>
