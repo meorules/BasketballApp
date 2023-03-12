@@ -8,6 +8,13 @@
     <Application.Resources>
         <ResourceDictionary>
       <Color x:Key="Primary">Red</Color>
+      <Style x:Key="ClockButtonStyle" TargetType="Button">
+        <Setter Property="Padding" Value="2" />
+        <Setter Property="BackgroundColor" Value="FloralWhite" />
+        <Setter Property="BorderColor" Value="Black" />
+        <Setter Property="TextColor" Value="Black" />
+        <Setter Property="FontSize" Value="Large" />
+      </Style>
     </ResourceDictionary>        
     </Application.Resources>
 </Application>
