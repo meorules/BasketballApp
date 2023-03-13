@@ -115,14 +115,14 @@ namespace BasketballApp.Views
 
       //Green Circle Drawing, this can be called to add where makes are
       canvas.Save();
-      canvas.Translate(600, 750);
+      canvas.Translate(2000, 750);
       canvas.Scale(5, 5);
       canvas.DrawCircle(0, 0, 5, greenLineCircle);
       canvas.Restore();
 
       //Drawing Red Crosses for misses
       canvas.Save();
-      canvas.Translate(500, 530);
+      canvas.Translate(1800, 530);
       canvas.Scale(5, 5);
       canvas.DrawPath(redCrossPath, redCross);
       canvas.Restore();
