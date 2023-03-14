@@ -61,7 +61,7 @@ namespace BasketballApp.Views
       Device.StartTimer(TimeSpan.FromSeconds(1f / 60), () =>
       {
         canvasView.InvalidateSurface();
-        Timer.Text = DateTime.Now.ToString("mm:ss");
+        //Timer.Text = DateTime.Now.ToString("mm:ss");
         return true;
       });
 
@@ -146,9 +146,8 @@ namespace BasketballApp.Views
       //Opens up menu to select player, shot type and make or miss
       //Once this is done, these get added to the data storage and then 
 
-      var v = new DataCollectionPage();
-      AbsoluteLayout.SetLayoutBounds(v, new Rectangle(x, y, 0.25, 0.25));
-      AbsoluteLayout.SetLayoutFlags(v, AbsoluteLayoutFlags.SizeProportional);
+      /*AbsoluteLayout.SetLayoutBounds(v, new Rectangle(x, y, 0.25, 0.25));
+      AbsoluteLayout.SetLayoutFlags(v, AbsoluteLayoutFlags.SizeProportional);*/
 
       //myabs.Children.Add(v);
     }
