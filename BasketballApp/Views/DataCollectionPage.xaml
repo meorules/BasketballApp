@@ -43,11 +43,11 @@
  
       <BoxView Color="Navy" CornerRadius="10" AbsoluteLayout.LayoutBounds="5,5,200,200"/>
       <Label TextDecorations="Underline" Padding="3" FontSize="Large" Text="Players on Court" TextColor="White" AbsoluteLayout.LayoutBounds="15,5,180,35"/>
-      <Label x:Name="Player1Name" Padding="3" FontSize="Large" Text="Player 1" TextColor="White" AbsoluteLayout.LayoutBounds="15,35,180,35"/>
-      <Label x:Name="Player2Name" Padding="3" FontSize="Large" Text="Player 2" TextColor="White" AbsoluteLayout.LayoutBounds="15,65,180,35"/>
-      <Label x:Name="Player3Name" Padding="3" FontSize="Large" Text="Player 3" TextColor="White" AbsoluteLayout.LayoutBounds="15,95,180,35"/>
-      <Label x:Name="Player4Name" Padding="3" FontSize="Large" Text="Player 4" TextColor="White" AbsoluteLayout.LayoutBounds="15,125,180,35"/>
-      <Label x:Name="Player5Name" Padding="3" FontSize="Large" Text="Player 5" TextColor="White" AbsoluteLayout.LayoutBounds="15,155,180,35"/>
+      <Label x:Name="Player1Name" Padding="3" FontSize="Large" Text="{Binding Player1}" TextColor="White" AbsoluteLayout.LayoutBounds="15,35,180,35"/>
+      <Label x:Name="Player2Name" Padding="3" FontSize="Large" Text="{Binding Player2}" TextColor="White" AbsoluteLayout.LayoutBounds="15,65,180,35"/>
+      <Label x:Name="Player3Name" Padding="3" FontSize="Large" Text="{Binding Player3}" TextColor="White" AbsoluteLayout.LayoutBounds="15,95,180,35"/>
+      <Label x:Name="Player4Name" Padding="3" FontSize="Large" Text="{Binding Player4}" TextColor="White" AbsoluteLayout.LayoutBounds="15,125,180,35"/>
+      <Label x:Name="Player5Name" Padding="3" FontSize="Large" Text="{Binding Player5}" TextColor="White" AbsoluteLayout.LayoutBounds="15,155,180,35"/>
 
       <Button Command="{Binding ViewBoxScore}" BackgroundColor="Navy" TextTransform="None" Padding="3" FontSize="Large" Text="Box Score" TextColor="White" AbsoluteLayout.LayoutBounds="210,5,180,45"/>
       <Button Command="{Binding AddSTL}" BackgroundColor="Navy" TextTransform="None" Padding="1" FontSize="Large" Text="STL" TextColor="White" AbsoluteLayout.LayoutBounds="230,55,60,30"/>

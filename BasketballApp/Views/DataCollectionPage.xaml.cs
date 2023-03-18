@@ -12,11 +12,15 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using static Xamarin.Essentials.Permissions;
 
+using BasketballApp.ViewModels;
+
 namespace BasketballApp.Views
 {
   [XamlCompilation(XamlCompilationOptions.Compile)]
   public partial class DataCollectionPage : ContentPage
   {
+
+
 
     SKPaint greenLineCircle = new SKPaint
     {
@@ -56,12 +60,14 @@ namespace BasketballApp.Views
     public DataCollectionPage()
     {
       InitializeComponent();
+      this.BindingContext = new GameObjectViewModel();
+
       Title = "Data Collection Page";
 
       Device.StartTimer(TimeSpan.FromSeconds(1f / 60), () =>
       {
         canvasView.InvalidateSurface();
-        //Timer.Text = DateTime.Now.ToString("mm:ss");
+        Timer.Text = DateTime.Now.ToString("mm:ss");
         return true;
       });
 
@@ -142,6 +148,11 @@ namespace BasketballApp.Views
 
       var x = args.Location.X;
       var y = args.Location.Y;
+
+      string playerName = Shell.Current.DisplayActionSheet("Pick a Player", Player1Name.Text, Player2Name.Text, Player3Name.Text, Player4Name.Text, Player5Name.Text).Result;
+      string makeOrMiss = Shell.Current.DisplayActionSheet("Made or Missed?", "Made", "Missed").Result;
+      string pointWorth = Shell.Current.DisplayActionSheet("2PT or 3PT?", "2PT", "3PT").Result;
+
 
       //Opens up menu to select player, shot type and make or miss
       //Once this is done, these get added to the data storage and then 

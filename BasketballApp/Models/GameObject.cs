@@ -6,7 +6,9 @@ namespace BasketballApp.Models
 {
   public class GameObject
   {
-    public string GameID { get; set; }
+
+    public Player[] currentPlayers { set; get;  }
+    public int GameID { get; set; }
     public string Name { get; set; }
     public DateTime GameDate { get; set; }
     public string GameLocation { get; set; }

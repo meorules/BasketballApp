@@ -1,4 +1,5 @@
-﻿using BasketballApp.Views;
+﻿//using BasketballApp.Services;
+using BasketballApp.Views;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -11,6 +12,8 @@ namespace BasketballApp
     public App()
     {
       InitializeComponent();
+
+      //DependencyService.Register<MockDataStore>();
 
       MainPage = new AppShell();
     }
