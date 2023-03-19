@@ -20,8 +20,6 @@ namespace BasketballApp.Views
   public partial class DataCollectionPage : ContentPage
   {
 
-
-
     SKPaint greenLineCircle = new SKPaint
     {
       Style = SKPaintStyle.Stroke,
@@ -57,17 +55,40 @@ namespace BasketballApp.Views
     SKPath basketballHalfCourt = new SKPath();
     SKPath redCrossPath = new SKPath();
 
+    TimeSpan clock= new TimeSpan(0, 12, 0);
+    TimeSpan shotClock = new TimeSpan(0, 0, 24);
+
+    bool timePlay = false;
+
     public DataCollectionPage()
     {
-      InitializeComponent();
       this.BindingContext = new GameObjectViewModel();
+      var viewModel = (GameObjectViewModel)BindingContext;
+
+
+      InitializeComponent();
+      
 
       Title = "Data Collection Page";
 
-      Device.StartTimer(TimeSpan.FromSeconds(1f / 60), () =>
+      Device.StartTimer(TimeSpan.FromMilliseconds(100), () =>
       {
         canvasView.InvalidateSurface();
-        Timer.Text = DateTime.Now.ToString("mm:ss");
+        clockButton.Text = clock.ToString(@"mm\:ss\.f");
+        shotClockButton.Text = shotClock.ToString(@"ss\.f");
+        if (timePlay)
+        {
+          clock = clock-TimeSpan.FromMilliseconds(100);
+          shotClock = shotClock - TimeSpan.FromMilliseconds(100);
+
+          if (shotClock == TimeSpan.Zero)
+          {
+            shotClock = new TimeSpan(0, 0, 24);
+          }
+        }
+        // fire the command
+        
+        //Timer.Text = DateTime.Now.ToString("mm:ss");
         return true;
       });
 
@@ -143,15 +164,44 @@ namespace BasketballApp.Views
 
     */
     }
-    private void TouchEffect_TouchAction(object sender, TouchTracking.TouchActionEventArgs args)
+    private async void TouchEffect_TouchAction(object sender, TouchTracking.TouchActionEventArgs args)
     {
-
+      timePlay = false;
       var x = args.Location.X;
       var y = args.Location.Y;
 
-      string playerName = Shell.Current.DisplayActionSheet("Pick a Player", Player1Name.Text, Player2Name.Text, Player3Name.Text, Player4Name.Text, Player5Name.Text).Result;
-      string makeOrMiss = Shell.Current.DisplayActionSheet("Made or Missed?", "Made", "Missed").Result;
-      string pointWorth = Shell.Current.DisplayActionSheet("2PT or 3PT?", "2PT", "3PT").Result;
+      string playerName = await Shell.Current.DisplayActionSheet("Pick a Player","Cancel",null, Player1Name.Text, Player2Name.Text, Player3Name.Text, Player4Name.Text, Player5Name.Text);
+      if (playerName != "Cancel")
+      {
+        string makeOrMiss = await Shell.Current.DisplayActionSheet("Made or Missed?", "Cancel", null, "Made", "Missed");
+        if(makeOrMiss != "Cancel") {
+          bool makeBool = false;
+          if (makeOrMiss == "Made")
+          {
+            makeBool = true;
+          }
+          string pointWorth = await Shell.Current.DisplayActionSheet("2PT or 3PT?", "Cancel", null, "2PT", "3PT"); 
+
+          if(pointWorth != "Cancel")
+          {
+            int pointsWorth = 2;
+            if (pointWorth == "3PT")
+            {
+              pointsWorth = 3;
+            }
+            //ADD SHOT TO SHOT MAP
+            var viewModel = (GameObjectViewModel)BindingContext;
+
+            // fire the command
+            viewModel.registerShot(x, y, playerName, makeBool, pointsWorth,clock,shotClock);
+            shotClock = new TimeSpan(0, 0, 24);
+            timePlay = true;
+          }
+        }
+      }
+      
+
+
 
 
       //Opens up menu to select player, shot type and make or miss
@@ -162,5 +212,16 @@ namespace BasketballApp.Views
 
       //myabs.Children.Add(v);
     }
+
+    void TimerStart(object sender, EventArgs args) {
+      timePlay = true;
+    }
+
+    void TimerPause(object sender, EventArgs args)
+    {
+      timePlay = false;
+    }
   }
+
+
 }

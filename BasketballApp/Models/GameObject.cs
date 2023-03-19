@@ -17,6 +17,8 @@ namespace BasketballApp.Models
 
     public TimeSpan CurrentGameTime { get; set; }
 
+    public TimeSpan CurrentShotClock { get; set; }
+
     public int CurrentQuarter { get; set; }
 
     public List<GameLogActivity> LogActivities { get; set; }

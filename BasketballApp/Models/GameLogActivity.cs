@@ -11,12 +11,9 @@ namespace BasketballApp.Models
     public Stat StatCollected { get; set; } 
     public Player PlayerStat { get; set; }
 
-    public int Quarter { get; set; }
-    public TimeSpan Time { get; set; }
+    public float positionX { get; set; }
 
-    public int positionX { get; set; }
-
-    public int positionY { get; set; }
+    public float positionY { get; set; }
 
   }
 }

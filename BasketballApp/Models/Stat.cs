@@ -7,7 +7,13 @@
    public class Stat
     {
 
-      public int StatName { get; set; }
+      public String StatName { get; set; }
       public int pointWorth { get; set; }
+
+      public TimeSpan gameTime { get; set; }
+
+      public TimeSpan shotClock { get; set; }
+
+      public int Quarter { get; set; }
     }
   }

@@ -55,20 +55,16 @@ namespace BasketballApp.ViewModels
                 new GameLogActivity
                 {
                   Id = Guid.NewGuid().ToString(),
-                  StatCollected = new Stat { StatName = 1, pointWorth = 2 },
+                  StatCollected = new Stat { StatName = "FGM", pointWorth = 2,gameTime =  new TimeSpan(0, 5, 26),Quarter = 1,shotClock = new TimeSpan(0, 0, 0,22,500)},
                   PlayerStat = new Player { Id = 1 },
-                  Quarter = 1,
-                  Time = new TimeSpan(0, 5, 0),
                   positionX = 10,
                   positionY = 20
                 },
                 new GameLogActivity
                 {
                   Id = Guid.NewGuid().ToString(),
-                  StatCollected = new Stat { StatName = 2, pointWorth = 3 },
+                  StatCollected = new Stat { StatName = "FGM", pointWorth = 2,gameTime =  new TimeSpan(0, 5, 05),Quarter = 1,shotClock = new TimeSpan(0, 0, 0,16,250)},
                   PlayerStat = new Player { Id = 2 },
-                  Quarter = 1,
-                  Time = new TimeSpan(0, 5, 0),
                   positionX = 10,
                   positionY = 20
                 }
@@ -77,10 +73,24 @@ namespace BasketballApp.ViewModels
           }
     };
 
+    int currentGameIndex;
     string[] playerNames;
+
+    bool play=false;
+
+    TimeSpan shotClockLength = new TimeSpan(0, 0, 12);
+    TimeSpan quarterLength = new TimeSpan(0, 12, 0);
+
+    public Command ChangeQuarter { get; }
+    public Command StopGame { get; }
+
 
     public GameObjectViewModel()
     {
+
+      ChangeQuarter = new Command(updateQuarter);
+
+      StopGame = new Command(endGame);
 
 
       GameObject gameObject = new GameObject();
@@ -100,32 +110,84 @@ namespace BasketballApp.ViewModels
       gameObject.GameLocation = "The gym";
       gameObject.CurrentQuarter = 4;
       gameObject.CurrentGameTime= new TimeSpan(0,12,0);
+      gameObject.CurrentShotClock = new TimeSpan(0, 0, 24);
       gameObject.LogActivities = new List<GameLogActivity>();
       gameObject.Name = "Game1";
 
+      currentTeam.Games.Add(gameObject);
+      currentGameIndex=currentTeam.Games.IndexOf(gameObject);
+
+
     }
 
-    
+    public void registerShot(float x, float y, string playerName, bool makeOrMiss, int pointWorth, TimeSpan gameClock, TimeSpan shotClock)
+    {
+      string statName = "FGA";
+      if (makeOrMiss)
+      {
+        statName = "FGM";
+      }
+      Player current = new Player
+      {
+        Name = playerName
+      };
+
+      currentTeam.Games[currentGameIndex].LogActivities.Add(new GameLogActivity
+      {
+        Id = Guid.NewGuid().ToString(),
+        StatCollected = new Stat { StatName = statName, pointWorth = pointWorth, Quarter = currentTeam.Games[currentGameIndex].CurrentQuarter, gameTime = gameClock, shotClock = shotClock },
+        PlayerStat = currentTeam.Players[currentTeam.Players.IndexOf(current)],
+        positionX = x,
+        positionY = y
+      });
+    }
+    void endGame(object obj)
+    {
+      //DO SOMETHING TO STOP THE GAME
+    }
+
+    public async void updateQuarter(object obj)
+    {
+      string quarter = await Shell.Current.DisplayActionSheet("Change Quarter", "Cancel", null, "1", "2","3","4");
+      if (quarter != "Cancel")
+      {
+        QuarterField = "Q"+ quarter;
+      }
+
+    }
+
+    public string QuarterField
+    {
+      get { return "Q"+currentTeam.Games[currentGameIndex].CurrentQuarter.ToString(); }
+      set {
+        if (value.Contains("Q")){
+          value.Substring(1);
+        }
+        currentTeam.Games[currentGameIndex].CurrentQuarter = int.Parse(value);
+
+        OnPropertyChanged("QuarterField");
+      }
+    }
 
     public string Player1
     {
-      get { return playerNames[1]; }
+      get { return playerNames[0]; }
     }
     public string Player2
     {
-      get { return playerNames[2]; }
+      get { return playerNames[1]; }
     }
     public string Player3
     {
-      get { return playerNames[3]; }
+      get { return playerNames[2]; }
     }
     public string Player4
     {
-      get { return playerNames[4]; }
+      get { return playerNames[3]; }
     }
     public string Player5
     {
-      get { return playerNames[5]; }
+      get { return playerNames[4]; }
     }
 
 
