@@ -42,6 +42,9 @@
       <Button BackgroundColor="Black" Style="{StaticResource AwayButtons}" Text="+" Command="{Binding AddToAwayScore}" AbsoluteLayout.LayoutBounds="260,290,40,40"/>
       <Button BackgroundColor="Black" Style="{StaticResource AwayButtons}" Text="-" Command="{Binding RemoveFromAwayScore}" AbsoluteLayout.LayoutBounds="305,290,40,40"/>
 
+      
+      
+      
 
       <!--
       Absolute Layout Size of 800 x 335
@@ -70,6 +73,11 @@
       <Label x:Name="Player4Name" Padding="3" FontSize="Large" Text="{Binding Player4}" TextColor="White" AbsoluteLayout.LayoutBounds="15,125,180,35"/>
       <Label x:Name="Player5Name" Padding="3" FontSize="Large" Text="{Binding Player5}" TextColor="White" AbsoluteLayout.LayoutBounds="15,155,180,35"/>
 
+      <Button Command="{Binding Substitution}" BackgroundColor="Navy" TextTransform="None" Padding="1" FontSize="Large"  Text="Substitution      " TextColor="White" AbsoluteLayout.LayoutBounds="5,210,180,45"/>
+      <Label Padding="3" FontSize="Large" FontFamily="Material" Text="&#xe2e7;"  TextColor="White" AbsoluteLayout.LayoutBounds="140,219,180,45"/>
+
+
+
       <!--<Button Command="{Binding ViewBoxScore}" BackgroundColor="Navy" TextTransform="None" Padding="3" FontSize="Large" Text="Box Score" TextColor="White" AbsoluteLayout.LayoutBounds="210,5,180,45"/>
       <Button Command="{Binding AddSTL}" BackgroundColor="Navy" TextTransform="None" Padding="1" FontSize="Large" Text="STL" TextColor="White" AbsoluteLayout.LayoutBounds="230,55,60,30"/>
       <Button Command="{Binding AddTO}" BackgroundColor="Navy" TextTransform="None" Padding="1" FontSize="Large" Text="TO" TextColor="White" AbsoluteLayout.LayoutBounds="315,55,60,30"/>
@@ -79,8 +87,7 @@
       <Button Command="{Binding AddDREB}" BackgroundColor="Navy" TextTransform="None" Padding="1" FontSize="Large" Text="DREB" TextColor="White" AbsoluteLayout.LayoutBounds="315,125,60,30"/>
       <Button Command="{Binding CallPlay}" BackgroundColor="Navy" TextTransform="None" Padding="3" FontSize="Large" Text="Call Play" TextColor="White" AbsoluteLayout.LayoutBounds="210,160,180,45"/>
       
-      <Button Command="{Binding Substitution}" BackgroundColor="Navy" TextTransform="None" Padding="10" FontSize="Large" FontFamily="Material" Text="                     &#xe2e7;" TextColor="White" AbsoluteLayout.LayoutBounds="5,210,180,45"/>
-      <Label Padding="3" FontSize="Large" Text="Substitution" TextColor="White" AbsoluteLayout.LayoutBounds="16,212,180,45"/>
+     
 
       <Button Command="{Binding UndoLastAction}" BackgroundColor="Navy" TextTransform="None" Padding="10" FontSize="Large" FontFamily="Material" Text="                     &#xe166;" TextColor="White" AbsoluteLayout.LayoutBounds="210,210,180,45"/>
       <Label Padding="3" FontSize="Large" Text="Undo Action" TextColor="White" AbsoluteLayout.LayoutBounds="215,212,180,45"/>-->
@@ -89,20 +96,5 @@
 
     </AbsoluteLayout>
 
-      <!--<
-
-      <StackLayout>
-        <ImageButton WidthRequest="50" HeightRequest="50" BackgroundColor="Transparent" Source="hamburger.png" Clicked="ImageButton_Clicked" ></ImageButton>
-        <Frame IsVisible="false" x:Name="myframe"  WidthRequest="100" HeightRequest="70">
-          <StackLayout>
-            <Label FontSize="Small" Text="Edit"/>
-            <Label FontSize="Small" Text="Duplicate"/>
-            <Label FontSize="Small" Text="Remove"/>
-          </StackLayout>
-        </Frame>
-      </StackLayout>
-
-    -->
-    
   </ContentPage.Content>
 </ContentPage>

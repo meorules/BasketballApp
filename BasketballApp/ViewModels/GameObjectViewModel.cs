@@ -88,6 +88,7 @@ namespace BasketballApp.ViewModels
     public Command AddToAwayScore { get; }
     public Command RemoveFromAwayScore { get; }
 
+    public Command Substitution { get; }
 
     public GameObjectViewModel()
     {
@@ -99,6 +100,8 @@ namespace BasketballApp.ViewModels
       AddToAwayScore = new Command(awayScoreAdd);
 
       RemoveFromAwayScore = new Command(awayScoreRemove);
+
+      Substitution = new Command(substitutePlayer);
 
 
       GameObject gameObject = new GameObject();
@@ -127,6 +130,7 @@ namespace BasketballApp.ViewModels
 
 
     }
+
 
     //Type Represents Shot Types, 0 being all Shots, 1 Being only Makes and 2 being only Misses
     public List<GameLogActivity> returnShots(int type)
@@ -246,25 +250,123 @@ namespace BasketballApp.ViewModels
       }
     }
 
+    public async void substitutePlayer(object obj)
+    {
+
+      string[] availableSubs = new string[currentTeam.Players.Count-5];
+
+      for(int i=5;i< currentTeam.Players.Count; i++)
+      {
+        availableSubs[i - 5] = currentTeam.Players[i].Name;
+      }
+
+      string playerToSubIn = await Shell.Current.DisplayActionSheet("Pick a Player To Sub In", "Cancel", null, availableSubs);
+
+      if(playerToSubIn!=null && playerToSubIn != "Cancel")
+      {
+        string playerToSubOut = await Shell.Current.DisplayActionSheet("Pick a Player To Sub Out", "Cancel", null, Player1, Player2, Player3, Player4, Player5);
+        if (playerToSubOut != null && playerToSubOut != "Cancel")
+        {
+          //Make Substitution
+          //Start by grabbig the old player's name and storing it in a temp box
+          for(int j = 0; j < 5; j++)
+          {
+            if(playerNames[j]== playerToSubOut)
+            {
+              switch (j)
+              {
+                case 0:
+                  Player1 = playerToSubIn;
+                  break;
+                case 1:
+                  Player2 = playerToSubIn;
+                  break;
+                case 2:
+                  Player3 = playerToSubIn;
+                  break;
+                case 3:
+                  Player4 = playerToSubIn;
+                  break;
+                case 4:
+                  Player5 = playerToSubIn;
+                  break;
+                default:
+                  //Something bad broke
+                  break;
+              }
+            }
+          }
+          int playerToSubInIndex = -1 ;
+          int playerToSubOutIndex=-1;
+          for (int k = 0; k < currentTeam.Players.Count; k++)
+          {
+            if(currentTeam.Players[k].Name == playerToSubOut)
+            {
+              playerToSubOutIndex =k;
+            }
+            if(currentTeam.Players[k].Name == playerToSubIn)
+            {
+              playerToSubInIndex =k;
+            }
+          }
+          if(playerToSubInIndex != -1 && playerToSubInIndex != -1)
+          {
+            Player tempPlayer = currentTeam.Players[playerToSubOutIndex];
+            currentTeam.Players[playerToSubOutIndex] = currentTeam.Players[playerToSubInIndex];
+            currentTeam.Players[playerToSubInIndex] = tempPlayer;
+
+          }
+        }
+
+      }
+
+
+    }
+
     public string Player1
     {
       get { return playerNames[0]; }
+      set { playerNames[0] = value;
+        OnPropertyChanged("Player1");
+
+      }
     }
     public string Player2
     {
       get { return playerNames[1]; }
+      set
+      {
+        playerNames[1] = value;
+        OnPropertyChanged("Player2");
+
+      }
     }
     public string Player3
     {
       get { return playerNames[2]; }
+      set
+      {
+        playerNames[2] = value;
+        OnPropertyChanged("Player3");
+      }
     }
     public string Player4
     {
       get { return playerNames[3]; }
+      set
+      {
+        playerNames[3] = value;
+        OnPropertyChanged("Player4");
+      }
     }
     public string Player5
     {
       get { return playerNames[4]; }
+      set
+      {
+        playerNames[4] = value;
+        OnPropertyChanged("Player5");
+      } 
     }
 
 
