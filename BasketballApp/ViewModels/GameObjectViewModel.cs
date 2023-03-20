@@ -90,6 +90,14 @@ namespace BasketballApp.ViewModels
 
     public Command Substitution { get; }
 
+    public Command AddSTL { get; }
+    public Command AddTO { get; }
+    public Command AddFOUL { get; }
+    public Command AddOREB { get; }
+    public Command AddDREB { get; }
+    public Command AddFT { get; }
+    
+
     public GameObjectViewModel()
     {
 
@@ -103,15 +111,77 @@ namespace BasketballApp.ViewModels
 
       Substitution = new Command(substitutePlayer);
 
+      //0 = STL, 1 = TO, 2 = FOUL, 3 = OREB, 4 = DREB
+
+      AddSTL = new Command(execute: () =>
+      {
+        addStat(0);
+      });
+
+      AddTO = new Command(execute: () =>
+      {
+        addStat(1);
+      });
+
+      AddFOUL = new Command(execute: () =>
+      {
+        addStat(2);
+      });
+
+      AddOREB = new Command(execute: () =>
+      {
+        addStat(3);
+      });
+
+      AddDREB = new Command(execute: () =>
+      {
+        addStat(4);
+      });
+      AddFT = new Command(execute: () =>
+      {
+        addStat(5);
+      });
 
       GameObject gameObject = new GameObject();
+
+
+
+
+
       gameObject.currentPlayers = new Player[5];
+      gameObject.BoxScores = new List<BoxScore>();
+
 
       playerNames = new string[5];  
-      for (int i = 0; i < 5; i++)
+      for (int i = 0; i < currentTeam.Players.Count; i++)
       {
-        playerNames[i] = currentTeam.Players[i].Name;
-        gameObject.currentPlayers[i] = currentTeam.Players[i];
+        if (i < 5)
+        {
+          playerNames[i] = currentTeam.Players[i].Name;
+          gameObject.currentPlayers[i] = currentTeam.Players[i];
+        }
+        gameObject.BoxScores.Add(new BoxScore
+        {
+           Id = Guid.NewGuid().ToString(),
+           player = currentTeam.Players[i],
+           minutesOnCourt = TimeSpan.Zero,
+           FieldGoalsAttempted = 0,
+           FieldGoalsMade = 0,
+           ThreesAttempts = 0,
+           ThreesMade = 0,
+           FreeThrowAttempts = 0,
+           FreeThrowMakes = 0,
+           ORebs = 0,
+           DRebs = 0,
+           Assists = 0,
+           Steals = 0,
+           Blocks = 0,
+           TurnOvers = 0,
+           PersonalFouls = 0,
+           PlusMinus = 0,
+           Points =0
+
+        });
       }
 
       //Hardcoding the data for the current game
@@ -166,7 +236,7 @@ namespace BasketballApp.ViewModels
       return shots;
     }
 
-    public void registerShot(float x, float y, string playerName, bool makeOrMiss, int pointWorth, TimeSpan gameClock, TimeSpan shotClock)
+    public void registerShot(float x, float y, string playerName, bool makeOrMiss, int pointWorth, TimeSpan gameClock, TimeSpan shotClock,string assister)
     {
       string statName = "FGA";
       if (makeOrMiss)
@@ -178,7 +248,44 @@ namespace BasketballApp.ViewModels
       {
         Name = playerName
       };
+      for (int j = 0; j < currentTeam.Players.Count; j++)
+      {
+        if (currentTeam.Games[currentGameIndex].BoxScores[j].player.Name == playerName)
+        {
+          currentTeam.Games[currentGameIndex].BoxScores[j].FieldGoalsAttempted+=1;
+          if(statName == "FGA" && pointWorth == 3)
+          {
+            currentTeam.Games[currentGameIndex].BoxScores[j].ThreesAttempts += 1;
+          }
+          currentTeam.Games[currentGameIndex].BoxScores[j].FieldGoalsAttempted += 1;
+          if (statName == "FGM" && pointWorth == 2)
+          {
+            currentTeam.Games[currentGameIndex].BoxScores[j].FieldGoalsMade += 1;
+            currentTeam.Games[currentGameIndex].BoxScores[j].Points += 2;
+          }
+          else if(statName == "FGM" && pointWorth == 3)
+          {
+            currentTeam.Games[currentGameIndex].BoxScores[j].ThreesAttempts += 1;
+            currentTeam.Games[currentGameIndex].BoxScores[j].FieldGoalsMade += 1;
+            currentTeam.Games[currentGameIndex].BoxScores[j].ThreesMade += 1;
+            currentTeam.Games[currentGameIndex].BoxScores[j].Points += 3;
 
+
+          }
+        }
+
+      }
+
+      if (assister != "No One")
+      {
+        for (int j = 0; j < currentTeam.Players.Count; j++)
+        {
+          if (currentTeam.Games[currentGameIndex].BoxScores[j].player.Name == assister)
+          {
+            currentTeam.Games[currentGameIndex].BoxScores[j].Assists += 1;
+          }
+        }
+      }
 
       currentTeam.Games[currentGameIndex].LogActivities.Add(new GameLogActivity
       {
@@ -220,7 +327,7 @@ namespace BasketballApp.ViewModels
       get { return "Q"+currentTeam.Games[currentGameIndex].CurrentQuarter.ToString(); }
       set {
         if (value.Contains("Q")){
-          value.Substring(1);
+          value  = value.Substring(1);
         }
         currentTeam.Games[currentGameIndex].CurrentQuarter = int.Parse(value);
 
@@ -314,13 +421,72 @@ namespace BasketballApp.ViewModels
             Player tempPlayer = currentTeam.Players[playerToSubOutIndex];
             currentTeam.Players[playerToSubOutIndex] = currentTeam.Players[playerToSubInIndex];
             currentTeam.Players[playerToSubInIndex] = tempPlayer;
-
           }
         }
 
       }
 
 
+    }
+
+    //statType Cases
+    //0 = STL, 1 = TO, 2 = FOUL, 3 = OREB, 4 = DREB,5 = FT
+    public async void addStat(int statType)
+    {
+      string playerName = await Shell.Current.DisplayActionSheet("Pick a Player", "Cancel", null, Player1, Player2, Player3, Player4, Player5);
+      if (playerName != "Cancel" && playerName != null)
+      {
+        for (int j = 0; j < currentTeam.Players.Count; j++)
+        {
+          if (currentTeam.Games[currentGameIndex].BoxScores[j].player.Name == playerName)
+          {
+            switch (statType)
+            {
+              case 0:
+                currentTeam.Games[currentGameIndex].BoxScores[j].Steals += 1;
+                break;
+              case 1:
+                currentTeam.Games[currentGameIndex].BoxScores[j].TurnOvers += 1;
+                break;
+              case 2:
+                currentTeam.Games[currentGameIndex].BoxScores[j].PersonalFouls += 1;
+                break;
+              case 3:
+                currentTeam.Games[currentGameIndex].BoxScores[j].ORebs += 1;
+                break;
+              case 4:
+                currentTeam.Games[currentGameIndex].BoxScores[j].DRebs += 1;
+                break;
+              case 5:
+                string makeOrMiss = await Shell.Current.DisplayActionSheet("Made or Missed?", "Cancel", null, "Made", "Missed");
+                if(makeOrMiss != null && makeOrMiss !="Cancel")
+                {
+                  if (makeOrMiss == "Made")
+                  {
+                    currentTeam.Games[currentGameIndex].BoxScores[j].FreeThrowMakes += 1;
+                    currentTeam.Games[currentGameIndex].BoxScores[j].Points += 1;
+                  }
+                  currentTeam.Games[currentGameIndex].BoxScores[j].FreeThrowAttempts += 1;
+                }
+                break;
+            }
+          }
+        }
+      }
+    }
+    public void AddMinutes(TimeSpan timeSpan)
+    {
+      //Get all the five current starters, and then add to their minutes values
+      for(int i=0;i<playerNames.Length;i++)
+      {
+        for (int j = 0; j < currentTeam.Players.Count;j++)
+        {
+          if (currentTeam.Games[currentGameIndex].BoxScores[j].player.Name== playerNames[i])
+          {
+            currentTeam.Games[currentGameIndex].BoxScores[j].minutesOnCourt += timeSpan;
+          }
+        }
+      }
     }
 
     public string Player1
@@ -369,7 +535,13 @@ namespace BasketballApp.ViewModels
       } 
     }
 
-
+    public List<BoxScore> currentBoxScores
+    {
+      get
+      {
+        return currentTeam.Games[currentGameIndex].BoxScores;
+      }
+    }
 
 
   }

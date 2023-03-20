@@ -22,5 +22,7 @@ namespace BasketballApp.Models
     public int CurrentQuarter { get; set; }
 
     public List<GameLogActivity> LogActivities { get; set; }
+
+    public List<BoxScore> BoxScores { get; set; }
   }
 }

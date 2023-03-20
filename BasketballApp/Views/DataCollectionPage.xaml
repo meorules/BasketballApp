@@ -18,6 +18,8 @@
           <tt:TouchEffect Capture="True"  TouchAction="TouchEffect_TouchAction" />
         </skia:SKCanvasView.Effects>
       </skia:SKCanvasView>
+      
+      
 
       <BoxView Color="PowderBlue" CornerRadius="10" AbsoluteLayout.LayoutBounds="405,5,400,60"/>
       <BoxView Color="PowderBlue" CornerRadius="10" AbsoluteLayout.LayoutBounds="800,335,400,60"/>
@@ -76,15 +78,21 @@
       <Button Command="{Binding Substitution}" BackgroundColor="Navy" TextTransform="None" Padding="1" FontSize="Large"  Text="Substitution      " TextColor="White" AbsoluteLayout.LayoutBounds="5,210,180,45"/>
       <Label Padding="3" FontSize="Large" FontFamily="Material" Text="&#xe2e7;"  TextColor="White" AbsoluteLayout.LayoutBounds="140,219,180,45"/>
 
-
-
-      <!--<Button Command="{Binding ViewBoxScore}" BackgroundColor="Navy" TextTransform="None" Padding="3" FontSize="Large" Text="Box Score" TextColor="White" AbsoluteLayout.LayoutBounds="210,5,180,45"/>
       <Button Command="{Binding AddSTL}" BackgroundColor="Navy" TextTransform="None" Padding="1" FontSize="Large" Text="STL" TextColor="White" AbsoluteLayout.LayoutBounds="230,55,60,30"/>
       <Button Command="{Binding AddTO}" BackgroundColor="Navy" TextTransform="None" Padding="1" FontSize="Large" Text="TO" TextColor="White" AbsoluteLayout.LayoutBounds="315,55,60,30"/>
       <Button Command="{Binding AddFOUL}" BackgroundColor="Navy" TextTransform="None" Padding="1" FontSize="Large" Text="FOUL" TextColor="White" AbsoluteLayout.LayoutBounds="230,90,60,30"/>
       <Button Command="{Binding AddFT}" BackgroundColor="Navy" TextTransform="None" Padding="1" FontSize="Large" Text="FT" TextColor="White" AbsoluteLayout.LayoutBounds="315,90,60,30"/>
       <Button Command="{Binding AddOREB}" BackgroundColor="Navy" TextTransform="None" Padding="1" FontSize="Large" Text="OREB" TextColor="White" AbsoluteLayout.LayoutBounds="230,125,60,30"/>
       <Button Command="{Binding AddDREB}" BackgroundColor="Navy" TextTransform="None" Padding="1" FontSize="Large" Text="DREB" TextColor="White" AbsoluteLayout.LayoutBounds="315,125,60,30"/>
+      <Button x:Name="BoxScoreOpen" IsVisible="True" Clicked="ViewBoxScore" BackgroundColor="Navy" TextTransform="None" Padding="3" FontSize="Large" Text="Box Score" TextColor="White" AbsoluteLayout.LayoutBounds="210,5,180,45"/>
+      <Button IsVisible="False" x:Name="BoxScoreClose" Clicked="CloseBoxScore" BorderWidth="2" BorderColor="White" BackgroundColor="Red" TextTransform="None" Padding="1" FontSize="Large" Text="X" TextColor="White" AbsoluteLayout.LayoutBounds="750,0,60,30"/>
+      
+
+
+      
+
+      <!--
+      
       <Button Command="{Binding CallPlay}" BackgroundColor="Navy" TextTransform="None" Padding="3" FontSize="Large" Text="Call Play" TextColor="White" AbsoluteLayout.LayoutBounds="210,160,180,45"/>
       
      
@@ -92,7 +100,11 @@
       <Button Command="{Binding UndoLastAction}" BackgroundColor="Navy" TextTransform="None" Padding="10" FontSize="Large" FontFamily="Material" Text="                     &#xe166;" TextColor="White" AbsoluteLayout.LayoutBounds="210,210,180,45"/>
       <Label Padding="3" FontSize="Large" Text="Undo Action" TextColor="White" AbsoluteLayout.LayoutBounds="215,212,180,45"/>-->
 
-
+      <!--<Frame>
+        <ListView x:Name="BoxScorePlayerNames" IsVisible="False"
+             BackgroundColor="AliceBlue">
+      </ListView>
+      </Grid>-->
 
     </AbsoluteLayout>
 

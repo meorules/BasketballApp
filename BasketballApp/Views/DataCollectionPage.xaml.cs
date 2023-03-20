@@ -14,6 +14,7 @@ using static Xamarin.Essentials.Permissions;
 
 using BasketballApp.ViewModels;
 using BasketballApp.Models;
+using Xamarin.Forms.Internals;
 
 namespace BasketballApp.Views
 {
@@ -87,6 +88,8 @@ namespace BasketballApp.Views
         shotClockButton.Text = shotClock.ToString(@"ss\.f");
         if (timePlay)
         {
+          //Call Add minutes to each player
+          viewModel.AddMinutes(TimeSpan.FromMilliseconds(100));
           clock = clock-TimeSpan.FromMilliseconds(100);
           shotClock = shotClock - TimeSpan.FromMilliseconds(100);
 
@@ -201,7 +204,7 @@ namespace BasketballApp.Views
         {
           timePlay = false;
           blocked=true;
-
+          string assistedPlayer = "No One";
 
           string playerName = await Shell.Current.DisplayActionSheet("Pick a Player", "Cancel", null, Player1Name.Text, Player2Name.Text, Player3Name.Text, Player4Name.Text, Player5Name.Text);
           if (playerName != "Cancel")
@@ -212,6 +215,7 @@ namespace BasketballApp.Views
               bool makeBool = false;
               if (makeOrMiss == "Made")
               {
+                assistedPlayer = await Shell.Current.DisplayActionSheet("Who assisted the play?", "Cancel", null,"No One",Player1Name.Text, Player2Name.Text, Player3Name.Text, Player4Name.Text, Player5Name.Text);
                 makeBool = true;
               }
               string pointWorth = await Shell.Current.DisplayActionSheet("2PT or 3PT?", "Cancel", null, "2PT", "3PT");
@@ -227,7 +231,7 @@ namespace BasketballApp.Views
                 var viewModel = (GameObjectViewModel)BindingContext;
 
                 // fire the command
-                viewModel.registerShot(x, y, playerName, makeBool, pointsWorth, clock, shotClock);
+                viewModel.registerShot(x, y, playerName, makeBool, pointsWorth, clock, shotClock,assistedPlayer);
                 shotClock = new TimeSpan(0, 0, 24);
                 timePlay = true;
                 blocked = false;
@@ -270,6 +274,30 @@ namespace BasketballApp.Views
     void TimerPause(object sender, EventArgs args)
     {
       timePlay = false;
+    }
+
+    private void CloseBoxScore(object sender, EventArgs e)
+    {
+      BoxScoreOpen.IsVisible = true;
+      BoxScoreClose.IsVisible = false;
+      BoxScoreClose.IsEnabled = false;
+      //BoxScore.IsVisible = false;
+    }
+
+    private void ViewBoxScore(object sender, EventArgs e)
+    {
+      var viewModel = (GameObjectViewModel)BindingContext;
+
+      BoxScoreOpen.IsVisible = false;
+      BoxScoreClose.IsVisible = true;
+      BoxScoreClose.IsEnabled = true;
+      //BoxScore.IsVisible = true;
+
+      /*BoxScore.ItemsSource = viewModel.currentBoxScores;
+      var template = new DataTemplate(typeof(TextCell));
+      template.SetBinding(TextCell.TextProperty, "player.Name");
+      template.SetBinding(TextCell.TextProperty, "Points");
+      BoxScore.ItemTemplate = template;*/
     }
   }
 
