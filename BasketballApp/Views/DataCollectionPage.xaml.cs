@@ -13,6 +13,7 @@ using Xamarin.Forms.Xaml;
 using static Xamarin.Essentials.Permissions;
 
 using BasketballApp.ViewModels;
+using BasketballApp.Models;
 
 namespace BasketballApp.Views
 {
@@ -60,6 +61,10 @@ namespace BasketballApp.Views
 
     bool timePlay = false;
 
+    bool blocked = false;
+
+    bool reDraw = false;
+
     public DataCollectionPage()
     {
       this.BindingContext = new GameObjectViewModel();
@@ -73,7 +78,11 @@ namespace BasketballApp.Views
 
       Device.StartTimer(TimeSpan.FromMilliseconds(100), () =>
       {
-        canvasView.InvalidateSurface();
+        if (reDraw)
+        {
+          canvasView.InvalidateSurface();
+          reDraw = false;
+        }
         clockButton.Text = clock.ToString(@"mm\:ss\.f");
         shotClockButton.Text = shotClock.ToString(@"ss\.f");
         if (timePlay)
@@ -84,6 +93,7 @@ namespace BasketballApp.Views
           if (shotClock == TimeSpan.Zero)
           {
             shotClock = new TimeSpan(0, 0, 24);
+            timePlay = false;
           }
         }
         // fire the command
@@ -120,6 +130,7 @@ namespace BasketballApp.Views
 
     void OnCanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs args)
     {
+      var viewModel = (GameObjectViewModel)BindingContext;
 
       SKSurface surface = args.Surface;
       SKCanvas canvas = surface.Canvas;
@@ -140,69 +151,108 @@ namespace BasketballApp.Views
       canvas.DrawPath(basketballHalfCourt, whiteStrokePaint);
       canvas.Restore();
 
+
       //Green Circle Drawing, this can be called to add where makes are
-      canvas.Save();
-      canvas.Translate(2000, 750);
-      canvas.Scale(5, 5);
-      canvas.DrawCircle(0, 0, 5, greenLineCircle);
-      canvas.Restore();
+        List<GameLogActivity> makes = viewModel.returnShots(1);
+        foreach (GameLogActivity make in makes)
+        {
+          if (make != null)
+          {
+            canvas.Save();
+          //canvas.Translate(width/2, height/2);
+          float x = (float)(3.525 *  make.positionX);
+          float y = (float)(3.546 *  make.positionY);
 
-      //Drawing Red Crosses for misses
-      canvas.Save();
-      canvas.Translate(1800, 530);
-      canvas.Scale(5, 5);
-      canvas.DrawPath(redCrossPath, redCross);
-      canvas.Restore();
+            canvas.Translate(x, y);
+            canvas.Scale(5, 5);
+            canvas.DrawCircle(0, 0, 5, greenLineCircle);
+            canvas.Restore();
+          }
 
-      /*SKImageInfo info = args.Info;
-    }
+        }
 
-    /*private void ImageButton_Clicked(object sender, EventArgs e)
-    {
-      myframe.IsVisible = !myframe.IsVisible;
-    }
 
-    */
+        //Drawing Red Crosses for misses
+        List<GameLogActivity> misses = viewModel.returnShots(2);
+        foreach (GameLogActivity miss in misses)
+        {
+          if (miss != null)
+          {
+            canvas.Save();
+          //canvas.Translate(width / 2, height / 2);
+          float x = (float)(3.525 * miss.positionX);
+          float y = (float)(3.546 * miss.positionY);
+
+          canvas.Translate(x,y);
+            canvas.Scale(5, 5);
+            canvas.DrawPath(redCrossPath, redCross);
+            canvas.Restore();
+          }
+        }
+
     }
     private async void TouchEffect_TouchAction(object sender, TouchTracking.TouchActionEventArgs args)
     {
-      timePlay = false;
-      var x = args.Location.X;
-      var y = args.Location.Y;
-
-      string playerName = await Shell.Current.DisplayActionSheet("Pick a Player","Cancel",null, Player1Name.Text, Player2Name.Text, Player3Name.Text, Player4Name.Text, Player5Name.Text);
-      if (playerName != "Cancel")
+      if (blocked == false)
       {
-        string makeOrMiss = await Shell.Current.DisplayActionSheet("Made or Missed?", "Cancel", null, "Made", "Missed");
-        if(makeOrMiss != "Cancel") {
-          bool makeBool = false;
-          if (makeOrMiss == "Made")
-          {
-            makeBool = true;
-          }
-          string pointWorth = await Shell.Current.DisplayActionSheet("2PT or 3PT?", "Cancel", null, "2PT", "3PT"); 
+        var x = args.Location.X;
+        var y = args.Location.Y;
+        if (x >= 405 && y >= 80)
+        {
+          timePlay = false;
+          blocked=true;
 
-          if(pointWorth != "Cancel")
+
+          string playerName = await Shell.Current.DisplayActionSheet("Pick a Player", "Cancel", null, Player1Name.Text, Player2Name.Text, Player3Name.Text, Player4Name.Text, Player5Name.Text);
+          if (playerName != "Cancel")
           {
-            int pointsWorth = 2;
-            if (pointWorth == "3PT")
+            string makeOrMiss = await Shell.Current.DisplayActionSheet("Made or Missed?", "Cancel", null, "Made", "Missed");
+            if (makeOrMiss != "Cancel")
             {
-              pointsWorth = 3;
-            }
-            //ADD SHOT TO SHOT MAP
-            var viewModel = (GameObjectViewModel)BindingContext;
+              bool makeBool = false;
+              if (makeOrMiss == "Made")
+              {
+                makeBool = true;
+              }
+              string pointWorth = await Shell.Current.DisplayActionSheet("2PT or 3PT?", "Cancel", null, "2PT", "3PT");
 
-            // fire the command
-            viewModel.registerShot(x, y, playerName, makeBool, pointsWorth,clock,shotClock);
-            shotClock = new TimeSpan(0, 0, 24);
-            timePlay = true;
+              if (pointWorth != "Cancel")
+              {
+                int pointsWorth = 2;
+                if (pointWorth == "3PT")
+                {
+                  pointsWorth = 3;
+                }
+                //ADD SHOT TO SHOT MAP
+                var viewModel = (GameObjectViewModel)BindingContext;
+
+                // fire the command
+                viewModel.registerShot(x, y, playerName, makeBool, pointsWorth, clock, shotClock);
+                shotClock = new TimeSpan(0, 0, 24);
+                timePlay = true;
+                blocked = false;
+                reDraw = true;
+
+              }
+              else
+              {
+                blocked = false;
+              }
+            }
+            else
+            {
+              blocked = false;
+            }
           }
+          else
+          {
+            blocked = false;
+          }
+
+
+
         }
       }
-      
-
-
-
 
       //Opens up menu to select player, shot type and make or miss
       //Once this is done, these get added to the data storage and then 

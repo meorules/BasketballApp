@@ -8,6 +8,7 @@ using BasketballApp.ViewModels;
 using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows.Input;
+using Xamarin.Essentials;
 
 namespace BasketballApp.ViewModels
 {
@@ -84,6 +85,9 @@ namespace BasketballApp.ViewModels
     public Command ChangeQuarter { get; }
     public Command StopGame { get; }
 
+    public Command AddToAwayScore { get; }
+    public Command RemoveFromAwayScore { get; }
+
 
     public GameObjectViewModel()
     {
@@ -91,6 +95,10 @@ namespace BasketballApp.ViewModels
       ChangeQuarter = new Command(updateQuarter);
 
       StopGame = new Command(endGame);
+
+      AddToAwayScore = new Command(awayScoreAdd);
+
+      RemoveFromAwayScore = new Command(awayScoreRemove);
 
 
       GameObject gameObject = new GameObject();
@@ -120,17 +128,53 @@ namespace BasketballApp.ViewModels
 
     }
 
+    //Type Represents Shot Types, 0 being all Shots, 1 Being only Makes and 2 being only Misses
+    public List<GameLogActivity> returnShots(int type)
+    {
+      string statNameToCheck = "";
+      switch (type)
+      {
+        case 0:
+          statNameToCheck = "FG";
+          break;
+        case 1:
+          statNameToCheck = "FGM";
+          break;
+        case 2:
+          statNameToCheck = "FGA";
+          break;
+      }
+      List<GameLogActivity> shots = new List<GameLogActivity>();
+
+
+      foreach (GameLogActivity activity in currentTeam.Games[currentGameIndex].LogActivities)
+      {
+        shots.Add(activity);
+      }
+
+      for(int i =0; i<shots.Count;i++)
+      {
+        if (!shots[i].StatCollected.StatName.Contains(statNameToCheck))
+        {
+          shots[i] = null;
+        }
+      }
+      return shots;
+    }
+
     public void registerShot(float x, float y, string playerName, bool makeOrMiss, int pointWorth, TimeSpan gameClock, TimeSpan shotClock)
     {
       string statName = "FGA";
       if (makeOrMiss)
       {
         statName = "FGM";
+        HomeScore = (currentTeam.Games[currentGameIndex].HomeScore + pointWorth).ToString();
       }
       Player current = new Player
       {
         Name = playerName
       };
+
 
       currentTeam.Games[currentGameIndex].LogActivities.Add(new GameLogActivity
       {
@@ -144,6 +188,17 @@ namespace BasketballApp.ViewModels
     void endGame(object obj)
     {
       //DO SOMETHING TO STOP THE GAME
+    }
+
+
+    public void awayScoreAdd(object obj)
+    {
+      AwayScore = (currentTeam.Games[currentGameIndex].AwayScore + 1).ToString();
+    }
+
+    public void awayScoreRemove(object obj)
+    {
+      AwayScore = (currentTeam.Games[currentGameIndex].AwayScore - 1).ToString();
     }
 
     public async void updateQuarter(object obj)
@@ -166,6 +221,28 @@ namespace BasketballApp.ViewModels
         currentTeam.Games[currentGameIndex].CurrentQuarter = int.Parse(value);
 
         OnPropertyChanged("QuarterField");
+      }
+    }
+
+    public string AwayScore
+    {
+      get { return currentTeam.Games[currentGameIndex].AwayScore.ToString(); }
+      set
+      {
+        currentTeam.Games[currentGameIndex].AwayScore = int.Parse(value);
+
+        OnPropertyChanged("AwayScore");
+      }
+    }
+
+    public string HomeScore
+    {
+      get { return currentTeam.Games[currentGameIndex].HomeScore.ToString(); }
+      set
+      {
+        currentTeam.Games[currentGameIndex].HomeScore = int.Parse(value);
+
+        OnPropertyChanged("HomeScore");
       }
     }
 

@@ -9,7 +9,6 @@
              >
   <ContentPage.Content>
     <AbsoluteLayout x:Name="myabs">
-      <BoxView Color="Navy" CornerRadius="10" AbsoluteLayout.LayoutBounds="400,500,400,300"/>
       <skia:SKCanvasView  
                    AbsoluteLayout.LayoutBounds="0,0,1,1"  
                     AbsoluteLayout.LayoutFlags="SizeProportional"  
@@ -20,8 +19,9 @@
         </skia:SKCanvasView.Effects>
       </skia:SKCanvasView>
 
-
       <BoxView Color="PowderBlue" CornerRadius="10" AbsoluteLayout.LayoutBounds="405,5,400,60"/>
+      <BoxView Color="PowderBlue" CornerRadius="10" AbsoluteLayout.LayoutBounds="800,335,400,60"/>
+
       <Button x:Name="clockButton" CornerRadius="10" BackgroundColor="Black" Padding="2" FontSize="Title" Text="" TextColor="White" AbsoluteLayout.LayoutBounds="510,17,90,40"/>
       <Button x:Name="shotClockButton" CornerRadius="10" BackgroundColor="Black" Padding="2" FontSize="Title" Text="" TextColor="White" AbsoluteLayout.LayoutBounds="605,17,55,40"/>
       <Button Command="{Binding ChangeQuarter}" CornerRadius="10" BackgroundColor="Black" Padding="2" FontSize="Title" Text="{Binding QuarterField}" TextColor="White" AbsoluteLayout.LayoutBounds="665,17,55,40"/>
@@ -29,22 +29,34 @@
       <Button Style="{StaticResource ClockButtonStyle}" FontFamily="Material" Text="&#xe034;" Clicked="TimerPause" AbsoluteLayout.LayoutBounds="460,15,40,40"/>
       <Button Style="{StaticResource ClockButtonStyle}" FontFamily="Material" Text="&#xe047;" Command="{Binding StopGame}" AbsoluteLayout.LayoutBounds="725,15,40,40"/>
 
-      <!--
-            
 
-      <Button Style="{StaticResource ClockButtonStyle}" Padding ="0" Text="T.O" Command="{Binding CallTimeout}" AbsoluteLayout.LayoutBounds="750,15,40,40"/>
 
       <BoxView Color="Navy" CornerRadius="10" AbsoluteLayout.LayoutBounds="2,275,400,62"/>
       <Label BackgroundColor="Black" x:Name="HomeTeamName" Padding="2" FontSize="Title" Text="Home" TextColor="White" AbsoluteLayout.LayoutBounds="8,290,70,40"/>
       <Label BackgroundColor="Transparent" x:Name="HomeFouls" Padding="0" FontSize="50" Text="" TextColor="White" AbsoluteLayout.LayoutBounds="20,250,100,40"/>
-      <Label BackgroundColor="White" x:Name="HomeTeamScore" Padding="4" FontSize="Title" Text="128" TextColor="Black" AbsoluteLayout.LayoutBounds="78,290,50,40"/>
-      
+      <Label BackgroundColor="White" x:Name="HomeTeamScore" Padding="4" FontSize="Title" Text="{Binding HomeScore}" TextColor="Black" AbsoluteLayout.LayoutBounds="78,290,50,40"/>
+
       <Label BackgroundColor="Black" x:Name="AwayTeamName" Padding="3" FontSize="Title" Text="Away" TextColor="White" AbsoluteLayout.LayoutBounds="130,290,70,40"/>
       <Label BackgroundColor="Transparent" x:Name="AwayFouls" Padding="0" FontSize="50" Text="" TextColor="White" AbsoluteLayout.LayoutBounds="140,250,100,40"/>
-      <Label BackgroundColor="White" x:Name="AwayTeamScore" Padding="4" FontSize="Title" Text="135" TextColor="Black" AbsoluteLayout.LayoutBounds="200,290,50,40"/>
-      
+      <Label BackgroundColor="White" x:Name="AwayTeamScore" Padding="4" FontSize="Title" Text="{Binding AwayScore}" TextColor="Black" AbsoluteLayout.LayoutBounds="200,290,50,40"/>
       <Button BackgroundColor="Black" Style="{StaticResource AwayButtons}" Text="+" Command="{Binding AddToAwayScore}" AbsoluteLayout.LayoutBounds="260,290,40,40"/>
       <Button BackgroundColor="Black" Style="{StaticResource AwayButtons}" Text="-" Command="{Binding RemoveFromAwayScore}" AbsoluteLayout.LayoutBounds="305,290,40,40"/>
+
+
+      <!--
+      Absolute Layout Size of 800 x 335
+      if (x >= 405 && y >= 80)
+      Size of the blue shot map on this 
+      
+      2820 x 1188
+      
+      x Ratio = 3.525
+      Y Ratio = 3.546
+            
+
+      <Button Style="{StaticResource ClockButtonStyle}" Padding ="0" Text="T.O" Command="{Binding CallTimeout}" AbsoluteLayout.LayoutBounds="750,15,40,40"/>
+
+      
       <Button BackgroundColor="Black" Style="{StaticResource AwayButtons}" Text="PF" Command="{Binding AddAwayPF}" AbsoluteLayout.LayoutBounds="350,290,40,40"/>
 
  
@@ -63,8 +75,8 @@
       <Button Command="{Binding AddTO}" BackgroundColor="Navy" TextTransform="None" Padding="1" FontSize="Large" Text="TO" TextColor="White" AbsoluteLayout.LayoutBounds="315,55,60,30"/>
       <Button Command="{Binding AddFOUL}" BackgroundColor="Navy" TextTransform="None" Padding="1" FontSize="Large" Text="FOUL" TextColor="White" AbsoluteLayout.LayoutBounds="230,90,60,30"/>
       <Button Command="{Binding AddFT}" BackgroundColor="Navy" TextTransform="None" Padding="1" FontSize="Large" Text="FT" TextColor="White" AbsoluteLayout.LayoutBounds="315,90,60,30"/>
-      <Button Command="{Binding AddFOUL}" BackgroundColor="Navy" TextTransform="None" Padding="1" FontSize="Large" Text="OREB" TextColor="White" AbsoluteLayout.LayoutBounds="230,125,60,30"/>
-      <Button Command="{Binding AddFOUL}" BackgroundColor="Navy" TextTransform="None" Padding="1" FontSize="Large" Text="DREB" TextColor="White" AbsoluteLayout.LayoutBounds="315,125,60,30"/>
+      <Button Command="{Binding AddOREB}" BackgroundColor="Navy" TextTransform="None" Padding="1" FontSize="Large" Text="OREB" TextColor="White" AbsoluteLayout.LayoutBounds="230,125,60,30"/>
+      <Button Command="{Binding AddDREB}" BackgroundColor="Navy" TextTransform="None" Padding="1" FontSize="Large" Text="DREB" TextColor="White" AbsoluteLayout.LayoutBounds="315,125,60,30"/>
       <Button Command="{Binding CallPlay}" BackgroundColor="Navy" TextTransform="None" Padding="3" FontSize="Large" Text="Call Play" TextColor="White" AbsoluteLayout.LayoutBounds="210,160,180,45"/>
       
       <Button Command="{Binding Substitution}" BackgroundColor="Navy" TextTransform="None" Padding="10" FontSize="Large" FontFamily="Material" Text="                     &#xe2e7;" TextColor="White" AbsoluteLayout.LayoutBounds="5,210,180,45"/>
