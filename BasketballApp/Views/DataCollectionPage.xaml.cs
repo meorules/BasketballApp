@@ -299,6 +299,44 @@ namespace BasketballApp.Views
       template.SetBinding(TextCell.TextProperty, "Points");
       BoxScore.ItemTemplate = template;*/
     }
+    //statType Cases
+    //0 = STL, 1 = TO, 2 = FOUL, 3 = OREB, 4 = DREB,5 = FT
+    private void AddSTEAL(object sender, EventArgs e)
+    {
+      var viewModel = (GameObjectViewModel)BindingContext;
+      viewModel.addStat(0, clock, shotClock);
+    }
+    private void AddTO(object sender, EventArgs e)
+    {
+      var viewModel = (GameObjectViewModel)BindingContext;
+      viewModel.addStat(1, clock, shotClock);
+    }
+    private void AddFOUL(object sender, EventArgs e)
+    {
+      var viewModel = (GameObjectViewModel)BindingContext;
+      viewModel.addStat(2, clock, shotClock);
+    }
+
+    private void AddOREB(object sender, EventArgs e)
+    {
+      var viewModel = (GameObjectViewModel)BindingContext;
+      viewModel.addStat(3, clock, shotClock);
+    }
+
+    private void AddDREB(object sender, EventArgs e)
+    {
+      var viewModel = (GameObjectViewModel)BindingContext;
+      viewModel.addStat(4, clock, shotClock);
+    }
+
+    private void AddFT(object sender, EventArgs e)
+    {
+      var viewModel = (GameObjectViewModel)BindingContext;
+      viewModel.addStat(5, clock, shotClock);
+    }
+    
+
+    
   }
 
 

@@ -89,13 +89,6 @@ namespace BasketballApp.ViewModels
     public Command RemoveFromAwayScore { get; }
 
     public Command Substitution { get; }
-
-    public Command AddSTL { get; }
-    public Command AddTO { get; }
-    public Command AddFOUL { get; }
-    public Command AddOREB { get; }
-    public Command AddDREB { get; }
-    public Command AddFT { get; }
     
 
     public GameObjectViewModel()
@@ -110,38 +103,7 @@ namespace BasketballApp.ViewModels
       RemoveFromAwayScore = new Command(awayScoreRemove);
 
       Substitution = new Command(substitutePlayer);
-
-      //0 = STL, 1 = TO, 2 = FOUL, 3 = OREB, 4 = DREB
-
-      AddSTL = new Command(execute: () =>
-      {
-        addStat(0);
-      });
-
-      AddTO = new Command(execute: () =>
-      {
-        addStat(1);
-      });
-
-      AddFOUL = new Command(execute: () =>
-      {
-        addStat(2);
-      });
-
-      AddOREB = new Command(execute: () =>
-      {
-        addStat(3);
-      });
-
-      AddDREB = new Command(execute: () =>
-      {
-        addStat(4);
-      });
-      AddFT = new Command(execute: () =>
-      {
-        addStat(5);
-      });
-
+     
       GameObject gameObject = new GameObject();
 
 
@@ -275,6 +237,14 @@ namespace BasketballApp.ViewModels
         }
 
       }
+      currentTeam.Games[currentGameIndex].LogActivities.Add(new GameLogActivity
+      {
+        Id = Guid.NewGuid().ToString(),
+        StatCollected = new Stat { StatName = statName, pointWorth = pointWorth, Quarter = currentTeam.Games[currentGameIndex].CurrentQuarter, gameTime = gameClock, shotClock = shotClock },
+        PlayerStat = currentTeam.Players[currentTeam.Players.IndexOf(current)],
+        positionX = x,
+        positionY = y
+      });
 
       if (assister != "No One")
       {
@@ -285,16 +255,21 @@ namespace BasketballApp.ViewModels
             currentTeam.Games[currentGameIndex].BoxScores[j].Assists += 1;
           }
         }
+        Player assistPlayer = new Player
+        {
+          Name = assister
+        };
+        currentTeam.Games[currentGameIndex].LogActivities.Add(new GameLogActivity
+        {
+          Id = Guid.NewGuid().ToString(),
+          StatCollected = new Stat { StatName = "Assist", pointWorth = pointWorth, Quarter = currentTeam.Games[currentGameIndex].CurrentQuarter, gameTime = gameClock, shotClock = shotClock },
+          PlayerStat = currentTeam.Players[currentTeam.Players.IndexOf(assistPlayer)],
+          positionX = 0,
+          positionY = 0
+        });
       }
 
-      currentTeam.Games[currentGameIndex].LogActivities.Add(new GameLogActivity
-      {
-        Id = Guid.NewGuid().ToString(),
-        StatCollected = new Stat { StatName = statName, pointWorth = pointWorth, Quarter = currentTeam.Games[currentGameIndex].CurrentQuarter, gameTime = gameClock, shotClock = shotClock },
-        PlayerStat = currentTeam.Players[currentTeam.Players.IndexOf(current)],
-        positionX = x,
-        positionY = y
-      });
+
     }
     void endGame(object obj)
     {
@@ -431,11 +406,16 @@ namespace BasketballApp.ViewModels
 
     //statType Cases
     //0 = STL, 1 = TO, 2 = FOUL, 3 = OREB, 4 = DREB,5 = FT
-    public async void addStat(int statType)
+    public async void addStat(int statType,TimeSpan gameClock,TimeSpan shotClock)
     {
       string playerName = await Shell.Current.DisplayActionSheet("Pick a Player", "Cancel", null, Player1, Player2, Player3, Player4, Player5);
       if (playerName != "Cancel" && playerName != null)
       {
+        Player currentPlayer = new Player
+        {
+          Name = playerName
+        };
+        string stat = "";
         for (int j = 0; j < currentTeam.Players.Count; j++)
         {
           if (currentTeam.Games[currentGameIndex].BoxScores[j].player.Name == playerName)
@@ -444,20 +424,29 @@ namespace BasketballApp.ViewModels
             {
               case 0:
                 currentTeam.Games[currentGameIndex].BoxScores[j].Steals += 1;
+                stat = "Steal";
                 break;
               case 1:
                 currentTeam.Games[currentGameIndex].BoxScores[j].TurnOvers += 1;
+                stat = "Turnover";
                 break;
               case 2:
                 currentTeam.Games[currentGameIndex].BoxScores[j].PersonalFouls += 1;
+                stat = "Foul";
+
                 break;
               case 3:
                 currentTeam.Games[currentGameIndex].BoxScores[j].ORebs += 1;
+                stat = "OReb";
+
                 break;
               case 4:
                 currentTeam.Games[currentGameIndex].BoxScores[j].DRebs += 1;
+                stat = "DReb";
+
                 break;
               case 5:
+                stat = "FT";
                 string makeOrMiss = await Shell.Current.DisplayActionSheet("Made or Missed?", "Cancel", null, "Made", "Missed");
                 if(makeOrMiss != null && makeOrMiss !="Cancel")
                 {
@@ -465,10 +454,42 @@ namespace BasketballApp.ViewModels
                   {
                     currentTeam.Games[currentGameIndex].BoxScores[j].FreeThrowMakes += 1;
                     currentTeam.Games[currentGameIndex].BoxScores[j].Points += 1;
+                    currentTeam.Games[currentGameIndex].BoxScores[j].FreeThrowAttempts += 1;
+                    currentTeam.Games[currentGameIndex].LogActivities.Add(new GameLogActivity
+                    {
+                      Id = Guid.NewGuid().ToString(),
+                      StatCollected = new Stat { StatName = "FTM",pointWorth=1, Quarter = currentTeam.Games[currentGameIndex].CurrentQuarter, gameTime = gameClock, shotClock = shotClock },
+                      PlayerStat = currentTeam.Players[currentTeam.Players.IndexOf(currentPlayer)],
+                      positionX = 0,
+                      positionY = 0
+                    });
                   }
-                  currentTeam.Games[currentGameIndex].BoxScores[j].FreeThrowAttempts += 1;
+                  else
+                  {
+                    currentTeam.Games[currentGameIndex].BoxScores[j].FreeThrowAttempts += 1;
+                    currentTeam.Games[currentGameIndex].LogActivities.Add(new GameLogActivity
+                    {
+                      Id = Guid.NewGuid().ToString(),
+                      StatCollected = new Stat { StatName = "FTA", pointWorth = 1, Quarter = currentTeam.Games[currentGameIndex].CurrentQuarter, gameTime = gameClock, shotClock = shotClock },
+                      PlayerStat = currentTeam.Players[currentTeam.Players.IndexOf(currentPlayer)],
+                      positionX = 0,
+                      positionY = 0
+                    });
+                  }
+
                 }
                 break;
+            }
+            if (stat != "FT")
+            {
+              currentTeam.Games[currentGameIndex].LogActivities.Add(new GameLogActivity
+              {
+                Id = Guid.NewGuid().ToString(),
+                StatCollected = new Stat { StatName = stat, Quarter = currentTeam.Games[currentGameIndex].CurrentQuarter, gameTime = gameClock, shotClock = shotClock },
+                PlayerStat = currentTeam.Players[currentTeam.Players.IndexOf(currentPlayer)],
+                positionX = 0,
+                positionY = 0
+              });
             }
           }
         }
