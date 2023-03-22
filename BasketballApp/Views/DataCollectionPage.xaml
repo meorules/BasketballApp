@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
              xmlns:tt="clr-namespace:TouchTracking.Forms;assembly=TouchTracking.Forms" 
+             xmlns:dg="clr-namespace:Xamarin.Forms.DataGrid;assembly=Xamarin.Forms.DataGrid"
              xmlns:viewmodels="clr-namespace:BasketballApp.ViewModels" 
              x:DataType="viewmodels:GameObjectViewModel"
              x:Class="BasketballApp.Views.DataCollectionPage"
@@ -99,10 +100,9 @@
       <Button Command="{Binding UndoLastAction}" BackgroundColor="Navy" TextTransform="None" Padding="10" FontSize="Large" FontFamily="Material" Text="                     &#xe166;" TextColor="White" AbsoluteLayout.LayoutBounds="210,210,180,45"/>
       <Label Padding="3" FontSize="Large" Text="Undo Action" TextColor="White" AbsoluteLayout.LayoutBounds="215,212,180,45"/>-->
 
-      <Frame BackgroundColor="PowderBlue" AbsoluteLayout.LayoutBounds="0,0,800,350" IsVisible="False">
-        <Button x:Name="BoxScoreClose" Clicked="CloseBoxScore" BorderWidth="2" BorderColor="White" BackgroundColor="Red" TextTransform="None" Padding="1" FontSize="Large" Text="X" TextColor="White" AbsoluteLayout.LayoutBounds="750,0,60,30"/>
-          
-      </Frame>
+      <BoxView x:Name="BoxScoreBackground" BackgroundColor="PowderBlue" AbsoluteLayout.LayoutBounds="0,0,810,350" IsVisible="False"></BoxView>
+      <Button x:Name="BoxScoreClose" IsVisible="False" Clicked="CloseBoxScore" BorderWidth="2" BorderColor="White" BackgroundColor="Red" TextTransform="None" Padding="1" FontSize="Large" Text="X" TextColor="White" AbsoluteLayout.LayoutBounds="745,310,60,30"/>
+      <StackLayout x:Name="BoxScoreStack" IsVisible="false" Margin="5" Orientation="Vertical" />
 
     </AbsoluteLayout>
 

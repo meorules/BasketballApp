@@ -15,6 +15,8 @@ using static Xamarin.Essentials.Permissions;
 using BasketballApp.ViewModels;
 using BasketballApp.Models;
 using Xamarin.Forms.Internals;
+using System.Numerics;
+using System.Security.Cryptography;
 
 namespace BasketballApp.Views
 {
@@ -281,7 +283,10 @@ namespace BasketballApp.Views
       BoxScoreOpen.IsVisible = true;
       BoxScoreClose.IsVisible = false;
       BoxScoreClose.IsEnabled = false;
-      //BoxScore.IsVisible = false;
+      BoxScoreBackground.IsVisible = false;
+
+      BoxScoreStack.IsVisible = false;
+      BoxScoreStack.Children.Clear();
     }
 
     private void ViewBoxScore(object sender, EventArgs e)
@@ -291,13 +296,55 @@ namespace BasketballApp.Views
       BoxScoreOpen.IsVisible = false;
       BoxScoreClose.IsVisible = true;
       BoxScoreClose.IsEnabled = true;
-      //BoxScore.IsVisible = true;
 
-      /*BoxScore.ItemsSource = viewModel.currentBoxScores;
-      var template = new DataTemplate(typeof(TextCell));
-      template.SetBinding(TextCell.TextProperty, "player.Name");
-      template.SetBinding(TextCell.TextProperty, "Points");
-      BoxScore.ItemTemplate = template;*/
+      BoxScoreBackground.IsVisible = true;
+
+      StackLayout textStack = new StackLayout
+      {
+        Padding = new Thickness(5),
+        Spacing = 10
+      };
+      Label titleLabel = new Label();
+
+      titleLabel.Text = "Player Name  |  Minutes  | Points   |   Rebs    |   Assist   |   Steals   |   Blocks   |   FG   |   FT   |  3PTs  |  Turnovers  |   PF   |   +/-  ";
+      titleLabel.TextColor = Color.Navy;
+      titleLabel.FontAttributes = FontAttributes.Bold;
+
+
+      textStack.Children.Add(titleLabel);
+
+      List<BoxScore> boxes = viewModel.currentBoxScores;
+      for(int i=0;i<boxes.Count; i++)
+      {
+        if (boxes[i].minutesOnCourt != TimeSpan.Zero)
+        {
+          string boxScoreText = boxes[i].ToString();
+          Label newLabel = new Label();
+          newLabel.Text = boxScoreText;
+          newLabel.FontAttributes = FontAttributes.Bold;
+          newLabel.FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label));
+          newLabel.FontFamily = "Eigrantch";
+          //newLabel.BackgroundColor = Color.White;
+          newLabel.TextColor = Color.Black;
+          textStack.Children.Add(newLabel);
+        }
+      }
+
+      ScrollView scrollView = new ScrollView
+      {
+        Content = textStack,
+        VerticalOptions = LayoutOptions.FillAndExpand,
+        Padding = new Thickness(5, 0),
+      };
+
+      
+
+      BoxScoreStack.Children.Add(scrollView);
+
+      BoxScoreStack.InputTransparent = false;
+
+      BoxScoreStack.IsVisible = true;
+
     }
     //statType Cases
     //0 = STL, 1 = TO, 2 = FOUL, 3 = OREB, 4 = DREB,5 = FT

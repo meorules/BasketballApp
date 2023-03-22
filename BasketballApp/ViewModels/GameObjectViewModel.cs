@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows.Input;
 using Xamarin.Essentials;
+using System.Collections.ObjectModel;
 
 namespace BasketballApp.ViewModels
 {
@@ -88,12 +89,10 @@ namespace BasketballApp.ViewModels
     public Command AddToAwayScore { get; }
     public Command RemoveFromAwayScore { get; }
 
-    public Command Substitution { get; }
-    
+    public Command Substitution { get; }    
 
     public GameObjectViewModel()
     {
-
       ChangeQuarter = new Command(updateQuarter);
 
       StopGame = new Command(endGame);
@@ -159,6 +158,7 @@ namespace BasketballApp.ViewModels
 
       currentTeam.Games.Add(gameObject);
       currentGameIndex=currentTeam.Games.IndexOf(gameObject);
+
 
 
     }
