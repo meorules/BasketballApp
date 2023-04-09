@@ -45,29 +45,9 @@
       <Button BackgroundColor="Black" Style="{StaticResource AwayButtons}" Text="+" Command="{Binding AddToAwayScore}" AbsoluteLayout.LayoutBounds="260,290,40,40"/>
       <Button BackgroundColor="Black" Style="{StaticResource AwayButtons}" Text="-" Command="{Binding RemoveFromAwayScore}" AbsoluteLayout.LayoutBounds="305,290,40,40"/>
 
-      
-      
-      
 
-      <!--
-      Absolute Layout Size of 800 x 335
-      if (x >= 405 && y >= 80)
-      Size of the blue shot map on this 
-      
-      2820 x 1188
-      
-      x Ratio = 3.525
-      Y Ratio = 3.546
-            
+      <Button Style="{StaticResource InactiveButtons}" Text="PF" AbsoluteLayout.LayoutBounds="350,290,40,40"/>
 
-      <Button Style="{StaticResource ClockButtonStyle}" Padding ="0" Text="T.O" Command="{Binding CallTimeout}" AbsoluteLayout.LayoutBounds="750,15,40,40"/>
-
-      
-      <Button BackgroundColor="Black" Style="{StaticResource AwayButtons}" Text="PF" Command="{Binding AddAwayPF}" AbsoluteLayout.LayoutBounds="350,290,40,40"/>
-
- 
-      
-      -->
       <BoxView Color="Navy" CornerRadius="10" AbsoluteLayout.LayoutBounds="5,5,200,200"/>
       <Label TextDecorations="Underline" Padding="3" FontSize="Large" Text="Players on Court" TextColor="White" AbsoluteLayout.LayoutBounds="15,5,180,35"/>
       <Label x:Name="Player1Name" Padding="3" FontSize="Large" Text="{Binding Player1}" TextColor="White" AbsoluteLayout.LayoutBounds="15,35,180,35"/>
@@ -86,24 +66,27 @@
       <Button Clicked="AddOREB" BackgroundColor="Navy" TextTransform="None" Padding="1" FontSize="Large" Text="OREB" TextColor="White" AbsoluteLayout.LayoutBounds="230,125,60,30"/>
       <Button Clicked="AddDREB" BackgroundColor="Navy" TextTransform="None" Padding="1" FontSize="Large" Text="DREB" TextColor="White" AbsoluteLayout.LayoutBounds="315,125,60,30"/>
       <Button x:Name="BoxScoreOpen" IsVisible="True" Clicked="ViewBoxScore" BackgroundColor="Navy" TextTransform="None" Padding="3" FontSize="Large" Text="Box Score" TextColor="White" AbsoluteLayout.LayoutBounds="210,5,180,45"/>
-      
 
+      <Button Style="{StaticResource InactiveButtons}" Padding="3" FontSize="Large" Text="Call Play" TextColor="White" AbsoluteLayout.LayoutBounds="210,160,180,45"/>
+      <Button Style="{StaticResource InactiveButtons}" Padding="10" FontSize="Large" FontFamily="Material" Text="                     &#xe166;" TextColor="White" AbsoluteLayout.LayoutBounds="210,210,180,45"/>
+      <Label Padding="3" FontSize="Large" Text="Undo Action" TextColor="White" AbsoluteLayout.LayoutBounds="215,212,180,45"/>
 
-      
-
-      <!--
-      
-      <Button Command="{Binding CallPlay}" BackgroundColor="Navy" TextTransform="None" Padding="3" FontSize="Large" Text="Call Play" TextColor="White" AbsoluteLayout.LayoutBounds="210,160,180,45"/>
-      
-     
-
-      <Button Command="{Binding UndoLastAction}" BackgroundColor="Navy" TextTransform="None" Padding="10" FontSize="Large" FontFamily="Material" Text="                     &#xe166;" TextColor="White" AbsoluteLayout.LayoutBounds="210,210,180,45"/>
-      <Label Padding="3" FontSize="Large" Text="Undo Action" TextColor="White" AbsoluteLayout.LayoutBounds="215,212,180,45"/>-->
 
       <BoxView x:Name="BoxScoreBackground" BackgroundColor="PowderBlue" AbsoluteLayout.LayoutBounds="0,0,810,350" IsVisible="False"></BoxView>
       <Button x:Name="BoxScoreClose" IsVisible="False" Clicked="CloseBoxScore" BorderWidth="2" BorderColor="White" BackgroundColor="Red" TextTransform="None" Padding="1" FontSize="Large" Text="X" TextColor="White" AbsoluteLayout.LayoutBounds="745,310,60,30"/>
       <StackLayout x:Name="BoxScoreStack" IsVisible="false" Margin="5" Orientation="Vertical" />
 
+
+      <!--
+      <Button Style="{StaticResource InactiveButtons}" Padding ="0" Text="T.O" AbsoluteLayout.LayoutBounds="750,15,40,40"/>
+      Absolute Layout Size of 800 x 335
+      Size of the blue shot map on this 
+      if (x >= 405 && y >= 80)
+      SkiaChart Canvas Size 2820 x 1188
+      x Ratio = 3.525
+      Y Ratio = 3.546
+      -->
+      
     </AbsoluteLayout>
 
   </ContentPage.Content>

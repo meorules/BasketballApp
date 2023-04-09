@@ -78,11 +78,6 @@ namespace BasketballApp.ViewModels
     int currentGameIndex;
     string[] playerNames;
 
-    bool play=false;
-
-    TimeSpan shotClockLength = new TimeSpan(0, 0, 12);
-    TimeSpan quarterLength = new TimeSpan(0, 12, 0);
-
     public Command ChangeQuarter { get; }
     public Command StopGame { get; }
 

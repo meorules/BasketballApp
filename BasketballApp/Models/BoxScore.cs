@@ -103,8 +103,8 @@ namespace BasketballApp.Models
         boxScoreString += "     ";
       }
 
-      boxScoreString += FieldGoalsMade.ToString() + "-" + FieldGoalsAttempted.ToString() + "  " + ThreesMade.ToString() + "-" + ThreesAttempts.ToString();
-      boxScoreString += "  " + FreeThrowMakes.ToString() + "-" + FreeThrowAttempts.ToString() + "     " + TurnOvers.ToString() + "       " + PersonalFouls.ToString() ;
+      boxScoreString += FieldGoalsMade.ToString() + "-" + FieldGoalsAttempted.ToString() + "  " + FreeThrowMakes.ToString() + "-" + FreeThrowAttempts.ToString();
+      boxScoreString += "   " + ThreesMade.ToString() + "-" + ThreesAttempts.ToString()  + "     " + TurnOvers.ToString() + "       " + PersonalFouls.ToString() ;
       boxScoreString += "    " + PlusMinus.ToString();
 
       return boxScoreString;

@@ -14,7 +14,7 @@ namespace BasketballApp
       InitializeComponent();
 
       //DependencyService.Register<MockDataStore>();
-      Xamarin.Forms.DataGrid.DataGridComponent.Init();
+
 
 
       MainPage = new AppShell();

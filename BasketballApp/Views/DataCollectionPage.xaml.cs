@@ -59,7 +59,7 @@ namespace BasketballApp.Views
     SKPath basketballHalfCourt = new SKPath();
     SKPath redCrossPath = new SKPath();
 
-    TimeSpan clock= new TimeSpan(0, 12, 0);
+    TimeSpan clock= new TimeSpan(0, 8, 24);
     TimeSpan shotClock = new TimeSpan(0, 0, 24);
 
     bool timePlay = false;
@@ -209,10 +209,10 @@ namespace BasketballApp.Views
           string assistedPlayer = "No One";
 
           string playerName = await Shell.Current.DisplayActionSheet("Pick a Player", "Cancel", null, Player1Name.Text, Player2Name.Text, Player3Name.Text, Player4Name.Text, Player5Name.Text);
-          if (playerName != "Cancel")
+          if (playerName != "Cancel" && playerName != null)
           {
             string makeOrMiss = await Shell.Current.DisplayActionSheet("Made or Missed?", "Cancel", null, "Made", "Missed");
-            if (makeOrMiss != "Cancel")
+            if (makeOrMiss != "Cancel" && makeOrMiss != null)
             {
               bool makeBool = false;
               if (makeOrMiss == "Made")
@@ -222,7 +222,7 @@ namespace BasketballApp.Views
               }
               string pointWorth = await Shell.Current.DisplayActionSheet("2PT or 3PT?", "Cancel", null, "2PT", "3PT");
 
-              if (pointWorth != "Cancel")
+              if (pointWorth != "Cancel" && pointWorth != null)
               {
                 int pointsWorth = 2;
                 if (pointWorth == "3PT")
