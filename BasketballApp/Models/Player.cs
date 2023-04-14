@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SQLite;
+using SQLiteNetExtensions.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
@@ -8,11 +10,14 @@ namespace BasketballApp.Models
 {
   public class Player
   {
-    public int Id { get; set; }
+    [PrimaryKey, AutoIncrement]
+    public int PlayerID { get; set; }
     public string Name { get; set; }
     public string Position { get; set; }
     public int PlayerNumber { get; set; }
-    public  Image PlayerImage { get; set; }
+
+    [ForeignKey(typeof(Team))]
+    public int TeamId { get; set; }
 
     public static  bool operator ==(Player a, Player b)
     {

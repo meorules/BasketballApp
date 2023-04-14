@@ -75,9 +75,9 @@ namespace BasketballApp.Views
 
 
       InitializeComponent();
-      
 
-      Title = "Data Collection Page";
+
+      //Title = "Data Collection Page"; 
 
       Device.StartTimer(TimeSpan.FromMilliseconds(100), () =>
       {
@@ -146,11 +146,18 @@ namespace BasketballApp.Views
       int middleX = width / 2;
       int middleY = height / 2;
 
-      canvas.DrawRoundRect(1430, 260, 1500, 1000,10,10, halfcourtBackgroundColor);
+      /*      canvas.DrawRoundRect(1430, 260, 1500, 1000,10,10, halfcourtBackgroundColor);
+       *      
+      */
+      canvas.Save();
+      canvas.Translate(width, height - 5);
+      canvas.RotateDegrees(180);
+      canvas.DrawRect(0, 0, 1400, 960, halfcourtBackgroundColor);
+      canvas.Restore();
 
       //Drawing the HalfCourt
       canvas.Save();
-      canvas.Translate(width, height);
+      canvas.Translate(width-10, height-20);
       canvas.Scale(6.5f, 7);
       canvas.RotateDegrees(180);
       canvas.DrawPath(basketballHalfCourt, whiteStrokePaint);
@@ -270,12 +277,18 @@ namespace BasketballApp.Views
     }
 
     void TimerStart(object sender, EventArgs args) {
-      timePlay = true;
-    }
-
-    void TimerPause(object sender, EventArgs args)
-    {
-      timePlay = false;
+      if (timePlay)
+      {
+        timePlay = false;
+        TimerButtonPlay.IsVisible = true;
+        TimerButtonPause.IsVisible = false;
+      }
+      else
+      {
+        timePlay = true;
+        TimerButtonPlay.IsVisible = false;
+        TimerButtonPause.IsVisible = true;
+      }
     }
 
     private void CloseBoxScore(object sender, EventArgs e)
@@ -381,9 +394,21 @@ namespace BasketballApp.Views
       var viewModel = (GameObjectViewModel)BindingContext;
       viewModel.addStat(5, clock, shotClock);
     }
-    
 
-    
+    private void AddBLCK(object sender, EventArgs e)
+    {
+      var viewModel = (GameObjectViewModel)BindingContext;
+      viewModel.addStat(6, clock, shotClock);
+    }
+
+    private void AddASST(object sender, EventArgs e)
+    {
+      var viewModel = (GameObjectViewModel)BindingContext;
+      viewModel.addStat(7, clock, shotClock);
+    }
+
+
+
   }
 
 

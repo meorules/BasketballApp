@@ -18,8 +18,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore" Version="5.0.2" />
     <PackageReference Include="Microsoft.NETCore.Platforms" Version="7.0.1" />
-    <PackageReference Include="MongoDB.Driver" Version="2.19.1" />
     <PackageReference Include="SkiaSharp.Views.Forms" Version="2.88.3" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
+    <PackageReference Include="SQLiteNetExtensions" Version="2.1.0" />
     <PackageReference Include="TouchTracking.Forms" Version="1.1.0" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2578" />  
     <PackageReference Include="Xamarin.Essentials" Version="1.7.5" />  
@@ -36,9 +37,5 @@
     <EmbeddedResource Update="Views\LoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\" />
   </ItemGroup>
 </Project>

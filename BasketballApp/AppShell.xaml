@@ -3,7 +3,8 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:BasketballApp.Views"
        Title="BasketballApp"
-       x:Class="BasketballApp.AppShell">
+       x:Class="BasketballApp.AppShell"
+       CurrentItem="{x:Reference LoginPage}">
 
     <!--
         The overall app visual hierarchy is defined here, along with navigation.
@@ -26,7 +27,7 @@
         <Setter Property="Shell.TabBarUnselectedColor" Value="#95FFFFFF"/>
         <Setter Property="Shell.TabBarTitleColor" Value="White"/>
       </Style>
-      <Style TargetType="TabBar" BasedOn="{StaticResource BaseStyle}" />
+      <Style TargetType="TabBar" BasedOn="{StaticResource BaseStyle}"/>
             <Style TargetType="FlyoutItem" BasedOn="{StaticResource BaseStyle}" />
 
             <!--
@@ -83,20 +84,17 @@
   <FlyoutItem Title="About" Icon="icon_about.png">
     <ShellContent Route="HomePage" ContentTemplate="{DataTemplate local:HomePage}" />
   </FlyoutItem>
-  <FlyoutItem Title="Data Collection" Icon="icon_about.png">
-    <ShellContent Route="DataCollectionPage" ContentTemplate="{DataTemplate local:DataCollectionPage}" />
-    </FlyoutItem>
-    <FlyoutItem Title="Browse Collected Data" Icon="icon_feed.png">
-    <ShellContent Route="DataCollectionPage" ContentTemplate="{DataTemplate local:DataCollectionPage}" />
+  <FlyoutItem Title="Browse Collected Data" Icon="icon_feed.png">
+    <ShellContent  />
   </FlyoutItem>
     <FlyoutItem Title="Build or Edit Team" Icon="icon_feed.png">
-    <ShellContent Route="DataCollectionPage" ContentTemplate="{DataTemplate local:DataCollectionPage}" />
+    <ShellContent  />
   </FlyoutItem>
     <FlyoutItem Title="Analyse Data" Icon="icon_feed.png">
-    <ShellContent Route="DataCollectionPage" ContentTemplate="{DataTemplate local:DataCollectionPage}" />
+    <ShellContent  />
   </FlyoutItem>
     <FlyoutItem Title="Export Data" Icon="icon_feed.png">
-    <ShellContent Route="DataCollectionPage" ContentTemplate="{DataTemplate local:DataCollectionPage}" />
+    <ShellContent  />
   </FlyoutItem>
 
 
@@ -113,7 +111,8 @@
     -->
 
   <TabBar>
-    <ShellContent Route="LoginPage" ContentTemplate="{DataTemplate local:LoginPage}" />
+    <ShellContent Route="DataCollectionPage" ContentTemplate="{DataTemplate local:DataCollectionPage}" />
+    <ShellContent x:Name="LoginPage" Route="LoginPage" ContentTemplate="{DataTemplate local:LoginPage}" />
   </TabBar>
 
   <!-- Optional Templates 

@@ -16,5 +16,10 @@ namespace BasketballApp.Views
     {
       InitializeComponent();
     }
+
+    private async void StartGame(object sender, EventArgs e)
+    {
+      await Shell.Current.GoToAsync("//DataCollectionPage");
+    }
   }
 }

@@ -7,7 +7,7 @@
     -->
     <Application.Resources>
         <ResourceDictionary>
-      <Color x:Key="Primary">Red</Color>
+      <Color x:Key="Primary">Black</Color>
       <Style x:Key="ClockButtonStyle" TargetType="Button">
         <Setter Property="Padding" Value="2" />
         <Setter Property="BackgroundColor" Value="FloralWhite" />

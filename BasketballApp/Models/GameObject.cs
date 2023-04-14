@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SQLite;
+using SQLiteNetExtensions.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,8 +8,7 @@ namespace BasketballApp.Models
 {
   public class GameObject
   {
-
-    public Player[] currentPlayers { set; get;  }
+    [PrimaryKey, AutoIncrement]
     public int GameID { get; set; }
     public string Name { get; set; }
     public DateTime GameDate { get; set; }
@@ -21,8 +22,13 @@ namespace BasketballApp.Models
 
     public int CurrentQuarter { get; set; }
 
+    [OneToMany]
     public List<GameLogActivity> LogActivities { get; set; }
 
+    [OneToMany]
     public List<BoxScore> BoxScores { get; set; }
+
+    [ForeignKey(typeof(Team))]
+    public int TeamID { get; set; }
   }
 }

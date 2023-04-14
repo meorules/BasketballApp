@@ -6,6 +6,7 @@ using Xamarin.Forms;
 
 
 
+
 namespace BasketballApp
 {
   public partial class AppShell : Xamarin.Forms.Shell
@@ -13,7 +14,10 @@ namespace BasketballApp
     public AppShell()
     {
       InitializeComponent();
+
     }
+
+    
 
     private async void OnMenuItemClicked(object sender, EventArgs e)
     {

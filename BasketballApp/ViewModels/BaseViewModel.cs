@@ -6,7 +6,7 @@ using System.Text;
 using Xamarin.Forms;
 
 using BasketballApp.Models;
-//using BasketballApp.Services;
+using BasketballApp.Services;
 
 namespace BasketballApp.ViewModels
 {

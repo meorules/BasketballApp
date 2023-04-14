@@ -1,15 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using SQLite;
+using SQLiteNetExtensions.Attributes;
 
 namespace BasketballApp.Models
 {
   public class BoxScore
   {
+    [PrimaryKey,AutoIncrement]
+    public int Id { get; set; }
 
-    public string Id { get; set; }
+    [ForeignKey(typeof(GameObject))]
+    public int GameObjectID { get; set; }
 
+    [ManyToOne]
     public Player player { get; set; }
+
+    [ForeignKey(typeof(Player))]
+    public int PlayerID { get; set; }
 
     public TimeSpan minutesOnCourt { get; set; }
 

@@ -2,9 +2,14 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BasketballApp.Views.LoginPage"
-             Shell.NavBarIsVisible="False">
+             Shell.NavBarIsVisible="False"
+             >
   <ContentPage.Content>
     <StackLayout Padding="10,0,10,0" VerticalOptions="Center">
+      <Label Text="Username" TextColor="Black" HorizontalOptions="Center"/>
+      <Entry VerticalOptions="Center" Text="{Binding username}" TextColor="Black" BackgroundColor="LightGray"/>
+      <Label Text="Password" TextColor="Black" HorizontalOptions="Center"/>
+      <Entry IsPassword="True" VerticalOptions="Center" Text="{Binding password}" TextColor="Black" BackgroundColor="LightGray"/>
       <Button VerticalOptions="Center" Text="Login" Command="{Binding LoginCommand}"/>
     </StackLayout>
   </ContentPage.Content>
