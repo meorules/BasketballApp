@@ -16,7 +16,7 @@ namespace BasketballApp
       InitializeComponent();
 
       //DependencyService.Register<MockDataStore>();
-      BasketballDBService.initialise();
+      BasketballDBService.initialise(true);
       addSimulatedData();
 
       MainPage = new AppShell();
@@ -38,7 +38,7 @@ namespace BasketballApp
     {
       //Add various users, teams, players, etc for simulation purposes
       BasketballDBService.addUser("Meo", "mazen@gmail.com", "test123");
-      Team currentTeam = BasketballDBService.addTeam("Meo", "Chicago Bulls");
+      Team currentTeam = BasketballDBService.addTeam("Meo", "Chicago Bulls","The United Centre");
       BasketballDBService.addPlayer(currentTeam.Name, "Lonzo Ball", "PG", 2);
       BasketballDBService.addPlayer(currentTeam.Name, "Javonte Green", "SG", 24);
       BasketballDBService.addPlayer(currentTeam.Name, "Dalen Terry", "SG", 25);

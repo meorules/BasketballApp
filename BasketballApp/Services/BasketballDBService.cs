@@ -5,15 +5,15 @@ using System.Text;
 using SQLite;
 
 using BasketballApp.Models;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace BasketballApp.Services
 {
   public static class BasketballDBService
   {
     static SQLiteConnection conn;
-    static User currentUser = null;
 
-    public static void initialise() {
+    public static void initialise(bool reset) {
 
       if(conn != null)
       {
@@ -22,7 +22,11 @@ namespace BasketballApp.Services
       string databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "MyData.db");
 
       conn = new SQLiteConnection(databasePath);
-      deleteTables();
+
+      if (reset)
+      {
+        deleteTables();
+      }
       setupTables();
     }
 
@@ -48,17 +52,26 @@ namespace BasketballApp.Services
       conn.CreateTable<BoxScore>();
     }
 
-    public static void addUser(string username,string email,string password)
+    public static User addUser(string username,string email,string password)
     {
-      User user = new User()
+      User lookForExisitingUser = getUser(username);
+      if (lookForExisitingUser == null)
       {
-        Name = username,
-        Email = email,
-        Password = password,
-        Teams = new List<Team>()
-      };
+        User user = new User()
+        {
+          Name = username,
+          Email = email,
+          Password = password,
+          Teams = new List<Team>()
+        };
 
-      conn.Insert(user);
+        conn.Insert(user);
+        return user;
+      }
+      else
+      {
+        return null;
+      }
     }
 
     public static User getUser(string username)
@@ -67,13 +80,18 @@ namespace BasketballApp.Services
       if (UserQuery.Count() > 0)
       {
         var queryList = UserQuery.ToList();
-        var TeamsQuery = conn.Table<Team>().Where(Team => Team.UserID == queryList[0].UserID);
-        queryList[0].Teams = TeamsQuery.ToList();
+        int userID = queryList[0].UserID;
+        var TeamsQuery = conn.Table<Team>().Where(Team => Team.UserID == userID);
+        if (TeamsQuery.Count() > 0)
+        {
+          queryList[0].Teams = TeamsQuery.ToList();
+        }
 
         return queryList[0];
       }
       else
       {
+        return null;
         throw new Exception("User Not Found in DB");
       }
 
@@ -87,7 +105,7 @@ namespace BasketballApp.Services
         var queryList = query.ToList();
         if(queryList[0].Name == username && queryList[0].Password == password)
         {
-          currentUser = queryList[0];
+          ApplicationData.currentlySignedInUser = queryList[0];
 
           return "Successful Sign In";
         }
@@ -108,7 +126,7 @@ namespace BasketballApp.Services
       conn.Delete(user);
     }
 
-    public static Team addTeam(string username,string teamName)
+    public static Team addTeam(string username,string teamName,string location)
     {
       User user = getUser(username);
       if (user != null) {
@@ -120,6 +138,7 @@ namespace BasketballApp.Services
         {
           Name = teamName,
           UserID = user.UserID,
+          Location = location,
           Games = new List<GameObject>(),
           Players = new List<Player>()
         };
@@ -147,8 +166,21 @@ namespace BasketballApp.Services
       }
       else
       {
+        return null;
         throw new Exception("Team Not Found in DB");
       }
+    }
+
+    public static Team updateTeam(Team team)
+    {
+      Team teamToUpdate = getTeam(team.Name);
+      if(teamToUpdate != null)
+      {
+        conn.Update(teamToUpdate);
+        return getTeam(teamToUpdate.Name);
+      }
+      throw new Exception("Team Not Updated Successfully");
+
     }
 
     public static Player addPlayer(string teamName,string playerName,string position,int playerNumber)
@@ -178,12 +210,76 @@ namespace BasketballApp.Services
 
     public static Team loadTeam()
     {
-      var userTeams = conn.Table<Team>().Where(Team => Team.UserID == currentUser.UserID);
+      var userTeams = conn.Table<Team>().Where(Team => Team.UserID == ApplicationData.currentlySignedInUser.UserID);
       if(userTeams.Count() > 0)
       {
-        return userTeams.ToList()[0];
+        var userTeamList = userTeams.ToList();
+        for(int i = 0; i < userTeamList.Count; i++)
+        {
+          int currentTeamID = userTeamList[i].TeamID;
+          var teamPlayers = conn.Table<Player>().Where(Player => Player.TeamId == currentTeamID);
+          if(teamPlayers.Count() > 0)
+          {
+            userTeamList[i].Players = teamPlayers.ToList();
+          }
+
+        }
+        return userTeamList[0];
       }
       return null;
+    }
+
+    public static GameObject getGame(int gameID)
+    {
+      GameObject game = new GameObject
+      {
+        GameID = gameID,
+      };
+
+      return getGame(game);
+    }
+
+    public static GameObject getGame(GameObject game)
+    {
+      GameObject gameObject = conn.Find<GameObject>(game.GameID);
+
+      if (gameObject != null)
+      {
+
+        if (gameObject.LogActivities == null)
+        {
+          gameObject.LogActivities = new List<GameLogActivity>();
+        }
+        //Get All Game Log Activities
+        var GameLogQuery = conn.Table<GameLogActivity>().Where(GameLogActivity => GameLogActivity.GameObjectID == gameObject.GameID).ToList() ;
+        if (GameLogQuery.Count > 0)
+        {
+          for(int i=0; i < GameLogQuery.Count; i++)
+          {
+            gameObject.LogActivities.Add(GetGameLogActivity(GameLogQuery[i]));
+          }
+        }
+
+        if (gameObject.BoxScores == null)
+        {
+          gameObject.BoxScores = new List<BoxScore>();
+        }
+        // Get all Box Scores
+        var BoxScoreQuery = conn.Table<BoxScore>().Where(BoxScore => BoxScore.GameObjectID == gameObject.GameID).ToList();
+        if (BoxScoreQuery.Count > 0)
+        {
+          for (int i = 0; i < BoxScoreQuery.Count; i++)
+          {
+            gameObject.BoxScores.Add(GetBoxScore(BoxScoreQuery[i]));
+          }
+        }
+
+
+        return gameObject;
+      }
+      
+      return null;
+      throw new Exception("Game not found");
     }
 
     public static GameObject addGame(string teamName, string gameLocation, DateTime gameDate)
@@ -196,7 +292,7 @@ namespace BasketballApp.Services
           currentTeam.Games = new List<GameObject>();
         }
         string gameName = "Game " + currentTeam.Games.Count.ToString();
-        addGame(gameName, gameName,gameLocation, gameDate);
+        return addGame(teamName, gameName,gameLocation, gameDate);
       }
       throw new Exception("Game not added succesfully");
     }
@@ -224,10 +320,12 @@ namespace BasketballApp.Services
           LogActivities = new List<GameLogActivity>(),
           TeamID = currentTeam.TeamID
         };
+        conn.Insert(game);
         for (int i = 0; i < currentTeam.Players.Count; i++)
         {
           BoxScore currentBoxScore = new BoxScore
           {
+            GameObjectID = game.GameID,
             player = currentTeam.Players[i],
             PlayerID = currentTeam.Players[i].PlayerID,
             minutesOnCourt = TimeSpan.Zero,
@@ -256,6 +354,7 @@ namespace BasketballApp.Services
 
         currentTeam.Games.Add(game);
         conn.Update(currentTeam);
+        return game;
       }
       throw new Exception("Game not added succesfully");
     }
@@ -270,31 +369,63 @@ namespace BasketballApp.Services
       throw new Exception("Game not updated succesfully");
     }
 
-    /*Team currentTeam = new Team
+
+    public static BoxScore updateBoxScore(BoxScore score)
     {
-      Name = "Chicago Bulls",
-      Players = new List<Player>
+      if (score != null)
       {
+        conn.Update(score);
+        return score;
+      }
+      throw new Exception("Box Score not updated succesfully");
+    }
 
+    public static GameLogActivity addGameLog(GameLogActivity activity)
+    {
+      if (activity != null)
+      {
+        conn.Insert(activity.StatCollected);
+        activity.StatID = activity.StatCollected.Id;
+        activity.PlayerID = activity.Player.PlayerID;
 
-      },
-      Games = new List<GameObject>
-          {
-            new GameObject
-            {
-              GameID = 1,
-              Name = "Bulls vs Celtics",
-              GameDate = DateTime.Now,
-              GameLocation = "United Center",
-              HomeScore = 100,
-              AwayScore = 95,
-              CurrentGameTime = new TimeSpan(0, 7, 30),
-              CurrentQuarter = 4,
-              LogActivities = new List<GameLogActivity>()
-            }
-          }
-    };*/
+        conn.Insert(activity); 
+        return GetGameLogActivity(activity);
+      }
+      throw new Exception("Game Log not added succesfully");
+    }
 
+    public static GameLogActivity GetGameLogActivity(GameLogActivity activity)
+    {
+      var foundGamelogActivity = conn.Find<GameLogActivity>(activity.Id);
+      if (foundGamelogActivity != null)
+      {
+        var PlayersQuery = conn.Table<Player>().Where(Player => Player.PlayerID == foundGamelogActivity.PlayerID).ToList()[0];
+        var StatQuery = conn.Table<Stat>().Where(Stat => Stat.Id == foundGamelogActivity.StatID).ToList()[0];
+        foundGamelogActivity.StatCollected = StatQuery;
+        foundGamelogActivity.Player = PlayersQuery;
+
+        return foundGamelogActivity;
+      }
+      else
+      {
+        throw new Exception("Game Log Activity Not Found in DB");
+      }
+    }
+
+    public static BoxScore GetBoxScore(BoxScore boxScore)
+    {
+      var foundBoxScore = conn.Find<BoxScore>(boxScore.Id);
+      if (foundBoxScore != null)
+      {
+        foundBoxScore.player = conn.Table<Player>().Where(Player => Player.PlayerID == foundBoxScore.PlayerID).ToList()[0];
+
+        return foundBoxScore;
+      }
+      else
+      {
+        throw new Exception("Box Score Not Found in DB");
+      }
+    }
 
   }
   }

@@ -26,12 +26,12 @@
 
       <BoxView Color="White" CornerRadius="10" AbsoluteLayout.LayoutBounds="405,30,395,50"/>
 
-      <Button x:Name="clockButton" CornerRadius="10" BackgroundColor="Black" Padding="2" FontSize="Title" Text="" TextColor="White" AbsoluteLayout.LayoutBounds="480,35,90,40"/>
-      <Button x:Name="shotClockButton" CornerRadius="10" BackgroundColor="Black" Padding="2" FontSize="Title" Text="" TextColor="White" AbsoluteLayout.LayoutBounds="580,35,55,40"/>
+      <Button Clicked="updateGameTime" x:Name="clockButton" CornerRadius="10" BackgroundColor="Black" Padding="2" FontSize="Title" Text="" TextColor="White" AbsoluteLayout.LayoutBounds="480,35,90,40"/>
+      <Button Clicked="updateShotClock" x:Name="shotClockButton" CornerRadius="10" BackgroundColor="Black" Padding="2" FontSize="Title" Text="" TextColor="White" AbsoluteLayout.LayoutBounds="580,35,55,40"/>
       <Button Command="{Binding ChangeQuarter}" CornerRadius="10" BackgroundColor="Black" Padding="2" FontSize="Title" Text="{Binding QuarterField}" TextColor="White" AbsoluteLayout.LayoutBounds="645,35,55,40"/>
       <Button x:Name ="TimerButtonPlay" Style="{StaticResource ClockButtonStyle}" FontFamily="Material" Text="&#xe037;" Clicked="TimerStart" AbsoluteLayout.LayoutBounds="415,35,60,40"/>
-      <Button x:Name ="TimerButtonPause" Style="{StaticResource ClockButtonStyle}" FontFamily="Material" Text="&#xe034;" Clicked="TimerStart" AbsoluteLayout.LayoutBounds="415,35,60,40"/>
-      <Button Style="{StaticResource ClockButtonStyle}" FontSize="15" Text="Exit &amp; Save" Command="{Binding StopGame}" AbsoluteLayout.LayoutBounds="710,35,85,40"/>
+      <Button x:Name ="TimerButtonPause" Style="{StaticResource ClockButtonStyle}" FontFamily="Material" Text="&#xe034;" Clicked="TimerStart" AbsoluteLayout.LayoutBounds="415,35,60,40" IsVisible="False"/>
+      <Button Style="{StaticResource ClockButtonStyle}" FontSize="15" Text="Exit &amp; Save" Clicked="StopGame" AbsoluteLayout.LayoutBounds="710,35,85,40"/>
 
 
 

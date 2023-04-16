@@ -59,8 +59,8 @@ namespace BasketballApp.Views
     SKPath basketballHalfCourt = new SKPath();
     SKPath redCrossPath = new SKPath();
 
-    TimeSpan clock= new TimeSpan(0, 8, 24);
-    TimeSpan shotClock = new TimeSpan(0, 0, 24);
+    TimeSpan clock;
+    TimeSpan shotClock;
 
     bool timePlay = false;
 
@@ -68,11 +68,16 @@ namespace BasketballApp.Views
 
     bool reDraw = false;
 
-    public DataCollectionPage()
+    
+
+
+      public DataCollectionPage()
     {
       this.BindingContext = new GameObjectViewModel();
       var viewModel = (GameObjectViewModel)BindingContext;
 
+      clock = viewModel.getGameClock();
+      shotClock = viewModel.getGameShotClock();
 
       InitializeComponent();
 
@@ -101,9 +106,7 @@ namespace BasketballApp.Views
             timePlay = false;
           }
         }
-        // fire the command
         
-        //Timer.Text = DateTime.Now.ToString("mm:ss");
         return true;
       });
 
@@ -130,6 +133,17 @@ namespace BasketballApp.Views
       basketballHalfCourt.LineTo(210, 0);
       basketballHalfCourt.LineTo(0, 0);
       basketballHalfCourt.Close();
+
+    }
+
+    protected override async void OnAppearing()
+    {
+      base.OnAppearing();
+      var viewModel = (GameObjectViewModel)BindingContext;
+      viewModel.initaliseData();
+
+      clock = viewModel.getGameClock();
+      shotClock = viewModel.getGameShotClock();
 
     }
 
@@ -266,14 +280,6 @@ namespace BasketballApp.Views
 
         }
       }
-
-      //Opens up menu to select player, shot type and make or miss
-      //Once this is done, these get added to the data storage and then 
-
-      /*AbsoluteLayout.SetLayoutBounds(v, new Rectangle(x, y, 0.25, 0.25));
-      AbsoluteLayout.SetLayoutFlags(v, AbsoluteLayoutFlags.SizeProportional);*/
-
-      //myabs.Children.Add(v);
     }
 
     void TimerStart(object sender, EventArgs args) {
@@ -407,7 +413,69 @@ namespace BasketballApp.Views
       viewModel.addStat(7, clock, shotClock);
     }
 
+    private void StopGame(object sender, EventArgs e)
+    {
+      var viewModel = (GameObjectViewModel)BindingContext;
+      viewModel.endGame(clock,shotClock);
+    }
 
+    public async void updateGameTime(object sender, EventArgs e)
+    {
+      int maxMinutes = 12;
+      string[] minuteArray = getNumberStringArray(0, maxMinutes);
+      string minute = await Shell.Current.DisplayActionSheet("Change Time, Minutes", "Cancel", null, minuteArray);
+      if (minute != "Cancel" && minute != null)
+      {
+        string[] secondArray = getNumberStringArray(0, 60);
+        string second = await Shell.Current.DisplayActionSheet("Change Time, Seconds", "Cancel", null, secondArray);
+        if (second != "Cancel" && second != null)
+        {
+          string[] milliSecondArray = getNumberStringArray(0, 10);
+          string millisecond = await Shell.Current.DisplayActionSheet("Change Time, Milliseconds", "Cancel", null, milliSecondArray);
+          if (millisecond != "Cancel" && millisecond != null)
+          {
+            clock = TimeSpan.FromSeconds(Int16.Parse(second)).Add(TimeSpan.FromMilliseconds(100*Int16.Parse(millisecond)).Add(TimeSpan.FromMinutes(Int16.Parse(minute))));
+          }
+        }
+
+      }
+    }
+
+    public async void updateShotClock(object sender, EventArgs e)
+    {
+      string option = await Shell.Current.DisplayActionSheet("Change Shot Clock", "Cancel", null, "Reset Clock", "Change Manually");
+      if (option != "Cancel" && option != null)
+      {
+        if (option == "Reset Clock")
+        {
+          shotClock = new TimeSpan(0, 0, 24);
+        }
+        else if (option == "Change Manually")
+        {
+          string[] secondArray = getNumberStringArray(0, 24);
+          string second = await Shell.Current.DisplayActionSheet("Change Time, Seconds", "Cancel", null, secondArray);
+          if (second != "Cancel" && second != null)
+          {
+            string[] milliSecondArray = getNumberStringArray(0, 10);
+            string millisecond = await Shell.Current.DisplayActionSheet("Change Time, Milliseconds", "Cancel", null, milliSecondArray);
+            if (millisecond != "Cancel" && millisecond != null)
+            {
+              shotClock = TimeSpan.FromSeconds(Int16.Parse(second)).Add(TimeSpan.FromMilliseconds(100 * Int16.Parse(millisecond)));
+            }
+          }
+        }
+      }
+    }
+
+    private string[] getNumberStringArray(int min, int max)
+    {
+      string[] numberArray = new string[max+1];
+      for (int i = min; i < max + 1; i++)
+      {
+        numberArray[i] = (i - min).ToString();
+      }
+      return numberArray;
+    }
 
   }
 

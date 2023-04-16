@@ -17,7 +17,6 @@ namespace BasketballApp.ViewModels
 
   public class GameObjectViewModel : BindableObject
   {
-    //Team team = DependencyService.Get<Team>();
     //Hardcoded Team Passed in
     Team currentTeam = null;
     GameObject currentGame = null;
@@ -25,7 +24,6 @@ namespace BasketballApp.ViewModels
     string[] playerNames;
 
     public Command ChangeQuarter { get; }
-    public Command StopGame { get; }
 
     public Command AddToAwayScore { get; }
     public Command RemoveFromAwayScore { get; }
@@ -34,26 +32,43 @@ namespace BasketballApp.ViewModels
 
     public GameObjectViewModel()
     {
-      
-      ChangeQuarter = new Command(updateQuarter);
 
-      StopGame = new Command(endGame);
+      ChangeQuarter = new Command(updateQuarter);
 
       AddToAwayScore = new Command(awayScoreAdd);
 
       RemoveFromAwayScore = new Command(awayScoreRemove);
 
       Substitution = new Command(substitutePlayer);
+      initaliseData();
 
-      currentTeam = BasketballDBService.loadTeam();
+
+    }
+
+    public void initaliseData()
+    {
+      if (ApplicationData.currentlySelectedTeam != null)
+      {
+        currentTeam = BasketballDBService.getTeam(ApplicationData.currentlySelectedTeam.Name);
+      }
+      else
+      {
+        currentTeam = BasketballDBService.loadTeam();
+      }
       if (currentTeam == null)
       {
         throw new NotImplementedException("No Team available for currently signed in user");
       }
+      if (ApplicationData.currentlySelectedGame != null)
+      {
+        currentGame = BasketballDBService.getGame(ApplicationData.currentlySelectedGame);
+      }
+      else
+      {
+        currentGame = BasketballDBService.addGame(currentTeam.Name, currentTeam.Location, DateTime.Today);
+      }
 
-      currentGame = BasketballDBService.addGame(currentTeam.Name, "The United Center", DateTime.Today);
-
-      playerNames = new string[5];  
+      playerNames = new string[5];
       for (int i = 0; i < currentTeam.Players.Count; i++)
       {
         if (i < 5)
@@ -134,17 +149,22 @@ namespace BasketballApp.ViewModels
 
 
           }
+          BasketballDBService.updateBoxScore(currentGame.BoxScores[j]);
+
         }
 
       }
-      currentGame.LogActivities.Add(new GameLogActivity
+      GameLogActivity curr = new GameLogActivity
       {
-        
+
         StatCollected = new Stat { StatName = statName, pointWorth = pointWorth, Quarter = currentGame.CurrentQuarter, gameTime = gameClock, shotClock = shotClock },
         Player = currentTeam.Players[currentTeam.Players.IndexOf(current)],
         positionX = x,
-        positionY = y
-      });
+        positionY = y,
+        GameObjectID = currentGame.GameID,
+      };
+      curr = BasketballDBService.addGameLog(curr);
+      currentGame.LogActivities.Add(curr);
 
       if (assister != "No One")
       {
@@ -153,56 +173,63 @@ namespace BasketballApp.ViewModels
           if (currentGame.BoxScores[j].player.Name == assister)
           {
             currentGame.BoxScores[j].Assists += 1;
+            BasketballDBService.updateBoxScore(currentGame.BoxScores[j]);
           }
         }
         Player assistPlayer = new Player
         {
           Name = assister
         };
-        currentGame.LogActivities.Add(new GameLogActivity
+        GameLogActivity assistLog = new GameLogActivity
         {
-          
+
           StatCollected = new Stat { StatName = "Assist", pointWorth = pointWorth, Quarter = currentGame.CurrentQuarter, gameTime = gameClock, shotClock = shotClock },
           Player = currentTeam.Players[currentTeam.Players.IndexOf(assistPlayer)],
           positionX = 0,
           positionY = 0
-        });
+        };
+        assistLog = BasketballDBService.addGameLog(assistLog);
+        currentGame.LogActivities.Add(assistLog);
       }
-
       updateGame();
 
     }
-    async void endGame(object obj)
+    public async void endGame(TimeSpan gameClock, TimeSpan shotClock)
     {
+
+      currentGame.CurrentGameTime = gameClock;
+      currentGame.CurrentShotClock = shotClock;
       //Save Game
       updateGame();
-      //Reset this interface
 
+      //Set Currently Selected Game to null
+      ApplicationData.currentlySelectedGame = null;
       //Go to Homepage
       await Shell.Current.GoToAsync("//HomePage");
 
     }
 
 
-    public void awayScoreAdd(object obj)
+    private void awayScoreAdd(object obj)
     {
       AwayScore = (currentGame.AwayScore + 1).ToString();
     }
 
-    public void awayScoreRemove(object obj)
+    private void awayScoreRemove(object obj)
     {
       AwayScore = (currentGame.AwayScore - 1).ToString();
     }
 
-    public async void updateQuarter(object obj)
+    private async void updateQuarter(object obj)
     {
       string quarter = await Shell.Current.DisplayActionSheet("Change Quarter", "Cancel", null, "1", "2","3","4");
-      if (quarter != "Cancel")
+      if (quarter != "Cancel" && quarter != null)
       {
         QuarterField = "Q"+ quarter;
       }
 
     }
+
 
     public string QuarterField
     {
@@ -311,6 +338,16 @@ namespace BasketballApp.ViewModels
 
     }
 
+    public TimeSpan getGameClock()
+    {
+      return currentGame.CurrentGameTime;
+    }
+
+    public TimeSpan getGameShotClock()
+    {
+      return currentGame.CurrentShotClock;
+    }
+
     //statType Cases
     //0 = STL, 1 = TO, 2 = FOUL, 3 = OREB, 4 = DREB,5 = FT, 6 = BLOCK, 7 = ASST
     public async void addStat(int statType,TimeSpan gameClock,TimeSpan shotClock)
@@ -362,26 +399,30 @@ namespace BasketballApp.ViewModels
                     currentGame.BoxScores[j].FreeThrowMakes += 1;
                     currentGame.BoxScores[j].Points += 1;
                     currentGame.BoxScores[j].FreeThrowAttempts += 1;
-                    currentGame.LogActivities.Add(new GameLogActivity
+                    GameLogActivity curr = new GameLogActivity
                     {
-                      
-                      StatCollected = new Stat { StatName = "FTM",pointWorth=1, Quarter = currentGame.CurrentQuarter, gameTime = gameClock, shotClock = shotClock },
+
+                      StatCollected = new Stat { StatName = "FTM", pointWorth = 1, Quarter = currentGame.CurrentQuarter, gameTime = gameClock, shotClock = shotClock },
                       Player = currentTeam.Players[currentTeam.Players.IndexOf(currentPlayer)],
                       positionX = 0,
                       positionY = 0
-                    });
+                    };
+                    curr = BasketballDBService.addGameLog(curr);
+                    currentGame.LogActivities.Add(curr);
                   }
                   else
                   {
                     currentGame.BoxScores[j].FreeThrowAttempts += 1;
-                    currentGame.LogActivities.Add(new GameLogActivity
+                    GameLogActivity curr = new GameLogActivity
                     {
-                      
+
                       StatCollected = new Stat { StatName = "FTA", pointWorth = 1, Quarter = currentGame.CurrentQuarter, gameTime = gameClock, shotClock = shotClock },
                       Player = currentTeam.Players[currentTeam.Players.IndexOf(currentPlayer)],
                       positionX = 0,
                       positionY = 0
-                    });
+                    };
+                    curr = BasketballDBService.addGameLog(curr);
+                    currentGame.LogActivities.Add(curr);
                   }
 
                 }
@@ -397,15 +438,18 @@ namespace BasketballApp.ViewModels
             }
             if (stat != "FT")
             {
-              currentGame.LogActivities.Add(new GameLogActivity
+              GameLogActivity curr = new GameLogActivity
               {
-                
+
                 StatCollected = new Stat { StatName = stat, Quarter = currentGame.CurrentQuarter, gameTime = gameClock, shotClock = shotClock },
                 Player = currentTeam.Players[currentTeam.Players.IndexOf(currentPlayer)],
                 positionX = 0,
                 positionY = 0
-              });
+              };
+              curr = BasketballDBService.addGameLog(curr);
+              currentGame.LogActivities.Add(curr);
             }
+            BasketballDBService.updateBoxScore(currentGame.BoxScores[j]);
           }
         }
       }
@@ -421,6 +465,7 @@ namespace BasketballApp.ViewModels
           if (currentGame.BoxScores[j].player.Name== playerNames[i])
           {
             currentGame.BoxScores[j].minutesOnCourt += timeSpan;
+            BasketballDBService.updateBoxScore(currentGame.BoxScores[j]);
           }
         }
       }
@@ -489,3 +534,4 @@ namespace BasketballApp.ViewModels
 
   }
 }
+

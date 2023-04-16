@@ -4,13 +4,12 @@
        xmlns:local="clr-namespace:BasketballApp.Views"
        Title="BasketballApp"
        x:Class="BasketballApp.AppShell"
-       CurrentItem="{x:Reference LoginPage}">
+       >
 
     <!--
         The overall app visual hierarchy is defined here, along with navigation.
     
         https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/
-        Padding="2" BackgroundColor="FloralWhite" FontSize="Large" TextColor="Black" FontFamily="Material"
 
     -->
 
@@ -76,7 +75,18 @@
         </ResourceDictionary>
     </Shell.Resources>
 
-    <!-- 
+  <!--
+        TabBar lets you define content that won't show up in a flyout menu. When this content is active
+        the flyout menu won't be available. This is useful for creating areas of the application where 
+        you don't want users to be able to navigate away from. If you would like to navigate to this 
+        content you can do so by calling 
+        await Shell.Current.GoToAsync("//LoginPage");
+    -->
+
+  <ShellContent x:Name="login" Route="LoginPage" ContentTemplate="{DataTemplate local:LoginPage}" />
+  <ShellContent Route="DataCollectionPage" ContentTemplate="{DataTemplate local:DataCollectionPage}" />
+
+  <!-- 
         When the Flyout is visible this defines the content to display in the flyout.
         FlyoutDisplayOptions="AsMultipleItems" will create a separate flyout item for each child element    
         https://docs.microsoft.com/dotnet/api/xamarin.forms.shellgroupitem.flyoutdisplayoptions?view=xamarin-forms
@@ -85,35 +95,20 @@
     <ShellContent Route="HomePage" ContentTemplate="{DataTemplate local:HomePage}" />
   </FlyoutItem>
   <FlyoutItem Title="Browse Collected Data" Icon="icon_feed.png">
-    <ShellContent  />
   </FlyoutItem>
     <FlyoutItem Title="Build or Edit Team" Icon="icon_feed.png">
-    <ShellContent  />
   </FlyoutItem>
     <FlyoutItem Title="Analyse Data" Icon="icon_feed.png">
-    <ShellContent  />
   </FlyoutItem>
     <FlyoutItem Title="Export Data" Icon="icon_feed.png">
-    <ShellContent  />
   </FlyoutItem>
 
 
     <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->
-    <MenuItem Text="Logout" StyleClass="MenuItemLayoutStyle" Clicked="OnMenuItemClicked">
+    <MenuItem Text="Logout" StyleClass="MenuItemLayoutStyle" Clicked="Logout">
     </MenuItem>
 
-    <!--
-        TabBar lets you define content that won't show up in a flyout menu. When this content is active
-        the flyout menu won't be available. This is useful for creating areas of the application where 
-        you don't want users to be able to navigate away from. If you would like to navigate to this 
-        content you can do so by calling 
-        await Shell.Current.GoToAsync("//LoginPage");
-    -->
 
-  <TabBar>
-    <ShellContent Route="DataCollectionPage" ContentTemplate="{DataTemplate local:DataCollectionPage}" />
-    <ShellContent x:Name="LoginPage" Route="LoginPage" ContentTemplate="{DataTemplate local:LoginPage}" />
-  </TabBar>
 
   <!-- Optional Templates 
     // These may be provided inline as below or as separate classes.

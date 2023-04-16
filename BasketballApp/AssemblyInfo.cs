@@ -7,3 +7,6 @@ using Xamarin.Forms.Xaml;
 
 [assembly: ExportFont("EingrantchMono-Medium.ttf", Alias = "Eigrantch")]
 
+[assembly: ExportFont("Exo-VariableFont_wght.ttf", Alias = "Exo")]
+
+

@@ -14,6 +14,8 @@ namespace BasketballApp.Models
     public int TeamID { get; set; }
     public string Name { get; set; }
 
+    public string Location { get; set; }
+
     [OneToMany]
     public List<Player> Players { get; set;}
     [OneToMany]

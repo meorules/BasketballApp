@@ -2,14 +2,35 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BasketballApp.Views.HomePage"
-             BackgroundColor="Gray">
+             >
     <ContentPage.Content>
-        <StackLayout Orientation="Horizontal">
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-      <Button Text="Start a New Game" Clicked="StartGame"/>
+    <Grid RowSpacing="15" ColumnSpacing="5">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="20" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="20" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="20" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="200" />
+        <ColumnDefinition Width="20" />
+      </Grid.ColumnDefinitions>
+      
+      <Label FontFamily="" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" TextColor="White" BackgroundColor="{StaticResource Primary}" Text="Welcome to The Basketball Data Collection App!" Padding="20" FontSize="20" />
 
-    </StackLayout>
+      <Label x:Name="UsernameIntro" Grid.Row="1" Grid.Column="4" TextColor="White" BackgroundColor="{StaticResource Primary}" Text="Hi , Select a Team" Padding="20" FontSize="20" />
+
+      <Button Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="Start a New Game" Clicked="StartGame"/>
+      <Picker Grid.Row="2" Grid.Column="4" x:Name="TeamPicker" SelectedIndexChanged="changeSelectedTeam"/>
+
+      <Button Grid.Row="3" Grid.Column="4" Text="Logout" Clicked="Logout"/>
+
+
+    </Grid>
     </ContentPage.Content>
 </ContentPage>
