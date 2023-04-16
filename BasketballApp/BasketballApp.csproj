@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Fonts\EingrantchMono\EingrantchMono-Medium.ttf" />
+    <EmbeddedResource Include="Fonts\Exo\Exo-VariableFont_wght.ttf" />
     <EmbeddedResource Include="Fonts\Exo\Exo.ttf" />
     <EmbeddedResource Include="Fonts\Material\MaterialIcons-Regular.ttf" />
   </ItemGroup>

@@ -151,6 +151,26 @@ namespace BasketballApp.Services
       throw new Exception("Team not added succesfully");
     }
 
+    public static Team getTeam(int teamID)
+    {
+      var TeamQuery = conn.Table<Team>().Where(Team => Team.TeamID == teamID);
+      if (TeamQuery.Count() > 0)
+      {
+        var TeamQueryItem = TeamQuery.ToList()[0];
+        var PlayersQuery = conn.Table<Player>().Where(Player => Player.TeamId == TeamQueryItem.TeamID).ToList();
+        var GameQuery = conn.Table<GameObject>().Where(GameObject => GameObject.TeamID == TeamQueryItem.TeamID).ToList();
+        TeamQueryItem.Games = GameQuery;
+        TeamQueryItem.Players = PlayersQuery;
+
+        return TeamQueryItem;
+      }
+      else
+      {
+        return null;
+        throw new Exception("Team Not Found in DB");
+      }
+    }
+
     public static Team getTeam(string teamName)
     {
       var TeamQuery = conn.Table<Team>().Where(Team => Team.Name == teamName);
@@ -173,7 +193,7 @@ namespace BasketballApp.Services
 
     public static Team updateTeam(Team team)
     {
-      Team teamToUpdate = getTeam(team.Name);
+      Team teamToUpdate = getTeam(team.TeamID);
       if(teamToUpdate != null)
       {
         conn.Update(teamToUpdate);
