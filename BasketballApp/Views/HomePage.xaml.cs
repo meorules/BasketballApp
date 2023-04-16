@@ -48,15 +48,24 @@ namespace BasketballApp.Views
 
     private void changeSelectedTeam(object sender, EventArgs e)
     {
-      string teamName = TeamPicker.SelectedItem.ToString();
-      Team team = BasketballDBService.getTeam(teamName);
-      if (team != null)
+      if (TeamPicker.SelectedItem != null)
       {
-        ApplicationData.currentlySelectedTeam = team;
+        string teamName = TeamPicker.SelectedItem.ToString();
+        Team team = BasketballDBService.getTeam(teamName);
+        if (team != null)
+        {
+          ApplicationData.currentlySelectedTeam = team;
+          TeamPickerLabel.Text = "Team Picked :)";
+          StatLeaderBox.BackgroundColor = Color.White;
+        }
+        else
+        {
+          throw new Exception("Problem finding selected team");
+        }
       }
       else
       {
-        throw new Exception("Problem finding selected team");
+        StatLeaderBox.BackgroundColor = Color.Gray;
       }
     }
 
@@ -76,7 +85,7 @@ namespace BasketballApp.Views
       {
         currentUser = BasketballDBService.getUser(ApplicationData.currentlySignedInUser.Name);
       }
-      UsernameIntro.Text = "Hi " + ApplicationData.currentlySignedInUser.Name + ",";
+      UsernameIntro.Text = "Hi " + ApplicationData.currentlySignedInUser.Name;
     }
 
     private void setUpTeamPicker()

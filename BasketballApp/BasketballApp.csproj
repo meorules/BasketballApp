@@ -8,12 +8,13 @@
   <ItemGroup>
     <None Remove="Fonts\EingrantchMono\EingrantchMono-Medium.ttf" />
     <None Remove="Fonts\Exo\Exo-VariableFont_wght.ttf" />
+    <None Remove="Fonts\Exo\Exo.ttf" />
     <None Remove="Fonts\Material\MaterialIcons-Regular.ttf" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Fonts\EingrantchMono\EingrantchMono-Medium.ttf" />
-    <EmbeddedResource Include="Fonts\Exo\Exo-VariableFont_wght.ttf" />
+    <EmbeddedResource Include="Fonts\Exo\Exo.ttf" />
     <EmbeddedResource Include="Fonts\Material\MaterialIcons-Regular.ttf" />
   </ItemGroup>
 
@@ -31,6 +32,9 @@
 
   <ItemGroup>
     <EmbeddedResource Update="Views\DataCollectionPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\EditTeam.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\HomePage.xaml">

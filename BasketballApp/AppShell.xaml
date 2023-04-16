@@ -4,7 +4,7 @@
        xmlns:local="clr-namespace:BasketballApp.Views"
        Title="BasketballApp"
        x:Class="BasketballApp.AppShell"
-       >
+       FlyoutBackgroundColor="AliceBlue">
 
     <!--
         The overall app visual hierarchy is defined here, along with navigation.
@@ -44,11 +44,13 @@
                                 <VisualState.Setters>
                                     <Setter Property="BackgroundColor" Value="{x:OnPlatform UWP=Transparent, iOS=White}" />
                                     <Setter TargetName="FlyoutItemLabel" Property="Label.TextColor" Value="{StaticResource Primary}" />
+                                    <Setter TargetName="FlyoutItemLabel" Property="Label.FontFamily" Value="Exo"/>
                                 </VisualState.Setters>
                             </VisualState>
                             <VisualState x:Name="Selected">
                                 <VisualState.Setters>
                                     <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+                                    <Setter TargetName="FlyoutItemLabel" Property="Label.FontFamily" Value="Exo"/>
                                 </VisualState.Setters>
                             </VisualState>
                         </VisualStateGroup>
@@ -82,23 +84,40 @@
         content you can do so by calling 
         await Shell.Current.GoToAsync("//LoginPage");
     -->
+  <TabBar>
+    <ShellContent x:Name="login" Route="LoginPage" ContentTemplate="{DataTemplate local:LoginPage}" />
+    <ShellContent Route="DataCollectionPage" ContentTemplate="{DataTemplate local:DataCollectionPage}" />
+  </TabBar>
 
-  <ShellContent x:Name="login" Route="LoginPage" ContentTemplate="{DataTemplate local:LoginPage}" />
-  <ShellContent Route="DataCollectionPage" ContentTemplate="{DataTemplate local:DataCollectionPage}" />
 
   <!-- 
         When the Flyout is visible this defines the content to display in the flyout.
         FlyoutDisplayOptions="AsMultipleItems" will create a separate flyout item for each child element    
         https://docs.microsoft.com/dotnet/api/xamarin.forms.shellgroupitem.flyoutdisplayoptions?view=xamarin-forms
     -->
+  
+  <Shell.FlyoutHeader>
+    <Grid BackgroundColor="Black">
+      <Image Aspect="AspectFill"
+               Source="xamarinstore.jpg"
+               Opacity="0.6" />
+      <Label FontFamily="Exo" Text="Dunk Analytics"
+               TextColor="White"
+               FontAttributes="Bold"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center" />
+    </Grid>
+  </Shell.FlyoutHeader>
+  
   <FlyoutItem Title="About" Icon="icon_about.png">
     <ShellContent Route="HomePage" ContentTemplate="{DataTemplate local:HomePage}" />
   </FlyoutItem>
+  <FlyoutItem Title="Build or Edit Team" Icon="icon_feed.png">
+    <ShellContent Route="EditTeam" ContentTemplate="{DataTemplate local:EditTeam}" />
+  </FlyoutItem>
   <FlyoutItem Title="Browse Collected Data" Icon="icon_feed.png">
   </FlyoutItem>
-    <FlyoutItem Title="Build or Edit Team" Icon="icon_feed.png">
-  </FlyoutItem>
-    <FlyoutItem Title="Analyse Data" Icon="icon_feed.png">
+  <FlyoutItem Title="Analyse Data" Icon="icon_feed.png">
   </FlyoutItem>
     <FlyoutItem Title="Export Data" Icon="icon_feed.png">
   </FlyoutItem>

@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BasketballApp.Views.EditTeam">
+    <ContentPage.Content>
+    <Grid RowSpacing="15" ColumnSpacing="5">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="20" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="20" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="20" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="200" />
+        <ColumnDefinition Width="20" />
+      </Grid.ColumnDefinitions>
+
+      
+      
+      
+    </Grid>
+  </ContentPage.Content>
+</ContentPage>
