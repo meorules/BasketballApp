@@ -11,8 +11,13 @@ namespace BasketballApp.ViewModels
   {
     Team currentTeam;
 
-    public EditTeamViewModel() {
+    public Command SaveTeam { get; }
+    public Command DeleteTeam { get; }
 
+
+    public EditTeamViewModel() {
+      SaveTeam = new Command(updateTeam);
+      DeleteTeam = new Command(deleteTeam);
       initialiseData();
 
     }
@@ -22,15 +27,19 @@ namespace BasketballApp.ViewModels
       if (ApplicationData.currentlySelectedTeam == null)
       {
         //Create New Team
-        currentTeam = BasketballDBService.addTeam(ApplicationData.currentlySignedInUser.Name, "", "");
+        currentTeam = BasketballDBService.addTeam(ApplicationData.currentlySignedInUser.Name,"Team 1","Team Location");
         BasketballDBService.getTeam(currentTeam.TeamID);
         ApplicationData.currentlySelectedTeam = currentTeam;
       }
       else
       {
         //Edit Team
-        currentTeam = ApplicationData.currentlySelectedTeam;
+        currentTeam = BasketballDBService.getTeam(ApplicationData.currentlySelectedTeam.TeamID);
+
       }
+      OnPropertyChanged("teamName");
+      OnPropertyChanged("teamLocation");
+      OnPropertyChanged("playerList");
     }
 
     public string teamName
@@ -45,7 +54,6 @@ namespace BasketballApp.ViewModels
       set
       {
         currentTeam.Name = value;
-        updateTeam();
         OnPropertyChanged("teamName");
       }
     }
@@ -63,8 +71,7 @@ namespace BasketballApp.ViewModels
       set
       {
         currentTeam.Location = value;
-        updateTeam();
-        OnPropertyChanged("teamName");
+        OnPropertyChanged("teamLocation");
       }
     }
 
@@ -78,7 +85,7 @@ namespace BasketballApp.ViewModels
             string[] playerNameList = new string[currentTeam.Players.Count];
             for (int i = 0; i < currentTeam.Players.Count; i++)
             {
-              playerNameList[i] = currentTeam.Players[i].Name + " " + currentTeam.Players[i].Position;
+              playerNameList[i] = currentTeam.Players[i].Name + " | " + currentTeam.Players[i].Position;
             }
             return playerNameList;
           }
@@ -88,9 +95,41 @@ namespace BasketballApp.ViewModels
       }
     }
 
-    private void updateTeam()
+    private async void updateTeam()
     {
-      BasketballDBService.updateTeam(currentTeam);
+      currentTeam = BasketballDBService.updateTeam(currentTeam);
+      if(currentTeam == null)
+      {
+        await Shell.Current.DisplayAlert("Team Save", "Team did not save succesfully", "Ok");
+      }
+      else
+      {
+        await Shell.Current.DisplayAlert("Team Save", "Team saved succesfully", "Ok");
+      }
+    }
+
+    private async void deleteTeam()
+    {
+      bool result = await Shell.Current.DisplayAlert("Team Deletion", "Are you sure you want to delete " + ApplicationData.currentlySelectedTeam.Name + ", this is a non-reversible action", "Delete", "Cancel");
+      if (result)
+      {
+         bool doubleResult = await Shell.Current.DisplayAlert("Team Deletion", "Are you sure? All team data will be deleted!!", "Delete", "Cancel");
+        if (doubleResult)
+        {
+          bool deleteTeam = BasketballDBService.deleteTeam(currentTeam);
+          if (deleteTeam)
+          {
+            await Shell.Current.DisplayAlert("Team Deletion", "Team deleted succesfully", "Ok");
+            currentTeam = null;
+            ApplicationData.currentlySelectedTeam = null;
+            await Shell.Current.GoToAsync("//HomePage");
+          }
+          else
+          {
+            await Shell.Current.DisplayAlert("Team Deletion", "Team not deleted succesfully", "Ok");
+          }
+        }
+      }
     }
 
 

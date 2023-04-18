@@ -32,10 +32,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\EditPlayerPage.xaml.cs">
+      <DependentUpon>EditPlayerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\EditTeamPage.xaml.cs">
+      <DependentUpon>EditTeamPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Update="Views\DataCollectionPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\EditTeam.xaml">
+    <EmbeddedResource Update="Views\EditPlayerPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\EditTeamPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\HomePage.xaml">

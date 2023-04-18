@@ -12,6 +12,7 @@ namespace BasketballApp.Services
   {
     public static User currentlySignedInUser;
     public static GameObject currentlySelectedGame;
-    public static Team currentlySelectedTeam; 
+    public static Team currentlySelectedTeam;
+    public static Player currentlySelectedPlayer;
   }
 }

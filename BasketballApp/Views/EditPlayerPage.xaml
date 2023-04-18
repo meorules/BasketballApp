@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BasketballApp.Views.EditPlayer"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False">
+    <ContentPage.Content>
+    <Grid RowSpacing="15" ColumnSpacing="5">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="5" />
+        <RowDefinition Height="75" />
+        <RowDefinition Height="70" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="20" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="5" />
+        <ColumnDefinition Width="150" />
+        <ColumnDefinition Width="150" />
+        <ColumnDefinition Width="85" />
+        <ColumnDefinition Width="85" />
+        <ColumnDefinition Width="100" />
+        <ColumnDefinition Width="100" />
+        <ColumnDefinition Width="90" />
+        <ColumnDefinition Width="5" />
+      </Grid.ColumnDefinitions>
+
+      <Label x:Name="Header" FontFamily="Exo"  Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" TextColor="White" BackgroundColor="{StaticResource Primary}" Text="Create or Edit Player" Padding="20" FontSize="22" />
+      
+      <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontFamily="Exo"  Grid.Row="1" Grid.Column="3" TextColor="Black" Text="Player Name:" FontSize="22" Grid.ColumnSpan="2"/>
+      <Entry BackgroundColor="LightGray" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="1" Grid.Column="5" TextColor="Black" Text="{Binding playerName}" FontSize="22" Grid.ColumnSpan="2"/>
+
+      <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontFamily="Exo"  Grid.Row="2" Grid.Column="3" TextColor="Black" Text="Position:" FontSize="22" Grid.ColumnSpan="2"/>
+      <Entry BackgroundColor="LightGray" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="2" Grid.Column="5" TextColor="Black" Text="{Binding playerPosition}" FontSize="22" Grid.ColumnSpan="2"/>
+
+      <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontFamily="Exo"  Grid.Row="3" Grid.Column="3" TextColor="Black" Text="Number:" FontSize="22" Grid.ColumnSpan="2"/>
+      <Entry BackgroundColor="LightGray" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="3" Grid.Column="5" TextColor="Black" Text="{Binding playerNumber}" FontSize="22" Grid.ColumnSpan="2"/>
+
+      <Button Command="{Binding SavePlayer}" Style="{StaticResource AppButton}" Text="Save Player" Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2"/>
+      <Button Clicked="DeletePlayerClicked" BackgroundColor="Red" Style="{StaticResource AppButton}" Text="Delete Player" Grid.Row="4" Grid.Column="5" Grid.ColumnSpan="2"/>
+
+      <Button Clicked="BackToTeamClicked" Style="{StaticResource AppButton}" Text="Back to Team" Grid.Row="4" Grid.Column="7" />
+
+
+      <Frame Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="3" Padding="2" BorderColor="Black" BackgroundColor="LightSlateGray" >
+        <StackLayout> 
+      <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontFamily="Exo"   TextColor="White" Text="Move Player to a different team" FontSize="22"/>
+      <Picker FontSize="15" FontFamily="Exo" Title="Click Here to Pick a Team" x:Name="TeamPicker" TextColor="Red" TitleColor="Black" IsEnabled="False" />
+          <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontFamily="Exo"   TextColor="LightSlateGray" Text="Move Player Space" FontSize="22"/>
+
+          <Button x:Name="MovePlayerButton" BackgroundColor="SlateGray" Style="{StaticResource AppButton}" Text="Move Player to Selected Team" IsEnabled="False"/>
+        </StackLayout>
+      </Frame>
+
+    </Grid>
+  </ContentPage.Content>
+</ContentPage>

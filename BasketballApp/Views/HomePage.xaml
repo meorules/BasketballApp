@@ -26,8 +26,8 @@
       <Label FontFamily="Exo" x:Name="UsernameIntro" Grid.Row="1" Grid.Column="4" TextColor="White" BackgroundColor="{StaticResource Primary}" Text="Hi" Padding="20" FontSize="20" />
       <Label x:Name="TeamPickerLabel" BackgroundColor="White" FontFamily="Exo" Grid.Row="1" Grid.Column="4" FontSize="15" TextColor="Black" Text="                Pick a Team" VerticalOptions="End"/>
 
-      <Button Style="{StaticResource AppButton}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="Start a Game" Clicked="StartGame"/>
-      <Button Style="{StaticResource AppButton}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="Edit Team"/>
+      <Button x:Name="StartGameButton" Style="{StaticResource AppButton}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="Start a Game" Clicked="StartGame" BackgroundColor="LightSlateGray"/>
+      <Button x:Name="EditTeamButton" Style="{StaticResource AppButton}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Clicked="EditTeamClicked" BackgroundColor="LightSlateGray"/>
       <Label x:Name="StatLeaderBox" HorizontalTextAlignment="Center" TextColor="Black" BackgroundColor="Gray" FontFamily="Exo" Text="Stat Leaders:" Grid.Row="2" Grid.Column="3" Grid.RowSpan="2"/>
       <Label VerticalTextAlignment="Center" TextColor="Black" FontFamily="Exo" Text=" Pts: " Grid.Row="2" Grid.Column="3"/>
       <Label VerticalTextAlignment="End" TextColor="Black" FontFamily="Exo" Text=" Ast: " Grid.Row="2" Grid.Column="3"/>

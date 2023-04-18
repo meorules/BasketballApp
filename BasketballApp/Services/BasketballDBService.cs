@@ -193,14 +193,31 @@ namespace BasketballApp.Services
 
     public static Team updateTeam(Team team)
     {
-      Team teamToUpdate = getTeam(team.TeamID);
-      if(teamToUpdate != null)
+      if(team != null)
       {
-        conn.Update(teamToUpdate);
-        return getTeam(teamToUpdate.Name);
+        int rowsUpdated = conn.Update(team);
+        if(rowsUpdated == 0)
+        {
+          return null;
+        }
+        else return getTeam(team.Name);
       }
       throw new Exception("Team Not Updated Successfully");
 
+    }
+
+    public static bool deleteTeam(Team team)
+    {
+      if(team != null)
+      {
+        int rowsDeleted = conn.Delete(team);
+        if (rowsDeleted > 0)
+        {
+          return true;
+        }
+        else return false;
+      }
+      else return false;
     }
 
     public static Player addPlayer(string teamName,string playerName,string position,int playerNumber)
@@ -226,6 +243,69 @@ namespace BasketballApp.Services
       }
       throw new Exception("Player not added succesfully");
 
+    }
+
+    public static Player getPlayer(int playerID)
+    {
+      var PlayerQuery = conn.Table<Player>().Where(Player => Player.PlayerID == playerID);
+      if (PlayerQuery.Count() > 0)
+      {
+        return PlayerQuery.ToList()[0];
+      }
+      else
+      {
+        return null;
+      }
+
+    }
+
+    public static Player getPlayer(string playerName)
+    {
+      var PlayerQuery = conn.Table<Player>().Where(Player => Player.Name == playerName);
+      if (PlayerQuery.Count() > 0)
+      {
+        return PlayerQuery.ToList()[0];
+      }
+      else
+      {
+        return null;
+      }
+    }
+
+
+    public static Player getPlayer(Player player)
+    {
+        return getPlayer(player.PlayerID);
+    }
+
+    public static Player updatePlayer(Player toUpdate)
+    {
+      if (toUpdate != null)
+      {
+        int rowsUpdated = conn.Update(toUpdate);
+        if (rowsUpdated == 0)
+        {
+          return null;
+        }
+      }
+      return toUpdate;
+    }
+
+    public static bool deletePlayer(Player player)
+    {
+      if(player != null)
+      {
+        int rowsDeleted = conn.Delete(player);
+        if (rowsDeleted > 0)
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+      }
+      else return false;
     }
 
     public static Team loadTeam()

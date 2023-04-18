@@ -45,7 +45,7 @@ namespace BasketballApp.ViewModels
 
     }
 
-    public void initaliseData()
+    public async void initaliseData()
     {
       if (ApplicationData.currentlySelectedTeam != null)
       {
@@ -53,7 +53,9 @@ namespace BasketballApp.ViewModels
       }
       else
       {
-        currentTeam = BasketballDBService.loadTeam();
+        await Shell.Current.DisplayAlert("Data Collection", "Cannot collect data with a team selected", "Ok");
+
+        await Shell.Current.GoToAsync("//HomePage");
       }
       if (currentTeam == null)
       {
@@ -268,74 +270,79 @@ namespace BasketballApp.ViewModels
 
     public async void substitutePlayer(object obj)
     {
-
-      string[] availableSubs = new string[currentTeam.Players.Count-5];
-
-      for(int i=5;i< currentTeam.Players.Count; i++)
+      if (currentTeam.Players.Count - 5 != 0)
       {
-        availableSubs[i - 5] = currentTeam.Players[i].Name;
-      }
+        string[] availableSubs = new string[currentTeam.Players.Count - 5];
 
-      string playerToSubIn = await Shell.Current.DisplayActionSheet("Pick a Player To Sub In", "Cancel", null, availableSubs);
-
-      if(playerToSubIn!=null && playerToSubIn != "Cancel")
-      {
-        string playerToSubOut = await Shell.Current.DisplayActionSheet("Pick a Player To Sub Out", "Cancel", null, Player1, Player2, Player3, Player4, Player5);
-        if (playerToSubOut != null && playerToSubOut != "Cancel")
+        for (int i = 5; i < currentTeam.Players.Count; i++)
         {
-          //Make Substitution
-          //Start by grabbig the old player's name and storing it in a temp box
-          for(int j = 0; j < 5; j++)
+          availableSubs[i - 5] = currentTeam.Players[i].Name;
+        }
+
+        string playerToSubIn = await Shell.Current.DisplayActionSheet("Pick a Player To Sub In", "Cancel", null, availableSubs);
+
+        if (playerToSubIn != null && playerToSubIn != "Cancel")
+        {
+          string playerToSubOut = await Shell.Current.DisplayActionSheet("Pick a Player To Sub Out", "Cancel", null, Player1, Player2, Player3, Player4, Player5);
+          if (playerToSubOut != null && playerToSubOut != "Cancel")
           {
-            if(playerNames[j]== playerToSubOut)
+            //Make Substitution
+            //Start by grabbig the old player's name and storing it in a temp box
+            for (int j = 0; j < 5; j++)
             {
-              switch (j)
+              if (playerNames[j] == playerToSubOut)
               {
-                case 0:
-                  Player1 = playerToSubIn;
-                  break;
-                case 1:
-                  Player2 = playerToSubIn;
-                  break;
-                case 2:
-                  Player3 = playerToSubIn;
-                  break;
-                case 3:
-                  Player4 = playerToSubIn;
-                  break;
-                case 4:
-                  Player5 = playerToSubIn;
-                  break;
-                default:
-                  //Something bad broke
-                  break;
+                switch (j)
+                {
+                  case 0:
+                    Player1 = playerToSubIn;
+                    break;
+                  case 1:
+                    Player2 = playerToSubIn;
+                    break;
+                  case 2:
+                    Player3 = playerToSubIn;
+                    break;
+                  case 3:
+                    Player4 = playerToSubIn;
+                    break;
+                  case 4:
+                    Player5 = playerToSubIn;
+                    break;
+                  default:
+                    //Something bad broke
+                    break;
+                }
               }
             }
-          }
-          int playerToSubInIndex = -1 ;
-          int playerToSubOutIndex=-1;
-          for (int k = 0; k < currentTeam.Players.Count; k++)
-          {
-            if(currentTeam.Players[k].Name == playerToSubOut)
+            int playerToSubInIndex = -1;
+            int playerToSubOutIndex = -1;
+            for (int k = 0; k < currentTeam.Players.Count; k++)
             {
-              playerToSubOutIndex =k;
+              if (currentTeam.Players[k].Name == playerToSubOut)
+              {
+                playerToSubOutIndex = k;
+              }
+              if (currentTeam.Players[k].Name == playerToSubIn)
+              {
+                playerToSubInIndex = k;
+              }
             }
-            if(currentTeam.Players[k].Name == playerToSubIn)
+            if (playerToSubInIndex != -1 && playerToSubInIndex != -1)
             {
-              playerToSubInIndex =k;
+              Player tempPlayer = currentTeam.Players[playerToSubOutIndex];
+              currentTeam.Players[playerToSubOutIndex] = currentTeam.Players[playerToSubInIndex];
+              currentTeam.Players[playerToSubInIndex] = tempPlayer;
             }
           }
-          if(playerToSubInIndex != -1 && playerToSubInIndex != -1)
-          {
-            Player tempPlayer = currentTeam.Players[playerToSubOutIndex];
-            currentTeam.Players[playerToSubOutIndex] = currentTeam.Players[playerToSubInIndex];
-            currentTeam.Players[playerToSubInIndex] = tempPlayer;
-          }
+
         }
 
       }
-
-
+      else
+      {
+        await Shell.Current.DisplayAlert("Team Substitutions", "No Available Substitutions", "Ok");
+      }
     }
 
     public TimeSpan getGameClock()

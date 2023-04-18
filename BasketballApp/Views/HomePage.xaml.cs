@@ -28,7 +28,8 @@ namespace BasketballApp.Views
     protected override async void OnAppearing()
     {
       base.OnAppearing();
-      
+      ApplicationData.currentlySelectedTeam = null;
+
       setupUserIntro();
       setUpTeamPicker();
 
@@ -57,6 +58,11 @@ namespace BasketballApp.Views
           ApplicationData.currentlySelectedTeam = team;
           TeamPickerLabel.Text = "Team Picked :)";
           StatLeaderBox.BackgroundColor = Color.White;
+          EditTeamButton.IsEnabled = true;
+          EditTeamButton.Text = "Edit a Team";
+          EditTeamButton.BackgroundColor = Color.White;
+          StartGameButton.IsEnabled = true;
+          StartGameButton.BackgroundColor = Color.White;
         }
         else
         {
@@ -65,7 +71,11 @@ namespace BasketballApp.Views
       }
       else
       {
+        StartGameButton.IsEnabled = false;
+        StartGameButton.BackgroundColor = Color.LightSlateGray;
         StatLeaderBox.BackgroundColor = Color.Gray;
+        EditTeamButton.IsEnabled = false;
+        EditTeamButton.BackgroundColor = Color.LightSlateGray;
       }
     }
 
@@ -73,26 +83,24 @@ namespace BasketballApp.Views
     {
       if (ApplicationData.currentlySignedInUser == null)
       {
-        //For now, just set user to test user, otherwise, send back to login page
-        currentUser = BasketballDBService.getUser("Meo");
-
-        /*await Shell.Current.DisplayAlert("Login Failed", "Not correctly signed in", "OK");
+        await Shell.Current.DisplayAlert("Login Failed", "Not correctly signed in", "OK");
         ApplicationData.currentlySignedInUser = null;
-        await Shell.Current.GoToAsync("//LoginPage");*/
+        await Shell.Current.GoToAsync("//LoginPage");
 
       }
       else
       {
         currentUser = BasketballDBService.getUser(ApplicationData.currentlySignedInUser.Name);
       }
-      UsernameIntro.Text = "Hi " + ApplicationData.currentlySignedInUser.Name;
+      UsernameIntro.Text = "Hi " + currentUser.Name;
     }
 
     private void setUpTeamPicker()
     {
+      TeamPickerLabel.Text = "Pick a Team";
       if (currentUser != null)
       {
-        if (currentUser.Teams != null)
+        if (currentUser.Teams != null && currentUser.Teams.Count!=0 )
         {
           String[] teamList = new string[currentUser.Teams.Count];
           for (int i = 0; i < currentUser.Teams.Count; i++)
@@ -104,8 +112,29 @@ namespace BasketballApp.Views
         else
         {
           TeamPicker.ItemsSource = null;
+
         }
       }
+      StartGameButton.IsEnabled = false;
+      StartGameButton.BackgroundColor = Color.LightSlateGray;
+      EditTeamButton.IsEnabled = true;
+      EditTeamButton.BackgroundColor = Color.White;
+      EditTeamButton.Text = "Create a Team";
+    }
+
+    private async void EditTeamClicked(object sender, EventArgs e)
+    {
+      //Go to edit team page
+      if (TeamPicker.ItemsSource != null && EditTeamButton.Text=="Edit a Team")
+      {
+        if (ApplicationData.currentlySelectedTeam == null)
+        {
+          await Shell.Current.DisplayAlert("Team Editing", "Please Select a Team to edit", "Ok");
+        }
+
+      }
+      await Shell.Current.GoToAsync("//EditTeamPage");
+
     }
   }
 }

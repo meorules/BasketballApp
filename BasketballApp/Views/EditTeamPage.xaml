@@ -20,7 +20,7 @@
         <ColumnDefinition Width="85" />
         <ColumnDefinition Width="100" />
         <ColumnDefinition Width="100" />
-        <ColumnDefinition Width="75" />
+        <ColumnDefinition Width="90" />
         <ColumnDefinition Width="5" />
       </Grid.ColumnDefinitions>
 
@@ -28,20 +28,25 @@
 
       <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontFamily="Exo"  Grid.Row="1" Grid.Column="3" TextColor="Black" Text="Team Name:" FontSize="22" Grid.ColumnSpan="2"/>
       <Entry BackgroundColor="LightGray" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="1" Grid.Column="5" TextColor="Black" Text="{Binding teamName}" FontSize="22" Grid.ColumnSpan="2"/>
-      <Button Margin="2" Style="{StaticResource AppButton}" Text="Save Team" Grid.Row="1" Grid.Column="7" Grid.RowSpan="2"/>
-      <Button Margin="2" Style="{StaticResource AppButton}" Text="Save &amp; Exit" Grid.Row="3" Grid.Column="7" Grid.RowSpan="2"/>
+
+      <Button Command="{Binding SaveTeam}" Margin="2" Style="{StaticResource AppButton}" Text="Save Team" Grid.Row="1" Grid.Column="7" Grid.RowSpan="2"/>
+      <Button Command="{Binding DeleteTeam}" BackgroundColor="Red" Margin="2" Style="{StaticResource AppButton}" Text="Delete Team" Grid.Row="3" Grid.Column="7" Grid.RowSpan="2"/>
+      
       <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontFamily="Exo"  Grid.Row="2" Grid.Column="3" TextColor="Black" Text="Team Location:" FontSize="22" Grid.ColumnSpan="2"/>
       <Entry BackgroundColor="LightGray" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="2" Grid.Column="5" TextColor="Black" Text="{Binding teamLocation}" FontSize="22" Grid.ColumnSpan="2"/>
-      <Button Style="{StaticResource AppButton}" Text="Add Player" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2"/>
-      <Button Style="{StaticResource AppButton}" Text="Edit Player" Grid.Row="3" Grid.Column="5" Grid.ColumnSpan="2" />
-      <Button Style="{StaticResource AppButton}" Text="Delete Player" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2"/>
+
+
+
+      <Button Clicked="PlayerAddClicked" Style="{StaticResource AppButton}" Text="Add Player" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2"/>
+      <Button Clicked="PlayerEditClicked" Style="{StaticResource AppButton}" Text="Edit Player" Grid.Row="3" Grid.Column="5" Grid.ColumnSpan="2" />
+      <Button Clicked="DeletePlayerClicked" Style="{StaticResource AppButton}" Text="Delete Player" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2"/>
 
       <Frame Grid.Row="2" Grid.Column="1" Grid.RowSpan="3" Grid.ColumnSpan="2" BackgroundColor="LightGray" BorderColor="Black">
         <StackLayout>
           <Label Text="Player List" FontAttributes="Bold" FontFamily="Exo" TextColor="Black"/>
           <ScrollView VerticalScrollBarVisibility="Default" IsClippedToBounds="False" >
             <Frame BackgroundColor="White" Padding="0" BorderColor="Black">
-      <ListView ItemsSource="{Binding playerList}" x:Name="playerListView" SeparatorColor="Black" >
+      <ListView ItemsSource="{Binding playerList}" x:Name="playerListView" SeparatorColor="Black" ItemSelected="playerListView_ItemSelected">
         <ListView.ItemTemplate>
           <DataTemplate>
             <ViewCell>

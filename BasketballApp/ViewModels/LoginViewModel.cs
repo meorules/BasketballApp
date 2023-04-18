@@ -31,7 +31,7 @@ namespace BasketballApp.ViewModels
         User user = BasketballDBService.addUser(username, "", password);
         if (user != null)
         {
-          ApplicationData.currentlySignedInUser = user;
+          ApplicationData.currentlySignedInUser = BasketballDBService.getUser(user.Name);
           username = "";
           password = "";
           OnPropertyChanged("username");
@@ -66,6 +66,7 @@ namespace BasketballApp.ViewModels
         }
         else if (result == "Successful Sign In")
         {
+          ApplicationData.currentlySignedInUser = BasketballDBService.getUser(username);
           username = "";
           password = "";
           OnPropertyChanged("username");

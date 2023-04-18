@@ -77,17 +77,7 @@
         </ResourceDictionary>
     </Shell.Resources>
 
-  <!--
-        TabBar lets you define content that won't show up in a flyout menu. When this content is active
-        the flyout menu won't be available. This is useful for creating areas of the application where 
-        you don't want users to be able to navigate away from. If you would like to navigate to this 
-        content you can do so by calling 
-        await Shell.Current.GoToAsync("//LoginPage");
-    -->
-  <TabBar>
-    <ShellContent x:Name="login" Route="LoginPage" ContentTemplate="{DataTemplate local:LoginPage}" />
-    <ShellContent Route="DataCollectionPage" ContentTemplate="{DataTemplate local:DataCollectionPage}" />
-  </TabBar>
+
 
 
   <!-- 
@@ -108,12 +98,26 @@
                VerticalTextAlignment="Center" />
     </Grid>
   </Shell.FlyoutHeader>
+
+  <!--
+        TabBar lets you define content that won't show up in a flyout menu. When this content is active
+        the flyout menu won't be available. This is useful for creating areas of the application where 
+        you don't want users to be able to navigate away from. If you would like to navigate to this 
+        content you can do so by calling 
+        await Shell.Current.GoToAsync("//LoginPage");
+    -->
+  <TabBar>
+    <ShellContent x:Name="login" Route="LoginPage" ContentTemplate="{DataTemplate local:LoginPage}" />
+    <ShellContent Route="DataCollectionPage" ContentTemplate="{DataTemplate local:DataCollectionPage}" />
+    <ShellContent Route="EditPlayerPage" ContentTemplate="{DataTemplate local:EditPlayer}" />
+  </TabBar>
   
+
   <FlyoutItem Title="About" Icon="icon_about.png">
     <ShellContent Route="HomePage" ContentTemplate="{DataTemplate local:HomePage}" />
   </FlyoutItem>
   <FlyoutItem Title="Build or Edit Team" Icon="icon_feed.png">
-    <ShellContent Route="EditTeam" ContentTemplate="{DataTemplate local:EditTeam}" />
+    <ShellContent Route="EditTeamPage" ContentTemplate="{DataTemplate local:EditTeam}" />
   </FlyoutItem>
   <FlyoutItem Title="Browse Collected Data" Icon="icon_feed.png">
   </FlyoutItem>
@@ -126,6 +130,7 @@
     <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->
     <MenuItem Text="Logout" StyleClass="MenuItemLayoutStyle" Clicked="Logout">
     </MenuItem>
+
 
 
 
