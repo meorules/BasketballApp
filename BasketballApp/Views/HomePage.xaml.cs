@@ -28,7 +28,6 @@ namespace BasketballApp.Views
     protected override async void OnAppearing()
     {
       base.OnAppearing();
-      ApplicationData.currentlySelectedTeam = null;
 
       setupUserIntro();
       setUpTeamPicker();
@@ -49,34 +48,30 @@ namespace BasketballApp.Views
 
     private void changeSelectedTeam(object sender, EventArgs e)
     {
-      if (TeamPicker.SelectedItem != null)
-      {
-        string teamName = TeamPicker.SelectedItem.ToString();
-        Team team = BasketballDBService.getTeam(teamName);
-        if (team != null)
+        if (TeamPicker.SelectedItem != null)
         {
-          ApplicationData.currentlySelectedTeam = team;
-          TeamPickerLabel.Text = "Team Picked :)";
-          StatLeaderBox.BackgroundColor = Color.White;
-          EditTeamButton.IsEnabled = true;
-          EditTeamButton.Text = "Edit a Team";
-          EditTeamButton.BackgroundColor = Color.White;
-          StartGameButton.IsEnabled = true;
-          StartGameButton.BackgroundColor = Color.White;
+          string teamName = TeamPicker.SelectedItem.ToString();
+          Team team = BasketballDBService.getTeam(teamName);
+          if (team != null)
+          {
+            ApplicationData.currentlySelectedTeam = team;
+            TeamPickerLabel.Text = "Team Picked :)";
+            StatLeaderBox.BackgroundColor = Color.White;
+            EditTeamButton.IsEnabled = true;
+            EditTeamButton.Text = "Edit a Team";
+            EditTeamButton.BackgroundColor = Color.White;
+            StartGameButton.IsEnabled = true;
+            StartGameButton.BackgroundColor = Color.White;
+          }
         }
         else
         {
-          throw new Exception("Problem finding selected team");
+          StartGameButton.IsEnabled = false;
+          StartGameButton.BackgroundColor = Color.LightSlateGray;
+          StatLeaderBox.BackgroundColor = Color.Gray;
+          EditTeamButton.IsEnabled = false;
+          EditTeamButton.BackgroundColor = Color.LightSlateGray;
         }
-      }
-      else
-      {
-        StartGameButton.IsEnabled = false;
-        StartGameButton.BackgroundColor = Color.LightSlateGray;
-        StatLeaderBox.BackgroundColor = Color.Gray;
-        EditTeamButton.IsEnabled = false;
-        EditTeamButton.BackgroundColor = Color.LightSlateGray;
-      }
     }
 
     private async void setupUserIntro()
@@ -95,31 +90,53 @@ namespace BasketballApp.Views
       UsernameIntro.Text = "Hi " + currentUser.Name;
     }
 
+    internal class TeamPickerArgs : EventArgs
+    {
+      public bool SettingTeamUp
+      {
+        get; set;
+      }
+    }
+
     private void setUpTeamPicker()
     {
-      TeamPickerLabel.Text = "Pick a Team";
-      if (currentUser != null)
+      if (ApplicationData.currentlySelectedTeam != null)
       {
-        if (currentUser.Teams != null && currentUser.Teams.Count!=0 )
+        String[] teamList = new string[currentUser.Teams.Count];
+        for (int i = 0; i < currentUser.Teams.Count; i++)
         {
-          String[] teamList = new string[currentUser.Teams.Count];
-          for (int i = 0; i < currentUser.Teams.Count; i++)
-          {
-            teamList[i] = currentUser.Teams[i].Name;
-          }
-          TeamPicker.ItemsSource = teamList;
+          teamList[i] = currentUser.Teams[i].Name;
         }
-        else
-        {
-          TeamPicker.ItemsSource = null;
-
-        }
+        TeamPicker.ItemsSource = teamList;
+        TeamPicker.SelectedItem = ApplicationData.currentlySelectedTeam;
+        TeamPicker.SelectedIndex = 0;
       }
-      StartGameButton.IsEnabled = false;
-      StartGameButton.BackgroundColor = Color.LightSlateGray;
-      EditTeamButton.IsEnabled = true;
-      EditTeamButton.BackgroundColor = Color.White;
-      EditTeamButton.Text = "Create a Team";
+      else
+      {
+        TeamPickerLabel.Text = "Pick a Team";
+        if (currentUser != null)
+        {
+          if (currentUser.Teams != null && currentUser.Teams.Count != 0)
+          {
+            String[] teamList = new string[currentUser.Teams.Count];
+            for (int i = 0; i < currentUser.Teams.Count; i++)
+            {
+              teamList[i] = currentUser.Teams[i].Name;
+            }
+            TeamPicker.ItemsSource = teamList;
+          }
+          else
+          {
+            TeamPicker.ItemsSource = null;
+
+          }
+        }
+        StartGameButton.IsEnabled = false;
+        StartGameButton.BackgroundColor = Color.LightSlateGray;
+        EditTeamButton.IsEnabled = true;
+        EditTeamButton.BackgroundColor = Color.White;
+        EditTeamButton.Text = "Create a Team";
+      }
     }
 
     private async void EditTeamClicked(object sender, EventArgs e)

@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BasketballApp.Views.ViewGamesList"
+             xmlns:viewmodels="clr-namespace:BasketballApp.ViewModels" 
+             xmlns:models="clr-namespace:BasketballApp.Models">
+    <ContentPage.Content>
+    <Grid RowSpacing="15" ColumnSpacing="5">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="5" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="5" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="5" />
+        <ColumnDefinition Width="150" />
+        <ColumnDefinition Width="150" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="5" />
+      </Grid.ColumnDefinitions>
+
+      <Label x:Name="Header" FontFamily="Exo"  Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" TextColor="White" BackgroundColor="{StaticResource Primary}" VerticalTextAlignment="Center" Text="View Games List" HorizontalTextAlignment="Center" FontSize="22" />
+
+
+      <Button Clicked="CreateGameClicked" Style="{StaticResource AppButton}" Text="Create Game" Grid.Row="1" Grid.Column="4" />
+      <Button Clicked="ViewDataClicked" x:Name="ViewDataButton"  IsEnabled="False" Style="{StaticResource AppButton}" Text="View Data" Grid.Row="2" Grid.Column="4" />
+      <Button Clicked="EditGameClicked" x:Name="EditDataButton" IsEnabled="False" Style="{StaticResource AppButton}" Text="Edit Data" Grid.Row="3" Grid.Column="4" />
+      <Button Clicked="DeleteGameClicked" x:Name="DeleteGameButton" IsEnabled="False" BackgroundColor="Red" Style="{StaticResource AppButton}" Text="Delete Game" Grid.Row="4" Grid.Column="4" />
+
+
+      <Frame Grid.Row="2" Grid.Column="1" Grid.RowSpan="3" Grid.ColumnSpan="3" BackgroundColor="LightGray" BorderColor="Black" Padding="10">
+        <StackLayout>
+          <ScrollView VerticalScrollBarVisibility="Default" IsClippedToBounds="False" >
+            <Frame BackgroundColor="White" Padding="0" BorderColor="Black">
+              <ListView ItemsSource="{Binding gameObjects}" x:Name="gamesListView" SeparatorColor="Black" RowHeight="60" ItemSelected="gameSelected">
+                <ListView.ItemTemplate>
+                  <DataTemplate>
+                    <ViewCell Height="50" >
+                      <StackLayout Orientation="Vertical">
+                        <StackLayout Orientation="Horizontal">
+                          <Label TextColor="Black" Text=" "  FontFamily="Exo" FontSize="5" />
+                          <Label TextColor="Black" Text="{Binding Name}"  FontFamily="Exo" FontSize="16" />
+                          <Label TextColor="Black" Text="|"  FontFamily="Exo" FontSize="16" />
+                          <Label TextColor="Gray" Text="{Binding GameLocation}" FontFamily="Exo" FontSize="16" />
+                          <Label TextColor="White" Text="                                         " FontSize="10" />
+                          <Label TextColor="Navy" Text="{Binding GameDateString}" FontFamily="Exo" FontSize="16" />
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                          <Label TextColor="Black" Text=" "  FontFamily="Exo" FontSize="16" />
+                          <Label TextColor="Black" Text="{Binding CurrentQuarterString}"  FontFamily="Exo" FontSize="16" />
+                          <Label TextColor="Black" Text="|"  FontFamily="Exo" FontSize="16" />
+                          <Label TextColor="Black" Text="{Binding CurrentGameTimeString}" FontFamily="Exo" FontSize="16" />
+                          <Label TextColor="Black" Text="|"  FontFamily="Exo" FontSize="16" />
+                          <Label TextColor="Red" Text="{Binding CurrentShotClockString}" FontFamily="Exo" FontSize="16" />
+                          <Label TextColor="White" Text="                                                                                               " FontSize="10" />
+                          <Label TextColor="Black" Text="{Binding Score}" FontFamily="Exo" FontSize="16" />
+                        </StackLayout>
+
+                      </StackLayout>
+                    </ViewCell>
+                  </DataTemplate>
+                </ListView.ItemTemplate>
+              </ListView>
+            </Frame>
+          </ScrollView>
+        </StackLayout>
+      </Frame>
+
+    </Grid>
+    </ContentPage.Content>
+</ContentPage> 

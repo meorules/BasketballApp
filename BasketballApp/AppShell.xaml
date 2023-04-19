@@ -120,6 +120,7 @@
     <ShellContent Route="EditTeamPage" ContentTemplate="{DataTemplate local:EditTeam}" />
   </FlyoutItem>
   <FlyoutItem Title="Browse Collected Data" Icon="icon_feed.png">
+    <ShellContent Route="ViewGamesListPage" ContentTemplate="{DataTemplate local:ViewGamesList}" />
   </FlyoutItem>
   <FlyoutItem Title="Analyse Data" Icon="icon_feed.png">
   </FlyoutItem>

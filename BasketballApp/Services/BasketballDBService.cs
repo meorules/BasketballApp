@@ -182,6 +182,12 @@ namespace BasketballApp.Services
         TeamQueryItem.Games = GameQuery;
         TeamQueryItem.Players = PlayersQuery;
 
+        if (TeamQueryItem.Games != null) {
+          for (int i = 0; i < TeamQueryItem.Games.Count; i++)
+          {
+            TeamQueryItem.Games[i] = getGame(TeamQueryItem.Games[i]);
+          }
+        }
         return TeamQueryItem;
       }
       else
@@ -357,6 +363,7 @@ namespace BasketballApp.Services
           for(int i=0; i < GameLogQuery.Count; i++)
           {
             gameObject.LogActivities.Add(GetGameLogActivity(GameLogQuery[i]));
+
           }
         }
 
@@ -470,6 +477,47 @@ namespace BasketballApp.Services
     }
 
 
+    public static bool deleteGame(GameObject currentlySelectedGame)
+    {
+      if (currentlySelectedGame != null)
+      {
+        if (currentlySelectedGame.BoxScores != null)
+        {
+          for (int i = 0; i < currentlySelectedGame.BoxScores.Count; i++)
+          {
+            int boxScoreDeleted = conn.Delete(currentlySelectedGame.BoxScores[i].Id);
+            if (boxScoreDeleted <=0 )
+            {
+              return false;
+            }
+          }
+        }
+        if(currentlySelectedGame.LogActivities != null)
+        {
+          for (int i = 0; i < currentlySelectedGame.LogActivities.Count; i++)
+          {
+            //currentlySelectedGame.LogActivities[i];
+            bool deleted = deleteGameLogActivity(currentlySelectedGame.LogActivities[i]);
+            if (!deleted)
+            {
+              return false;
+            }
+          }
+        }
+        int gameDeleted = conn.Delete<GameObject>(currentlySelectedGame.GameID);
+        if(gameDeleted > 0)
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+      }
+      return false;
+    }
+
+
     public static BoxScore updateBoxScore(BoxScore score)
     {
       if (score != null)
@@ -510,6 +558,38 @@ namespace BasketballApp.Services
       {
         throw new Exception("Game Log Activity Not Found in DB");
       }
+    }
+
+    public static bool deleteGameLogActivity(GameLogActivity activity)
+    {
+      activity = GetGameLogActivity(activity);
+      if (activity != null)
+      {
+        if(activity.StatCollected != null)
+        {
+          int statDelete = conn.Delete<Stat>(activity.StatID);
+          if (statDelete > 0)
+          {
+            int activityRowsDeleted = conn.Delete<GameLogActivity>(activity.Id);
+            if (activityRowsDeleted > 0)
+            {
+              return true;
+            }
+            else return false;
+          }
+          else return false;
+        }
+        else
+        {
+          int activityRowsDeleted = conn.Delete<GameLogActivity>(activity.Id);
+          if (activityRowsDeleted > 0)
+          {
+            return true;
+          }
+          else return false;
+        }
+      }
+      else return false;
     }
 
     public static BoxScore GetBoxScore(BoxScore boxScore)
