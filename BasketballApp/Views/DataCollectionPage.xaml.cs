@@ -68,11 +68,12 @@ namespace BasketballApp.Views
 
     bool reDraw = false;
 
-    
 
+    bool constructor = false;
 
       public DataCollectionPage()
     {
+      constructor = true;
       this.BindingContext = new GameObjectViewModel();
       var viewModel = (GameObjectViewModel)BindingContext;
 
@@ -140,10 +141,12 @@ namespace BasketballApp.Views
     {
       base.OnAppearing();
       var viewModel = (GameObjectViewModel)BindingContext;
-      viewModel.initaliseData();
+      if(!constructor)
+        viewModel.initaliseData();
 
       clock = viewModel.getGameClock();
       shotClock = viewModel.getGameShotClock();
+      constructor = false;
 
     }
 

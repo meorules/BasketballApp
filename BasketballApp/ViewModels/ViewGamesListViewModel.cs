@@ -23,7 +23,9 @@ namespace BasketballApp.ViewModels
       }
       else
       {
+        ApplicationData.currentlySelectedTeam = BasketballDBService.getTeam(ApplicationData.currentlySelectedTeam.TeamID);
         currentTeam = ApplicationData.currentlySelectedTeam;
+
 
       }
       OnPropertyChanged("gameObjects");

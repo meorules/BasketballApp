@@ -485,7 +485,7 @@ namespace BasketballApp.Services
         {
           for (int i = 0; i < currentlySelectedGame.BoxScores.Count; i++)
           {
-            int boxScoreDeleted = conn.Delete(currentlySelectedGame.BoxScores[i].Id);
+            int boxScoreDeleted = conn.Delete<BoxScore>(currentlySelectedGame.BoxScores[i].Id);
             if (boxScoreDeleted <=0 )
             {
               return false;

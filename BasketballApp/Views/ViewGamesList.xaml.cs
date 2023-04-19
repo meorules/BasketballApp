@@ -35,7 +35,7 @@ namespace BasketballApp.Views
       }
       else
       {
-        Header.Text = "View Games of Team :" + ApplicationData.currentlySelectedTeam.Name;
+        Header.Text = "View Games of Team : " + ApplicationData.currentlySelectedTeam.Name;
         viewModel.initialiseData();
         enableButtons(false);
       }
@@ -91,7 +91,7 @@ namespace BasketballApp.Views
 
     private async void ViewDataClicked(object sender, EventArgs e)
     {
-      //Go to View Data Page which will be implemented later
+      await Shell.Current.GoToAsync("//ViewGamePage");
     }
 
     private async void DeleteGameClicked(object sender, EventArgs e)

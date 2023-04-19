@@ -58,7 +58,7 @@ namespace BasketballApp.Views
             TeamPickerLabel.Text = "Team Picked :)";
             StatLeaderBox.BackgroundColor = Color.White;
             EditTeamButton.IsEnabled = true;
-            EditTeamButton.Text = "Edit a Team";
+            EditTeamButton.Text = "Edit Team";
             EditTeamButton.BackgroundColor = Color.White;
             StartGameButton.IsEnabled = true;
             StartGameButton.BackgroundColor = Color.White;
@@ -142,7 +142,7 @@ namespace BasketballApp.Views
     private async void EditTeamClicked(object sender, EventArgs e)
     {
       //Go to edit team page
-      if (TeamPicker.ItemsSource != null && EditTeamButton.Text=="Edit a Team")
+      if (TeamPicker.ItemsSource != null && EditTeamButton.Text=="Edit Team")
       {
         if (ApplicationData.currentlySelectedTeam == null)
         {

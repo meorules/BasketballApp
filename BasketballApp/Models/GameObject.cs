@@ -62,5 +62,12 @@ namespace BasketballApp.Models
 
     [ForeignKey(typeof(Team))]
     public int TeamID { get; set; }
+
+    public BoxScore getTotalBoxScore()
+    {
+      return BoxScore.getTotalBoxScore(BoxScores);
+    }
+  
+    
   }
 }

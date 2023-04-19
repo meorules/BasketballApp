@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
+             x:Class="BasketballApp.Views.ViewGamePage"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False">
+    <ContentPage.Content>
+    <Grid RowSpacing="2" ColumnSpacing="5">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="5" />
+        <RowDefinition Height="70" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="5" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="5" />
+        <ColumnDefinition Width="150" />
+        <ColumnDefinition Width="150" />
+        <ColumnDefinition Width="85" />
+        <ColumnDefinition Width="85" />
+        <ColumnDefinition Width="100" />
+        <ColumnDefinition Width="100" />
+        <ColumnDefinition Width="90" />
+        <ColumnDefinition Width="5" />
+      </Grid.ColumnDefinitions>
+
+
+      <Label FontFamily="Exo"  HorizontalTextAlignment="Start" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="7" TextColor="White" BackgroundColor="{StaticResource Primary}" Text=" " Padding="20" FontSize="22" />
+      <Label x:Name="Header" FontFamily="Exo"  HorizontalTextAlignment="Start" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" TextColor="White" Text="View Game Data:" Padding="20" FontSize="22" />
+      <Label FontFamily="Exo" HorizontalTextAlignment="Center" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" TextColor="White" Text="{Binding gameName}" Padding="21" FontSize="22" />
+      <Label FontFamily="Exo" HorizontalTextAlignment="Center" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3" TextColor="White" Text="{Binding gameLocation}" Padding="21" FontSize="22" />
+
+      <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontFamily="Exo"  Grid.Row="1" Grid.Column="6" TextColor="White" Text="{Binding gameDate}" FontSize="22" Grid.ColumnSpan="2"/>
+      <Label VerticalTextAlignment="End" HorizontalTextAlignment="Center" FontFamily="Exo"  Grid.Row="1" Grid.Column="6" TextColor="White" Text="{Binding gameTime}" FontSize="22" Grid.ColumnSpan="2"/>
+
+
+      <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontFamily="Exo"  Grid.Row="1" Grid.Column="5" TextColor="White" Text="{Binding score}" FontSize="22" Grid.ColumnSpan="2"/>
+      <Label VerticalTextAlignment="End" HorizontalTextAlignment="Center" FontFamily="Exo"  Grid.Row="1" Grid.Column="5" TextColor="White" Text="{Binding quarter}" FontSize="22" Grid.ColumnSpan="2"/>
+
+      <Button Style="{StaticResource AppButton}" Text="Player Stats" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2"/>
+      <Button Style="{StaticResource AppButton}" Text="Game Logs" Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="2"/>
+      <Button Clicked="BackClicked" Style="{StaticResource AppButton}" Text="Back" Grid.Row="2" Grid.Column="7" />
+
+
+      <Frame VerticalOptions="Start" Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="2" Grid.RowSpan="9" Margin="0" Padding="2" BorderColor="Black">
+        <StackLayout Orientation="Vertical">
+            <Label Text="Shot Map" TextColor="Black" FontSize="20" FontFamily="Exo"/>
+          <Picker VerticalOptions="Start" Title="Filter by Quarter" TextColor="Black" TitleColor="Black" BackgroundColor="Gray" FontSize="10" FontFamily="Exo">
+              <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                  <x:String>All Quarters</x:String>
+                  <x:String>Q1</x:String>
+                  <x:String>Q2</x:String>
+                  <x:String>Q3</x:String>
+                  <x:String>Q4</x:String>
+                </x:Array>
+             </Picker.ItemsSource>
+            </Picker>
+            <Picker VerticalOptions="Start" Title="Filter by Time" TextColor="Black" TitleColor="Black" BackgroundColor="Gray" FontSize="10" FontFamily="Exo" WidthRequest="150" />
+        </StackLayout>
+          
+      </Frame>
+      
+
+
+      <Frame BackgroundColor="Gray" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="5" BorderColor="Black" Padding="8">
+        <Frame Padding="0">
+          <Grid RowSpacing="2">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="2" />
+              <RowDefinition Height="*" />
+              <RowDefinition Height="*" />
+              <RowDefinition Height="*" />
+              <RowDefinition Height="*" />
+              <RowDefinition Height="2" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="5" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontFamily="Exo"  Grid.Row="1" Grid.Column="1" TextColor="Black" Text="Attacking &amp; Shooting" FontSize="15"  Grid.ColumnSpan="4"/>
+            
+            <Label VerticalTextAlignment="Start" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="2" Grid.Column="1" TextColor="Black" Text="Assists" FontSize="15"/>
+            <Label VerticalTextAlignment="End" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="2" Grid.Column="1" TextColor="Black" Text="{Binding boxScore.Assists}" FontSize="15"/>
+
+            <Label VerticalTextAlignment="Start" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="2" Grid.Column="2" TextColor="Black" Text="FGM" FontSize="15"/>
+            <Label VerticalTextAlignment="End" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="2" Grid.Column="2" TextColor="Black" Text="{Binding boxScore.FieldGoalsMade}" FontSize="15"/>
+
+            <Label VerticalTextAlignment="Start" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="2" Grid.Column="3" TextColor="Black" Text="FGA" FontSize="15"/>
+            <Label VerticalTextAlignment="End" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="2" Grid.Column="3" TextColor="Black" Text="{Binding boxScore.FieldGoalsAttempted}" FontSize="15"/>
+
+            <Label VerticalTextAlignment="Start" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="2" Grid.Column="4" TextColor="Black" Text="FG%" FontSize="15"/>
+            <Label VerticalTextAlignment="End" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="2" Grid.Column="4" TextColor="Black" Text="{Binding boxScore.FieldGoalPercentage}" FontSize="15"/>
+
+            <Label VerticalTextAlignment="Start" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="3" Grid.Column="1" TextColor="Black" Text="7Sec PTs" FontSize="15"/>
+            <Label VerticalTextAlignment="End" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="3" Grid.Column="1" TextColor="Black" Text="0" FontSize="15"/>
+
+
+            <Label VerticalTextAlignment="Start" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="3" Grid.Column="2" TextColor="Black" Text="FTM" FontSize="15"/>
+            <Label VerticalTextAlignment="End" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="3" Grid.Column="2" TextColor="Black" Text="{Binding boxScore.FreeThrowMakes}" FontSize="15"/>
+
+            <Label VerticalTextAlignment="Start" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="3" Grid.Column="3" TextColor="Black" Text="FTA" FontSize="15"/>
+            <Label VerticalTextAlignment="End" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="3" Grid.Column="3" TextColor="Black" Text="{Binding boxScore.FreeThrowAttempts}" FontSize="15"/>
+
+            <Label VerticalTextAlignment="Start" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="3" Grid.Column="4" TextColor="Black" Text="FT%" FontSize="15"/>
+            <Label VerticalTextAlignment="End" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="3" Grid.Column="4" TextColor="Black" Text="{Binding boxScore.FreeThrowPercentage}" FontSize="15"/>
+
+            <Label VerticalTextAlignment="Start" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="4" Grid.Column="1" TextColor="Black" Text="2nd PTs" FontSize="15"/>
+            <Label VerticalTextAlignment="End" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="4" Grid.Column="1" TextColor="Black" Text="0" FontSize="15"/>
+
+
+
+            <Label VerticalTextAlignment="Start" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="4" Grid.Column="2" TextColor="Black" Text="3PTM" FontSize="15"/>
+            <Label VerticalTextAlignment="End" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="4" Grid.Column="2" TextColor="Black" Text="{Binding boxScore.ThreesMade}" FontSize="15"/>
+
+            <Label VerticalTextAlignment="Start" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="4" Grid.Column="3" TextColor="Black" Text="3PTA" FontSize="15"/>
+            <Label VerticalTextAlignment="End" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="4" Grid.Column="3" TextColor="Black" Text="{Binding boxScore.ThreesAttempts}" FontSize="15"/>
+
+            <Label VerticalTextAlignment="Start" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="4" Grid.Column="4" TextColor="Black" Text="3PT%" FontSize="15"/>
+            <Label VerticalTextAlignment="End" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="4" Grid.Column="4" TextColor="Black" Text="{Binding boxScore.ThreePercentage}" FontSize="15"/>
+
+            
+
+          </Grid>
+        </Frame>
+      </Frame>
+
+      <Frame BackgroundColor="Gray" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="5" BorderColor="Black" Padding="8">
+        <Frame Padding="0">
+          <Grid RowSpacing="0">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="*" />
+              <RowDefinition Height="*" />
+              <RowDefinition Height="*" />
+              <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="5" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontFamily="Exo"  Grid.Row="0" Grid.Column="0" TextColor="Black" Text="Rebounding &amp; Defending" FontSize="15"  Grid.ColumnSpan="5"/>
+
+            <Label VerticalTextAlignment="End" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="1" Grid.Column="1" TextColor="Black" Text="Rebs" FontSize="15"/>
+            <Label VerticalTextAlignment="Start" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="2" Grid.Column="1" TextColor="Black" Text="{Binding boxScore.Rebs}" FontSize="15"/>
+
+            <Label VerticalTextAlignment="End" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="1" Grid.Column="2" TextColor="Black" Text="Orebs" FontSize="15"/>
+            <Label VerticalTextAlignment="Start" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="2" Grid.Column="2" TextColor="Black" Text="{Binding boxScore.ORebs}" FontSize="15"/>
+
+            <Label VerticalTextAlignment="End" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="1" Grid.Column="3" TextColor="Black" Text="DRebs" FontSize="15"/>
+            <Label VerticalTextAlignment="Start" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="2" Grid.Column="3" TextColor="Black" Text="{Binding boxScore.DRebs}" FontSize="15"/>
+
+            <Label VerticalTextAlignment="End" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="1" Grid.Column="4" TextColor="Black" Text="BLKs" FontSize="15"/>
+            <Label VerticalTextAlignment="Start" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="2" Grid.Column="4" TextColor="Black" Text="{Binding boxScore.Blocks}" FontSize="15"/>
+
+            <Label VerticalTextAlignment="End" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="3" Grid.Column="1" TextColor="Black" Text="STLs" FontSize="15"/>
+            <Label VerticalTextAlignment="Start" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="4" Grid.Column="1" TextColor="Black" Text="{Binding boxScore.Steals}" FontSize="15"/>
+
+            <Label VerticalTextAlignment="End" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="3" Grid.Column="2" TextColor="Black" Text="TOs" FontSize="15"/>
+            <Label VerticalTextAlignment="Start" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="4" Grid.Column="2" TextColor="Black" Text="{Binding boxScore.TurnOvers}" FontSize="15"/>
+
+            <Label VerticalTextAlignment="End" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="3" Grid.Column="3" TextColor="Black" Text="PFs" FontSize="15"/>
+            <Label VerticalTextAlignment="Start" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="4" Grid.Column="3" TextColor="Black" Text="{Binding boxScore.PersonalFouls}" FontSize="15"/>
+
+            <Label VerticalTextAlignment="End" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="3" Grid.Column="4" TextColor="Black" Text="+/-" FontSize="15"/>
+            <Label VerticalTextAlignment="Start" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="4" Grid.Column="4" TextColor="Black" Text="{Binding boxScore.PlusMinus}" FontSize="15"/>
+
+
+
+          </Grid>
+        </Frame>
+      </Frame>
+
+
+      <Button FontSize="21" x:Name="BoxScoreOpen" IsVisible="True" Clicked="ViewBoxScore" Style="{StaticResource AppButton}" Text="View Player Box Scores"  Grid.Column="3" Grid.Row="7" Grid.RowSpan="5" HorizontalOptions="CenterAndExpand" VerticalOptions="Start"/>
+      
+        <skia:SKCanvasView x:Name="canvasView" PaintSurface="OnCanvasViewPaintSurface" HeightRequest="220" WidthRequest="240" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="12" Grid.RowSpan="12"/>
+
+      <BoxView x:Name="BoxScoreBackground" BackgroundColor="PowderBlue" Grid.Column="1" Grid.Row="2" Grid.RowSpan="10" Grid.ColumnSpan="7" IsVisible="False"></BoxView>
+      <StackLayout x:Name="BoxScoreStack" IsVisible="false" Margin="5" Orientation="Vertical" Grid.Column="1" Grid.Row="2" Grid.RowSpan="10" Grid.ColumnSpan="7"/>
+      <Button x:Name="BoxScoreClose" IsVisible="False" Clicked="CloseBoxScore" BorderWidth="2" BorderColor="White" BackgroundColor="Red" TextTransform="None" Padding="1" FontSize="Large" Text="X" TextColor="White" Grid.Column="7" Grid.Row="11"/>
+
+    </Grid>
+    </ContentPage.Content>
+</ContentPage>

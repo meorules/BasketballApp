@@ -89,7 +89,7 @@
   <Shell.FlyoutHeader>
     <Grid BackgroundColor="Black">
       <Image Aspect="AspectFill"
-               Source="xamarinstore.jpg"
+               Source="AppHeader.png"
                Opacity="0.6" />
       <Label FontFamily="Exo" Text="Dunk Analytics"
                TextColor="White"
@@ -110,6 +110,7 @@
     <ShellContent x:Name="login" Route="LoginPage" ContentTemplate="{DataTemplate local:LoginPage}" />
     <ShellContent Route="DataCollectionPage" ContentTemplate="{DataTemplate local:DataCollectionPage}" />
     <ShellContent Route="EditPlayerPage" ContentTemplate="{DataTemplate local:EditPlayer}" />
+    <ShellContent Route="ViewGamePage" ContentTemplate="{DataTemplate local:ViewGamePage}" />
   </TabBar>
   
 

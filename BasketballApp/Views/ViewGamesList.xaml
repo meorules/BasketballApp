@@ -46,7 +46,7 @@
                           <Label TextColor="Black" Text="{Binding Name}"  FontFamily="Exo" FontSize="16" />
                           <Label TextColor="Black" Text="|"  FontFamily="Exo" FontSize="16" />
                           <Label TextColor="Gray" Text="{Binding GameLocation}" FontFamily="Exo" FontSize="16" />
-                          <Label TextColor="White" Text="                                         " FontSize="10" />
+                          <Label TextColor="White" Text="                                          " FontSize="16" />
                           <Label TextColor="Navy" Text="{Binding GameDateString}" FontFamily="Exo" FontSize="16" />
                         </StackLayout>
                         <StackLayout Orientation="Horizontal">
@@ -56,7 +56,7 @@
                           <Label TextColor="Black" Text="{Binding CurrentGameTimeString}" FontFamily="Exo" FontSize="16" />
                           <Label TextColor="Black" Text="|"  FontFamily="Exo" FontSize="16" />
                           <Label TextColor="Red" Text="{Binding CurrentShotClockString}" FontFamily="Exo" FontSize="16" />
-                          <Label TextColor="White" Text="                                                                                               " FontSize="10" />
+                          <Label TextColor="White" Text="                                                                                          " FontSize="10" />
                           <Label TextColor="Black" Text="{Binding Score}" FontFamily="Exo" FontSize="16" />
                         </StackLayout>
 
