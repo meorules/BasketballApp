@@ -138,7 +138,6 @@ namespace BasketballApp.ViewModels
           {
             currentGame.BoxScores[j].ThreesAttempts += 1;
           }
-          currentGame.BoxScores[j].FieldGoalsAttempted += 1;
           if (statName == "FGM" && pointWorth == 2)
           {
             currentGame.BoxScores[j].FieldGoalsMade += 1;

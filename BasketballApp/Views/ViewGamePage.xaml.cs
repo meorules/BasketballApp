@@ -18,7 +18,9 @@ namespace BasketballApp.Views
   [XamlCompilation(XamlCompilationOptions.Compile)]
   public partial class ViewGamePage : ContentPage
   {
-
+    TimeSpan startTime;
+    TimeSpan endTime;
+    int quarter;
     public ViewGamePage()
     {
       InitializeComponent();
@@ -64,6 +66,9 @@ namespace BasketballApp.Views
       {
         viewModel.initialiseData();
       }
+      startTime = TimeSpan.Zero;
+      endTime = TimeSpan.FromMinutes(12);
+      quarter = 0;
     }
 
     SKPaint greenLineCircle = new SKPaint
@@ -134,7 +139,7 @@ namespace BasketballApp.Views
 
 
       //Green Circle Drawing, this can be called to add where makes are
-      List<GameLogActivity> makes = viewModel.returnShots(1);
+      List<GameLogActivity> makes = viewModel.returnShots(1, startTime,endTime,quarter);
       foreach (GameLogActivity make in makes)
       {
         if (make != null)
@@ -154,7 +159,7 @@ namespace BasketballApp.Views
 
 
       //Drawing Red Crosses for misses
-      List<GameLogActivity> misses = viewModel.returnShots(2);
+      List<GameLogActivity> misses = viewModel.returnShots(2,startTime, endTime,quarter);
       foreach (GameLogActivity miss in misses)
       {
         if (miss != null)
@@ -245,6 +250,47 @@ namespace BasketballApp.Views
     private async void BackClicked(object sender, EventArgs e)
     {
       await Shell.Current.GoToAsync("//ViewGamesListPage");
+    }
+
+    private void QuarterPicker_SelectedIndexChanged(object sender, EventArgs e)
+    {
+      switch(QuarterPicker.SelectedIndex)
+      {
+        case 0:
+          quarter = 0;
+          break;
+        case 1:
+          quarter = 1;
+          break;
+        case 2:
+          quarter = 2;
+          break;
+        case 3:
+          quarter = 3;
+          break;
+        case 4:
+          quarter = 4;
+          break;
+        default:
+          quarter = 0;
+          break;
+      }
+      canvasView.InvalidateSurface();
+    }
+
+    private void StartTimePicker_SelectedIndexChanged(object sender, EventArgs e)
+    {
+      startTime = TimeSpan.FromMinutes(StartTimePicker.SelectedIndex * 2);
+      
+      canvasView.InvalidateSurface();
+
+    }
+
+    private void EndTimePicker_SelectedIndexChanged(object sender, EventArgs e)
+    {
+      endTime = TimeSpan.FromMinutes(EndTimePicker.SelectedIndex * 2 + 2);
+      canvasView.InvalidateSurface();
+
     }
   }
 }

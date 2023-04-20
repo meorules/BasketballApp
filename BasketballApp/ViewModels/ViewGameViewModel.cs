@@ -40,7 +40,7 @@ namespace BasketballApp.ViewModels
       OnPropertyChanged("boxScore");
     }
 
-    public List<GameLogActivity> returnShots(int type,int quarter=0)
+    public List<GameLogActivity> returnShots(int type, TimeSpan start, TimeSpan end,int quarter=0)
     {
       string statNameToCheck = "";
       switch (type)
@@ -60,27 +60,29 @@ namespace BasketballApp.ViewModels
 
       foreach (GameLogActivity activity in currentGame.LogActivities)
       {
-        shots.Add(activity);
-      }
-
-      for (int i = 0; i < shots.Count; i++)
-      {
-        if (!shots[i].StatCollected.StatName.Contains(statNameToCheck))
+        if (activity.StatCollected.StatName.Contains(statNameToCheck))
         {
-          if(quarter > 0)
+          if(activity.StatCollected.gameTime > start && activity.StatCollected.gameTime < end)
           {
-            if (shots[i].StatCollected.Quarter != quarter)
+            if (quarter <= 0)
             {
-              shots[i] = null;
+              shots.Add(activity);
             }
+            else
+            {
+              if(activity.StatCollected.Quarter ==  quarter)
+              {
+                shots.Add(activity);
+              }
+            }
+          }
 
-          }
-          else
-          {
-            shots[i] = null;
-          }
+        }
+        else
+        {
         }
       }
+
       return shots;
     }
 

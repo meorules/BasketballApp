@@ -51,7 +51,7 @@
       <Frame VerticalOptions="Start" Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="2" Grid.RowSpan="9" Margin="0" Padding="2" BorderColor="Black">
         <StackLayout Orientation="Vertical">
             <Label Text="Shot Map" TextColor="Black" FontSize="20" FontFamily="Exo"/>
-          <Picker VerticalOptions="Start" Title="Filter by Quarter" TextColor="Black" TitleColor="Black" BackgroundColor="Gray" FontSize="10" FontFamily="Exo">
+          <Picker SelectedIndexChanged="QuarterPicker_SelectedIndexChanged" x:Name="QuarterPicker" VerticalOptions="Start" Title="Filter by Quarter" TextColor="Black" TitleColor="Black" BackgroundColor="Gray" FontSize="10" FontFamily="Exo">
               <Picker.ItemsSource>
                 <x:Array Type="{x:Type x:String}">
                   <x:String>All Quarters</x:String>
@@ -62,7 +62,30 @@
                 </x:Array>
              </Picker.ItemsSource>
             </Picker>
-            <Picker VerticalOptions="Start" Title="Filter by Time" TextColor="Black" TitleColor="Black" BackgroundColor="Gray" FontSize="10" FontFamily="Exo" WidthRequest="150" />
+          <Picker SelectedIndexChanged="StartTimePicker_SelectedIndexChanged" x:Name="StartTimePicker" VerticalOptions="Start" Title="Start Time" TextColor="Black" TitleColor="Black" BackgroundColor="Gray" FontSize="10" FontFamily="Exo" WidthRequest="150" >
+            <Picker.ItemsSource>
+              <x:Array Type="{x:Type x:String}">
+                <x:String>0 Minutes</x:String>
+                <x:String>2 Minutes</x:String>
+                <x:String>4 Minutes</x:String>
+                <x:String>6 Minutes</x:String>
+                <x:String>8 Minutes</x:String>
+                <x:String>10 Minutes</x:String>
+              </x:Array>
+            </Picker.ItemsSource>
+          </Picker>
+          <Picker SelectedIndexChanged="EndTimePicker_SelectedIndexChanged" x:Name="EndTimePicker" VerticalOptions="Start" Title="End Time" TextColor="Black" TitleColor="Black" BackgroundColor="Gray" FontSize="10" FontFamily="Exo" WidthRequest="150" >
+            <Picker.ItemsSource>
+              <x:Array Type="{x:Type x:String}">
+                <x:String>2 Minutes</x:String>
+                <x:String>4 Minutes</x:String>
+                <x:String>6 Minutes</x:String>
+                <x:String>8 Minutes</x:String>
+                <x:String>10 Minutes</x:String>
+                <x:String>12 Minutes</x:String>
+              </x:Array>
+            </Picker.ItemsSource>
+          </Picker>
         </StackLayout>
           
       </Frame>
@@ -183,7 +206,7 @@
       </Frame>
 
 
-      <Button FontSize="21" x:Name="BoxScoreOpen" IsVisible="True" Clicked="ViewBoxScore" Style="{StaticResource AppButton}" Text="View Player Box Scores"  Grid.Column="3" Grid.Row="7" Grid.RowSpan="5" HorizontalOptions="CenterAndExpand" VerticalOptions="Start"/>
+      <Button FontSize="18" x:Name="BoxScoreOpen" IsVisible="True" Clicked="ViewBoxScore" Style="{StaticResource AppButton}" Text="View Player Box Scores"  Grid.Column="3" Grid.Row="8" Grid.RowSpan="4" HorizontalOptions="CenterAndExpand" VerticalOptions="Start"/>
       
         <skia:SKCanvasView x:Name="canvasView" PaintSurface="OnCanvasViewPaintSurface" HeightRequest="220" WidthRequest="240" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="12" Grid.RowSpan="12"/>
 
