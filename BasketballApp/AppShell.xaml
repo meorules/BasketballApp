@@ -111,22 +111,23 @@
     <ShellContent Route="DataCollectionPage" ContentTemplate="{DataTemplate local:DataCollectionPage}" />
     <ShellContent Route="EditPlayerPage" ContentTemplate="{DataTemplate local:EditPlayer}" />
     <ShellContent Route="ViewGamePage" ContentTemplate="{DataTemplate local:ViewGamePage}" />
+    <ShellContent Route="ViewPlayerGamePage" ContentTemplate="{DataTemplate local:ViewPlayerGame}" />
   </TabBar>
   
 
-  <FlyoutItem Title="About" Icon="icon_about.png">
+  <FlyoutItem Title="Homepage" Icon="icon_about.png">
     <ShellContent Route="HomePage" ContentTemplate="{DataTemplate local:HomePage}" />
   </FlyoutItem>
-  <FlyoutItem Title="Build or Edit Team" Icon="icon_feed.png">
+  <FlyoutItem Title="Build or Edit Team" Icon="icon_edit.png">
     <ShellContent Route="EditTeamPage" ContentTemplate="{DataTemplate local:EditTeam}" />
   </FlyoutItem>
-  <FlyoutItem Title="Browse Collected Data" Icon="icon_feed.png">
+  <FlyoutItem Title="Browse Collected Data" Icon="icon_browse.png">
     <ShellContent Route="ViewGamesListPage" ContentTemplate="{DataTemplate local:ViewGamesList}" />
   </FlyoutItem>
-  <FlyoutItem Title="Analyse Data" Icon="icon_feed.png">
+  <!--<FlyoutItem Title="Analyse Data" Icon="icon_feed.png">
   </FlyoutItem>
     <FlyoutItem Title="Export Data" Icon="icon_feed.png">
-  </FlyoutItem>
+  </FlyoutItem>-->
 
 
     <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->

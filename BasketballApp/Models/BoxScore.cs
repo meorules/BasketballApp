@@ -36,7 +36,7 @@ namespace BasketballApp.Models
         }
         else
         {
-          return Math.Round(100 * ((double)FieldGoalsMade / (double)FieldGoalsAttempted),3).ToString() + "%";
+          return Math.Round(100 * ((double)FieldGoalsMade / (double)FieldGoalsAttempted),2).ToString() + "%";
         }
       }
     }
@@ -55,7 +55,7 @@ namespace BasketballApp.Models
         }
         else
         {
-          return Math.Round(100 * ((double)ThreesMade / (double)ThreesAttempts),3).ToString() + "%";
+          return Math.Round(100 * ((double)ThreesMade / (double)ThreesAttempts),2).ToString() + "%";
         }
       }
     }
@@ -74,7 +74,7 @@ namespace BasketballApp.Models
         }
         else
         {
-          return Math.Round(100 * ((double)FreeThrowMakes / (double)FreeThrowAttempts), 3).ToString() + "%";
+          return Math.Round(100 * ((double)FreeThrowMakes / (double)FreeThrowAttempts), 2).ToString() + "%";
         }
       }
     }

@@ -8,24 +8,28 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 using BasketballApp.ViewModels;
-using BasketballApp.Models;
-using BasketballApp.Services;
 using SkiaSharp;
+using BasketballApp.Models;
 using SkiaSharp.Views.Forms;
+using BasketballApp.Services;
 
 namespace BasketballApp.Views
 {
   [XamlCompilation(XamlCompilationOptions.Compile)]
-  public partial class ViewGamePage : ContentPage
+  public partial class ViewPlayerGame : ContentPage
   {
+
     TimeSpan startTime;
     TimeSpan endTime;
     int quarter;
-    public ViewGamePage()
+
+    public ViewPlayerGame()
     {
       InitializeComponent();
-      this.BindingContext = new ViewGameViewModel();
-      Title = "View Game Data";
+
+      this.BindingContext = new ViewPlayerGameViewModel();
+
+      Title = "View Player Game Data";
 
       redCrossPath.MoveTo(0, 0);
       redCrossPath.LineTo(10, 10);
@@ -56,7 +60,7 @@ namespace BasketballApp.Views
     protected override async void OnAppearing()
     {
       base.OnAppearing();
-      var viewModel = (ViewGameViewModel)BindingContext;
+      var viewModel = (ViewPlayerGameViewModel)BindingContext;
       if (ApplicationData.currentlySelectedTeam == null || ApplicationData.currentlySelectedGame == null)
       {
         await Shell.Current.DisplayAlert("Games List Error", "Please select a team to view their games", "OK");
@@ -69,6 +73,72 @@ namespace BasketballApp.Views
       startTime = TimeSpan.Zero;
       endTime = TimeSpan.FromMinutes(12);
       quarter = 0;
+    }
+
+    void OnCanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs args)
+    {
+      var viewModel = (ViewPlayerGameViewModel)BindingContext;
+      viewModel.initialiseData();
+
+      SKSurface surface = args.Surface;
+      SKCanvas canvas = surface.Canvas;
+
+      int width = args.Info.Width;
+      int height = args.Info.Height;
+
+      canvas.Save();
+      canvas.Translate(width, height - 5);
+      canvas.RotateDegrees(180);
+      canvas.DrawRect(0, 0, 1400, 960, halfcourtBackgroundColor);
+      canvas.Restore();
+
+      //Drawing the HalfCourt
+      canvas.Save();
+      canvas.Translate(width - 10, height - 20);
+      canvas.Scale(6.5f, 7);
+      canvas.RotateDegrees(180);
+      canvas.DrawPath(basketballHalfCourt, whiteStrokePaint);
+      canvas.Restore();
+
+
+      //Green Circle Drawing, this can be called to add where makes are
+      List<GameLogActivity> makes = viewModel.returnShots(1, startTime, endTime, quarter);
+      foreach (GameLogActivity make in makes)
+      {
+        if (make != null)
+        {
+          canvas.Save();
+          //canvas.Translate(width/2, height/2);
+          float x = (float)(3.525 * make.positionX);
+          float y = (float)(3.546 * make.positionY);
+
+          canvas.Translate(x, y);
+          canvas.Scale(5, 5);
+          canvas.DrawCircle(0, 0, 5, greenLineCircle);
+          canvas.Restore();
+        }
+
+      }
+
+
+      //Drawing Red Crosses for misses
+      List<GameLogActivity> misses = viewModel.returnShots(2, startTime, endTime, quarter);
+      foreach (GameLogActivity miss in misses)
+      {
+        if (miss != null)
+        {
+          canvas.Save();
+          //canvas.Translate(width / 2, height / 2);
+          float x = (float)(3.525 * miss.positionX);
+          float y = (float)(3.546 * miss.positionY);
+
+          canvas.Translate(x, y);
+          canvas.Scale(5, 5);
+          canvas.DrawPath(redCrossPath, redCross);
+          canvas.Restore();
+        }
+      }
+
     }
 
     SKPaint greenLineCircle = new SKPaint
@@ -106,160 +176,15 @@ namespace BasketballApp.Views
     SKPath basketballHalfCourt = new SKPath();
     SKPath redCrossPath = new SKPath();
 
-    void OnCanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs args)
-    {
-      var viewModel = (ViewGameViewModel)BindingContext;
-
-      SKSurface surface = args.Surface;
-      SKCanvas canvas = surface.Canvas;
-
-      int width = args.Info.Width;
-      int height = args.Info.Height;
-      int middleX = width / 2;
-      int middleY = height / 2;
-
-      /*      canvas.DrawRoundRect(1430, 260, 1500, 1000,10,10, halfcourtBackgroundColor);
-       *      
-      */
-      canvas.Save();
-      canvas.Translate(width, height - 5);
-      canvas.RotateDegrees(180);
-      canvas.DrawRect(0, 0, 1400, 960, halfcourtBackgroundColor);
-      canvas.Restore();
-
-      //Drawing the HalfCourt
-      canvas.Save();
-      canvas.Translate(width - 10, height - 20);
-      canvas.Scale(6.5f, 7);
-      canvas.RotateDegrees(180);
-      canvas.DrawPath(basketballHalfCourt, whiteStrokePaint);
-      canvas.Restore();
-
-
-      //Green Circle Drawing, this can be called to add where makes are
-      List<GameLogActivity> makes = viewModel.returnShots(1, startTime,endTime,quarter);
-      foreach (GameLogActivity make in makes)
-      {
-        if (make != null)
-        {
-          canvas.Save();
-          //canvas.Translate(width/2, height/2);
-          float x = (float)(3.525 * make.positionX);
-          float y = (float)(3.546 * make.positionY);
-
-          canvas.Translate(x, y);
-          canvas.Scale(5, 5);
-          canvas.DrawCircle(0, 0, 5, greenLineCircle);
-          canvas.Restore();
-        }
-
-      }
-
-
-      //Drawing Red Crosses for misses
-      List<GameLogActivity> misses = viewModel.returnShots(2,startTime, endTime,quarter);
-      foreach (GameLogActivity miss in misses)
-      {
-        if (miss != null)
-        {
-          canvas.Save();
-          //canvas.Translate(width / 2, height / 2);
-          float x = (float)(3.525 * miss.positionX);
-          float y = (float)(3.546 * miss.positionY);
-
-          canvas.Translate(x, y);
-          canvas.Scale(5, 5);
-          canvas.DrawPath(redCrossPath, redCross);
-          canvas.Restore();
-        }
-      }
-
-    }
-
-    private void CloseBoxScore(object sender, EventArgs e)
-    {
-      BoxScoreOpen.IsVisible = true;
-      BoxScoreClose.IsVisible = false;
-      BoxScoreClose.IsEnabled = false;
-      BoxScoreBackground.IsVisible = false;
-
-      BoxScoreStack.IsVisible = false;
-      BoxScoreStack.Children.Clear();
-    }
-
-    private void ViewBoxScore(object sender, EventArgs e)
-    {
-      var viewModel = (ViewGameViewModel)BindingContext;
-
-      BoxScoreOpen.IsVisible = false;
-      BoxScoreClose.IsVisible = true;
-      BoxScoreClose.IsEnabled = true;
-
-      BoxScoreBackground.IsVisible = true;
-
-      StackLayout textStack = new StackLayout
-      {
-        Padding = new Thickness(5),
-        Spacing = 10
-      };
-      Label titleLabel = new Label();
-
-      titleLabel.Text = "Player Name  |  Minutes  | Points   |   Rebs    |   Assist   |   Steals   |   Blocks   |   FG   |   FT   |  3PTs  |  Turnovers  |   PF   |   +/-  ";
-      titleLabel.TextColor = Color.Navy;
-      titleLabel.FontAttributes = FontAttributes.Bold;
-
-
-      textStack.Children.Add(titleLabel);
-
-      List<BoxScore> boxes = viewModel.currentBoxScores;
-      for (int i = 0; i < boxes.Count; i++)
-      {
-        if (boxes[i].minutesOnCourt != TimeSpan.Zero)
-        {
-          string boxScoreText = boxes[i].ToString();
-          Label newLabel = new Label();
-          newLabel.Text = boxScoreText;
-          newLabel.FontAttributes = FontAttributes.Bold;
-          newLabel.FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label));
-          newLabel.FontFamily = "Eigrantch";
-          //newLabel.BackgroundColor = Color.White;
-          newLabel.TextColor = Color.Black;
-          textStack.Children.Add(newLabel);
-        }
-      }
-
-      ScrollView scrollView = new ScrollView
-      {
-        Content = textStack,
-        VerticalOptions = LayoutOptions.FillAndExpand,
-        Padding = new Thickness(5, 0),
-      };
-
-
-
-      BoxScoreStack.Children.Add(scrollView);
-
-      BoxScoreStack.InputTransparent = false;
-
-      BoxScoreStack.IsVisible = true;
-
-    }
-
     private async void BackClicked(object sender, EventArgs e)
     {
-      await Shell.Current.GoToAsync("//ViewGamesListPage");
+      ApplicationData.currentlySelectedPlayer = null;
+      await Shell.Current.GoToAsync("//ViewGamePage");
     }
-
-
-    private async void PlayerStatsClicked(object sender, EventArgs e)
-    {
-      await Shell.Current.GoToAsync("//ViewPlayerGamePage");
-    }
-
 
     private void QuarterPicker_SelectedIndexChanged(object sender, EventArgs e)
     {
-      switch(QuarterPicker.SelectedIndex)
+      switch (QuarterPicker.SelectedIndex)
       {
         case 0:
           quarter = 0;
@@ -286,7 +211,7 @@ namespace BasketballApp.Views
     private void StartTimePicker_SelectedIndexChanged(object sender, EventArgs e)
     {
       startTime = TimeSpan.FromMinutes(StartTimePicker.SelectedIndex * 2);
-      
+
       canvasView.InvalidateSurface();
 
     }
@@ -296,6 +221,22 @@ namespace BasketballApp.Views
       endTime = TimeSpan.FromMinutes(EndTimePicker.SelectedIndex * 2 + 2);
       canvasView.InvalidateSurface();
 
+    }
+
+    private void PlayerPicker_SelectedIndexChanged(object sender, EventArgs e)
+    {
+      if (PlayerPicker.SelectedItem != null)
+      {
+        Player player = BasketballDBService.getPlayer(PlayerPicker.SelectedItem.ToString());
+        if (player != null)
+        {
+          ApplicationData.currentlySelectedPlayer = player;
+          var viewModel = (ViewPlayerGameViewModel)BindingContext;
+          viewModel.initialiseData();
+          canvasView.InvalidateSurface();
+        }
+
+      }
     }
   }
 }

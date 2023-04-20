@@ -1,40 +1,41 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
-             x:Class="BasketballApp.Views.ViewGamePage"
+             x:Class="BasketballApp.Views.ViewPlayerGame"
              Shell.NavBarIsVisible="False"
              Shell.TabBarIsVisible="False">
     <ContentPage.Content>
     <Grid RowSpacing="2" ColumnSpacing="5">
-      <Grid.RowDefinitions>
-        <RowDefinition Height="5" />
-        <RowDefinition Height="70" />
-        <RowDefinition Height="*" />
-        <RowDefinition Height="*" />
-        <RowDefinition Height="*" />
-        <RowDefinition Height="*" />
-        <RowDefinition Height="*" />
-        <RowDefinition Height="*" />
-        <RowDefinition Height="*" />
-        <RowDefinition Height="5" />
-      </Grid.RowDefinitions>
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="5" />
-        <ColumnDefinition Width="150" />
-        <ColumnDefinition Width="150" />
-        <ColumnDefinition Width="85" />
-        <ColumnDefinition Width="85" />
-        <ColumnDefinition Width="100" />
-        <ColumnDefinition Width="100" />
-        <ColumnDefinition Width="90" />
-        <ColumnDefinition Width="5" />
-      </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="5" />
+          <RowDefinition Height="70" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="5" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="5" />
+          <ColumnDefinition Width="150" />
+          <ColumnDefinition Width="150" />
+          <ColumnDefinition Width="85" />
+          <ColumnDefinition Width="85" />
+          <ColumnDefinition Width="100" />
+          <ColumnDefinition Width="100" />
+          <ColumnDefinition Width="90" />
+          <ColumnDefinition Width="5" />
+        </Grid.ColumnDefinitions>
 
 
-      <Label FontFamily="Exo"  HorizontalTextAlignment="Start" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="7" TextColor="White" BackgroundColor="{StaticResource Primary}" Text=" " Padding="20" FontSize="22" />
-      <Label x:Name="Header" FontFamily="Exo"  HorizontalTextAlignment="Start" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" TextColor="White" Text="View Game Data:" Padding="20" FontSize="22" />
+
+        <Label FontFamily="Exo"  HorizontalTextAlignment="Start" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="7" TextColor="White" BackgroundColor="{StaticResource Primary}" Text=" " Padding="20" FontSize="22" />
+      <Label x:Name="Header" FontFamily="Exo"  HorizontalTextAlignment="Start" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" TextColor="White" Text="View Player Data:" Padding="20" FontSize="22" />
       <Label FontFamily="Exo" HorizontalTextAlignment="Center" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" TextColor="White" Text="{Binding gameName}" Padding="21" FontSize="22" />
-      <Label FontFamily="Exo" HorizontalTextAlignment="Center" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3" TextColor="White" Text="{Binding gameLocation}" Padding="21" FontSize="22" />
+      <Picker x:Name="PlayerPicker" SelectedIndexChanged="PlayerPicker_SelectedIndexChanged" ItemsSource="{Binding playerNames}" Title="Pick A Player" FontFamily="Exo" HorizontalOptions="Center" HorizontalTextAlignment="Center" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3" TextColor="White" FontSize="21" />
 
       <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontFamily="Exo"  Grid.Row="1" Grid.Column="6" TextColor="White" Text="{Binding gameDate}" FontSize="22" Grid.ColumnSpan="2"/>
       <Label VerticalTextAlignment="End" HorizontalTextAlignment="Center" FontFamily="Exo"  Grid.Row="1" Grid.Column="6" TextColor="White" Text="{Binding gameTime}" FontSize="22" Grid.ColumnSpan="2"/>
@@ -43,25 +44,29 @@
       <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontFamily="Exo"  Grid.Row="1" Grid.Column="5" TextColor="White" Text="{Binding score}" FontSize="22" Grid.ColumnSpan="2"/>
       <Label VerticalTextAlignment="End" HorizontalTextAlignment="Center" FontFamily="Exo"  Grid.Row="1" Grid.Column="5" TextColor="White" Text="{Binding quarter}" FontSize="22" Grid.ColumnSpan="2"/>
 
-      <Button Clicked="PlayerStatsClicked" Style="{StaticResource AppButton}" Text="Player Stats" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2"/>
-      <Button Style="{StaticResource AppButton}" Text="Game Logs" Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="2"/>
+      <Label FontFamily="Exo"  HorizontalTextAlignment="Start" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="7" TextColor="White" BackgroundColor="{StaticResource Primary}" Text=" " Padding="20" FontSize="22" />
+      <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontFamily="Exo"  Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" TextColor="White" Text="Points Scored:" FontSize="22"/>
+      <Label VerticalTextAlignment="End" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="2" Grid.Column="5" TextColor="White" Text="{Binding boxScore.Points}" FontSize="22"/>
+
+
+
+     
       <Button Clicked="BackClicked" Style="{StaticResource AppButton}" Text="Back" Grid.Row="2" Grid.Column="7" />
-
-
-      <Frame VerticalOptions="Start" Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="2" Grid.RowSpan="9" Margin="0" Padding="2" BorderColor="Black">
+          
+      <Frame Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="7" Margin="0" Padding="2" BorderColor="Black">
         <StackLayout Orientation="Vertical">
-            <Label Text="Shot Map" TextColor="Black" FontSize="20" FontFamily="Exo"/>
-          <Picker SelectedIndexChanged="QuarterPicker_SelectedIndexChanged" x:Name="QuarterPicker" VerticalOptions="Start" Title="Filter by Quarter" TextColor="Black" TitleColor="Black" BackgroundColor="Gray" FontSize="10" FontFamily="Exo">
-              <Picker.ItemsSource>
-                <x:Array Type="{x:Type x:String}">
-                  <x:String>All Quarters</x:String>
-                  <x:String>Q1</x:String>
-                  <x:String>Q2</x:String>
-                  <x:String>Q3</x:String>
-                  <x:String>Q4</x:String>
-                </x:Array>
-             </Picker.ItemsSource>
-            </Picker>
+          <Label Text="Shot Map Filters" TextColor="Black" FontSize="20" FontFamily="Exo" HorizontalTextAlignment="Center"/>
+          <Picker SelectedIndexChanged="QuarterPicker_SelectedIndexChanged" x:Name="QuarterPicker" VerticalOptions="Start" Title="Quarter" TextColor="Black" TitleColor="Black" BackgroundColor="Gray" FontSize="10" FontFamily="Exo">
+            <Picker.ItemsSource>
+              <x:Array Type="{x:Type x:String}">
+                <x:String>All Quarters</x:String>
+                <x:String>Q1</x:String>
+                <x:String>Q2</x:String>
+                <x:String>Q3</x:String>
+                <x:String>Q4</x:String>
+              </x:Array>
+            </Picker.ItemsSource>
+          </Picker>
           <Picker SelectedIndexChanged="StartTimePicker_SelectedIndexChanged" x:Name="StartTimePicker" VerticalOptions="Start" Title="Start Time" TextColor="Black" TitleColor="Black" BackgroundColor="Gray" FontSize="10" FontFamily="Exo" WidthRequest="150" >
             <Picker.ItemsSource>
               <x:Array Type="{x:Type x:String}">
@@ -87,9 +92,8 @@
             </Picker.ItemsSource>
           </Picker>
         </StackLayout>
-          
+
       </Frame>
-      
 
 
       <Frame BackgroundColor="Gray" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="5" BorderColor="Black" Padding="8">
@@ -111,7 +115,7 @@
               <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontFamily="Exo"  Grid.Row="1" Grid.Column="1" TextColor="Black" Text="Attacking &amp; Shooting" FontSize="15"  Grid.ColumnSpan="4"/>
-            
+
             <Label VerticalTextAlignment="Start" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="2" Grid.Column="1" TextColor="Black" Text="Assists" FontSize="15"/>
             <Label VerticalTextAlignment="End" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="2" Grid.Column="1" TextColor="Black" Text="{Binding boxScore.Assists}" FontSize="15"/>
 
@@ -151,7 +155,7 @@
             <Label VerticalTextAlignment="Start" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="4" Grid.Column="4" TextColor="Black" Text="3PT%" FontSize="15"/>
             <Label VerticalTextAlignment="End" HorizontalTextAlignment="Start" FontFamily="Exo"  Grid.Row="4" Grid.Column="4" TextColor="Black" Text="{Binding boxScore.ThreePercentage}" FontSize="15"/>
 
-            
+
 
           </Grid>
         </Frame>
@@ -206,14 +210,10 @@
       </Frame>
 
 
-      <Button FontSize="18" x:Name="BoxScoreOpen" IsVisible="True" Clicked="ViewBoxScore" Style="{StaticResource AppButton}" Text="View Player Box Scores"  Grid.Column="3" Grid.Row="8" Grid.RowSpan="4" HorizontalOptions="CenterAndExpand" VerticalOptions="Start"/>
-      
-        <skia:SKCanvasView x:Name="canvasView" PaintSurface="OnCanvasViewPaintSurface" HeightRequest="220" WidthRequest="240" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="12" Grid.RowSpan="12"/>
+      <skia:SKCanvasView x:Name="canvasView" PaintSurface="OnCanvasViewPaintSurface" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="8" Grid.RowSpan="12"/>
 
-      <BoxView x:Name="BoxScoreBackground" BackgroundColor="PowderBlue" Grid.Column="1" Grid.Row="2" Grid.RowSpan="10" Grid.ColumnSpan="7" IsVisible="False"></BoxView>
-      <StackLayout x:Name="BoxScoreStack" IsVisible="false" Margin="5" Orientation="Vertical" Grid.Column="1" Grid.Row="2" Grid.RowSpan="10" Grid.ColumnSpan="7"/>
-      <Button x:Name="BoxScoreClose" IsVisible="False" Clicked="CloseBoxScore" BorderWidth="2" BorderColor="White" BackgroundColor="Red" TextTransform="None" Padding="1" FontSize="Large" Text="X" TextColor="White" Grid.Column="7" Grid.Row="11"/>
+    
 
     </Grid>
-    </ContentPage.Content>
+  </ContentPage.Content>
 </ContentPage>

@@ -67,6 +67,20 @@ namespace BasketballApp.Models
     {
       return BoxScore.getTotalBoxScore(BoxScores);
     }
+
+    public BoxScore getPlayerBoxScore(Player player)
+    {
+      BoxScore toReturn=null;
+
+      for(int i = 0; i < BoxScores.Count; i++)
+      {
+        if (BoxScores[i].PlayerID == player.PlayerID)
+        {
+          toReturn = BoxScores[i];
+        }
+      }
+      return toReturn;
+    }
   
     
   }

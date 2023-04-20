@@ -14,5 +14,13 @@ namespace BasketballApp.Services
     public static GameObject currentlySelectedGame;
     public static Team currentlySelectedTeam;
     public static Player currentlySelectedPlayer;
+
+    public static void clearAllData()
+    {
+      currentlySignedInUser = null;
+      currentlySelectedGame = null;
+      currentlySelectedTeam = null;
+      currentlySelectedPlayer = null;
+    }
   }
 }

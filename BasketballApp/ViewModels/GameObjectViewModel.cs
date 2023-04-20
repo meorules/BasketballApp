@@ -253,7 +253,16 @@ namespace BasketballApp.ViewModels
       get { return currentGame.AwayScore.ToString(); }
       set
       {
-        currentGame.AwayScore = int.Parse(value);
+        for (int i = 0; i < playerNames.Length; i++) {
+          for (int j = 0; j < currentTeam.Players.Count; j++)
+          {
+            if (currentGame.BoxScores[j].player.Name == playerNames[i])
+            {
+              currentGame.BoxScores[j].PlusMinus += -1;
+            }
+          }
+        }
+            currentGame.AwayScore = int.Parse(value);
         updateGame();
         OnPropertyChanged("AwayScore");
       }
@@ -264,6 +273,17 @@ namespace BasketballApp.ViewModels
       get { return currentGame.HomeScore.ToString(); }
       set
       {
+        for (int i = 0; i < playerNames.Length; i++)
+        {
+          for (int j = 0; j < currentTeam.Players.Count; j++)
+          {
+            if (currentGame.BoxScores[j].player.Name == playerNames[i])
+            {
+              currentGame.BoxScores[j].PlusMinus += (int.Parse(value)- int.Parse(HomeScore));
+            }
+          }
+        }
+
         currentGame.HomeScore = int.Parse(value);
         updateGame();
         OnPropertyChanged("HomeScore");
@@ -416,6 +436,7 @@ namespace BasketballApp.ViewModels
                       GameObjectID = currentGame.GameID,
 
                     };
+                    currentGame.HomeScore += 1;
                     curr = BasketballDBService.addGameLog(curr);
                     currentGame.LogActivities.Add(curr);
                   }

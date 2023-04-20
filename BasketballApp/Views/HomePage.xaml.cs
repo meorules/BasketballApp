@@ -36,7 +36,7 @@ namespace BasketballApp.Views
 
     private async void Logout(object sender, EventArgs e)
     {
-      ApplicationData.currentlySignedInUser = null;
+      ApplicationData.clearAllData();
       await Shell.Current.GoToAsync("//LoginPage");
     }
 
@@ -44,6 +44,11 @@ namespace BasketballApp.Views
     {
       ApplicationData.currentlySelectedGame= null;
       await Shell.Current.GoToAsync("//DataCollectionPage");
+    }
+
+    private async void ViewGame(object sender, EventArgs e)
+    {
+      await Shell.Current.GoToAsync("//ViewGamesListPage");
     }
 
     private void changeSelectedTeam(object sender, EventArgs e)
@@ -57,6 +62,8 @@ namespace BasketballApp.Views
             ApplicationData.currentlySelectedTeam = team;
             TeamPickerLabel.Text = "Team Picked :)";
             StatLeaderBox.BackgroundColor = Color.White;
+            ViewDataButton.IsEnabled = true;
+            ViewDataButton.BackgroundColor = Color.White;
             EditTeamButton.IsEnabled = true;
             EditTeamButton.Text = "Edit Team";
             EditTeamButton.BackgroundColor = Color.White;
@@ -71,7 +78,9 @@ namespace BasketballApp.Views
           StatLeaderBox.BackgroundColor = Color.Gray;
           EditTeamButton.IsEnabled = false;
           EditTeamButton.BackgroundColor = Color.LightSlateGray;
-        }
+          ViewDataButton.IsEnabled = false;
+          ViewDataButton.BackgroundColor = Color.LightSlateGray;
+      }
     }
 
     private async void setupUserIntro()
