@@ -40,6 +40,7 @@ namespace BasketballApp.ViewModels
       OnPropertyChanged("teamName");
       OnPropertyChanged("teamLocation");
       OnPropertyChanged("playerList");
+
     }
 
     public string teamName

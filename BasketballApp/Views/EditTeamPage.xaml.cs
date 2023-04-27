@@ -37,6 +37,7 @@ namespace BasketballApp.Views
 
       }
       viewModel.initialiseData();
+      playerListView.SelectedItem = null;
     }
 
     private void playerListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
@@ -63,8 +64,8 @@ namespace BasketballApp.Views
       if(ApplicationData.currentlySelectedPlayer == null)
       {
         await Shell.Current.DisplayAlert("Cannot Edit Player", "Please select a player to edit", "OK");
+        await Shell.Current.GoToAsync("//EditPlayerPage");
       }
-      await Shell.Current.GoToAsync("//EditPlayerPage");
     }
 
     private async void DeletePlayerClicked(object sender, EventArgs e)
