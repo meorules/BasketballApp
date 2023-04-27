@@ -78,9 +78,6 @@ namespace BasketballApp.ViewModels
           }
 
         }
-        else
-        {
-        }
       }
 
       return shots;
@@ -179,6 +176,7 @@ namespace BasketballApp.ViewModels
           BoxScore score = currentGame.getTotalBoxScore();
           if (score != null)
           {
+            score.PlusMinus = currentGame.HomeScore - currentGame.AwayScore;
             return score;
           }
           else

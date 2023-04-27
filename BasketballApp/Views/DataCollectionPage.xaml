@@ -21,59 +21,65 @@
         </skia:SKCanvasView.Effects>
       </skia:SKCanvasView>
 
+      <Label FontFamily="Exo" TextColor="White" BackgroundColor="{StaticResource Primary}" Text="Game Data Collection" Padding="5" FontSize="22" AbsoluteLayout.LayoutBounds="400,2,405,60" HorizontalTextAlignment="Center"/>
 
-      <BoxView Color="Navy" CornerRadius="10" AbsoluteLayout.LayoutBounds="400,25,405,60"/>
 
-      <BoxView Color="White" CornerRadius="10" AbsoluteLayout.LayoutBounds="405,30,395,50"/>
+      <BoxView Color="Navy" CornerRadius="10" AbsoluteLayout.LayoutBounds="400,45,405,60"/>
 
-      <Button Clicked="updateGameTime" x:Name="clockButton" CornerRadius="10" BackgroundColor="Black" Padding="2" FontSize="Title" Text="" TextColor="White" AbsoluteLayout.LayoutBounds="480,35,90,40"/>
-      <Button Clicked="updateShotClock" x:Name="shotClockButton" CornerRadius="10" BackgroundColor="Black" Padding="2" FontSize="Title" Text="" TextColor="White" AbsoluteLayout.LayoutBounds="580,35,55,40"/>
-      <Button Command="{Binding ChangeQuarter}" CornerRadius="10" BackgroundColor="Black" Padding="2" FontSize="Title" Text="{Binding QuarterField}" TextColor="White" AbsoluteLayout.LayoutBounds="645,35,55,40"/>
-      <Button x:Name ="TimerButtonPlay" Style="{StaticResource ClockButtonStyle}" FontFamily="Material" Text="&#xe037;" Clicked="TimerStart" AbsoluteLayout.LayoutBounds="415,35,60,40"/>
-      <Button x:Name ="TimerButtonPause" Style="{StaticResource ClockButtonStyle}" FontFamily="Material" Text="&#xe034;" Clicked="TimerStart" AbsoluteLayout.LayoutBounds="415,35,60,40" IsVisible="False"/>
-      <Button Style="{StaticResource ClockButtonStyle}" FontSize="15" Text="Exit &amp; Save" Clicked="StopGame" AbsoluteLayout.LayoutBounds="710,35,85,40"/>
+      <BoxView Color="White" CornerRadius="10" AbsoluteLayout.LayoutBounds="405,50,395,50"/>
+
+      <Button Clicked="updateGameTime" x:Name="clockButton" CornerRadius="10" BackgroundColor="Black" Padding="2" FontSize="Title" Text="" TextColor="White" AbsoluteLayout.LayoutBounds="480,55,90,40"/>
+      <Button Clicked="updateShotClock" x:Name="shotClockButton" CornerRadius="10" BackgroundColor="Black" Padding="2" FontSize="Title" Text="" TextColor="White" AbsoluteLayout.LayoutBounds="580,55,55,40"/>
+      <Button Command="{Binding ChangeQuarter}" CornerRadius="10" BackgroundColor="Black" Padding="2" FontSize="Title" Text="{Binding QuarterField}" TextColor="White" AbsoluteLayout.LayoutBounds="645,55,55,40"/>
+      <Button x:Name ="TimerButtonPlay" Style="{StaticResource ClockButtonStyle}" FontFamily="Material" Text="&#xe037;" Clicked="TimerStart" AbsoluteLayout.LayoutBounds="415,55,60,40"/>
+      <Button x:Name ="TimerButtonPause" Style="{StaticResource ClockButtonStyle}" FontFamily="Material" Text="&#xe034;" Clicked="TimerStart" AbsoluteLayout.LayoutBounds="415,55,60,40" IsVisible="False"/>
+      <Button FontFamily="Exo" Style="{StaticResource ClockButtonStyle}" FontSize="14" Text="Exit &amp; Save" Clicked="StopGame" AbsoluteLayout.LayoutBounds="710,55,85,40"/>
 
 
 
       <BoxView Color="Navy" CornerRadius="10" AbsoluteLayout.LayoutBounds="2,320,400,62"/>
+      <BoxView Color="White" CornerRadius="10" AbsoluteLayout.LayoutBounds="6,325,390,53"/>
+      <Frame AbsoluteLayout.LayoutBounds="8,328,250,43" BackgroundColor="White" BorderColor="Black" />
       <Label BackgroundColor="Black" x:Name="HomeTeamName" Padding="2" FontSize="Title" Text="Home" TextColor="White" AbsoluteLayout.LayoutBounds="8,330,70,40"/>
-      <Label BackgroundColor="Transparent" x:Name="HomeFouls" Padding="0" FontSize="50" Text="" TextColor="White" AbsoluteLayout.LayoutBounds="20,250,100,40"/>
       <Label BackgroundColor="White" x:Name="HomeTeamScore" Padding="4" FontSize="Title" Text="{Binding HomeScore}" TextColor="Black" AbsoluteLayout.LayoutBounds="78,330,50,40"/>
 
       <Label BackgroundColor="Black" x:Name="AwayTeamName" Padding="3" FontSize="Title" Text="Away" TextColor="White" AbsoluteLayout.LayoutBounds="130,330,70,40"/>
-      <Label BackgroundColor="Transparent" x:Name="AwayFouls" Padding="0" FontSize="50" Text="" TextColor="White" AbsoluteLayout.LayoutBounds="140,250,100,40"/>
       <Label BackgroundColor="White" x:Name="AwayTeamScore" Padding="4" FontSize="Title" Text="{Binding AwayScore}" TextColor="Black" AbsoluteLayout.LayoutBounds="200,330,50,40"/>
-      <Button BackgroundColor="Black" Style="{StaticResource AwayButtons}" Text="+" Command="{Binding AddToAwayScore}" AbsoluteLayout.LayoutBounds="260,330,40,40"/>
-      <Button BackgroundColor="Black" Style="{StaticResource AwayButtons}" Text="-" Command="{Binding RemoveFromAwayScore}" AbsoluteLayout.LayoutBounds="305,330,40,40"/>
+      <Button Style="{StaticResource AppButton}" Padding ="-5" FontSize="35" Text="+" Command="{Binding AddToAwayScore}" AbsoluteLayout.LayoutBounds="260,330,40,40"/>
+      <Button Style="{StaticResource AppButton}" Padding ="-7" FontSize="35" Text="-" Command="{Binding RemoveFromAwayScore}" AbsoluteLayout.LayoutBounds="305,330,40,40"/>
+
+      <!--<Label BackgroundColor="Transparent" x:Name="HomeFouls" Padding="0" FontSize="50" Text="" TextColor="White" AbsoluteLayout.LayoutBounds="20,250,100,40"/>
+      <Label BackgroundColor="Transparent" x:Name="AwayFouls" Padding="0" FontSize="50" Text="" TextColor="White" AbsoluteLayout.LayoutBounds="140,250,100,40"/>-->
 
 
-      <Button Style="{StaticResource InactiveButtons}" Text="PF" AbsoluteLayout.LayoutBounds="350,330,40,40"/>
+      <Button Style="{StaticResource InactiveButtons}" Text="PF" AbsoluteLayout.LayoutBounds="350,330,40,40" IsEnabled="false" TextColor="#b1bbca"/>
 
       <BoxView Color="Navy" CornerRadius="10" AbsoluteLayout.LayoutBounds="5,5,200,300"/>
-      <Label TextDecorations="Underline" Padding="3" FontSize="Large" Text="Players on Court" TextColor="White" AbsoluteLayout.LayoutBounds="15,5,180,35"/>
-      <Label x:Name="Player1Name" Padding="3" FontSize="Large" Text="{Binding Player1}" TextColor="White" AbsoluteLayout.LayoutBounds="15,45,180,35"/>
-      <Label x:Name="Player2Name" Padding="3" FontSize="Large" Text="{Binding Player2}" TextColor="White" AbsoluteLayout.LayoutBounds="15,80,180,35"/>
-      <Label x:Name="Player3Name" Padding="3" FontSize="Large" Text="{Binding Player3}" TextColor="White" AbsoluteLayout.LayoutBounds="15,115,180,35"/>
-      <Label x:Name="Player4Name" Padding="3" FontSize="Large" Text="{Binding Player4}" TextColor="White" AbsoluteLayout.LayoutBounds="15,150,180,35"/>
-      <Label x:Name="Player5Name" Padding="3" FontSize="Large" Text="{Binding Player5}" TextColor="White" AbsoluteLayout.LayoutBounds="15,185,180,35"/>
+      <BoxView Color="White" CornerRadius="10" AbsoluteLayout.LayoutBounds="10,10,190,240"/>
+      <Label TextDecorations="Underline" Padding="3" FontFamily="Exo" FontSize="Large" TextColor="Black" Text="Players on Court" AbsoluteLayout.LayoutBounds="15,5,180,35"/>
+      <Label x:Name="Player1Name" Padding="3" FontFamily="Exo" FontSize="Large" TextColor="Black" Text="{Binding Player1}" AbsoluteLayout.LayoutBounds="15,45,180,35"/>
+      <Label x:Name="Player2Name" Padding="3" FontFamily="Exo" FontSize="Large" TextColor="Black" Text="{Binding Player2}" AbsoluteLayout.LayoutBounds="15,80,180,35"/>
+      <Label x:Name="Player3Name" Padding="3" FontFamily="Exo" FontSize="Large" TextColor="Black" Text="{Binding Player3}" AbsoluteLayout.LayoutBounds="15,115,180,35"/>
+      <Label x:Name="Player4Name" Padding="3" FontFamily="Exo" FontSize="Large" TextColor="Black" Text="{Binding Player4}" AbsoluteLayout.LayoutBounds="15,150,180,35"/>
+      <Label x:Name="Player5Name" Padding="3" FontFamily="Exo" FontSize="Large" TextColor="Black" Text="{Binding Player5}" AbsoluteLayout.LayoutBounds="15,185,180,35"/>
 
-      <Button Command="{Binding Substitution}" BorderColor="White" BorderWidth="2" BackgroundColor="Navy" TextTransform="None" Padding="1" FontSize="Large"  Text="Substitution      " TextColor="White" AbsoluteLayout.LayoutBounds="10,255,190,45"/>
-      <Label Padding="3" FontSize="Large" FontFamily="Material" Text="&#xe2e7;"  TextColor="White" AbsoluteLayout.LayoutBounds="155,264,180,45"/>
+      <Button Style="{StaticResource AppButton}" Command="{Binding Substitution}" BorderWidth="2" TextTransform="None" Padding="1" FontSize="Large"  Text="Substitution      " AbsoluteLayout.LayoutBounds="10,255,190,45"/>
+      <Label Padding="3" FontSize="Large" FontFamily="Material" Text="&#xe2e7;" TextColor="Black" AbsoluteLayout.LayoutBounds="155,264,180,45"/>
 
-      <Button x:Name="BoxScoreOpen" IsVisible="True" Clicked="ViewBoxScore" BackgroundColor="Navy" TextTransform="None" Padding="3" FontSize="Large" Text="Box Score" TextColor="White" AbsoluteLayout.LayoutBounds="210,5,180,45"/>
-      <Button Clicked="AddSTEAL" BackgroundColor="Navy" TextTransform="None" Padding="1" FontSize="Large" Text="STL" TextColor="White" AbsoluteLayout.LayoutBounds="230,55,60,30"/>
-      <Button Clicked="AddTO" BackgroundColor="Navy" TextTransform="None" Padding="1" FontSize="Large" Text="TO" TextColor="White" AbsoluteLayout.LayoutBounds="315,55,60,30"/>
-      <Button Clicked="AddFOUL"  BackgroundColor="Navy" TextTransform="None" Padding="1" FontSize="Large" Text="FOUL" TextColor="White" AbsoluteLayout.LayoutBounds="230,90,60,30"/>
-      <Button Clicked="AddFT" BackgroundColor="Navy" TextTransform="None" Padding="1" FontSize="Large" Text="FT" TextColor="White" AbsoluteLayout.LayoutBounds="315,90,60,30"/>
-      <Button Clicked="AddOREB" BackgroundColor="Navy" TextTransform="None" Padding="1" FontSize="Large" Text="OREB" TextColor="White" AbsoluteLayout.LayoutBounds="230,125,60,30"/>
-      <Button Clicked="AddDREB" BackgroundColor="Navy" TextTransform="None" Padding="1" FontSize="Large" Text="DREB" TextColor="White" AbsoluteLayout.LayoutBounds="315,125,60,30"/>
-      <Button Clicked="AddBLCK" BackgroundColor="Navy" TextTransform="None" Padding="1" FontSize="Large" Text="BLCK" TextColor="White" AbsoluteLayout.LayoutBounds="230,160,60,30"/>
-      <Button Clicked="AddASST" BackgroundColor="Navy" TextTransform="None" Padding="1" FontSize="Large" Text="ASST" TextColor="White" AbsoluteLayout.LayoutBounds="315,160,60,30"/>
+      <Button Style="{StaticResource AppButton}" x:Name="BoxScoreOpen" IsVisible="True" Clicked="ViewBoxScore" TextTransform="None" Padding="3" FontSize="Large" Text="Box Score" AbsoluteLayout.LayoutBounds="210,5,180,45"/>
+      <Button Style="{StaticResource AppButton}" Clicked="AddSTEAL" TextTransform="None" Padding="1" FontSize="18" Text="STL" AbsoluteLayout.LayoutBounds="230,55,60,30"/>
+      <Button Style="{StaticResource AppButton}" Clicked="AddTO" TextTransform="None" Padding="1" FontSize="18" Text="TO" AbsoluteLayout.LayoutBounds="315,55,60,30"/>
+      <Button Clicked="AddFOUL"   Style="{StaticResource AppButton}" TextTransform="None" Padding="1" FontSize="18" Text="FOUL" AbsoluteLayout.LayoutBounds="230,90,60,30"/>
+      <Button Clicked="AddFT"  Style="{StaticResource AppButton}" TextTransform="None" Padding="1" FontSize="18" Text="FT" AbsoluteLayout.LayoutBounds="315,90,60,30"/>
+      <Button Clicked="AddOREB"  Style="{StaticResource AppButton}" TextTransform="None" Padding="1" FontSize="18" Text="OREB" AbsoluteLayout.LayoutBounds="230,125,60,30"/>
+      <Button Clicked="AddDREB"  Style="{StaticResource AppButton}" TextTransform="None" Padding="1" FontSize="18" Text="DREB" AbsoluteLayout.LayoutBounds="315,125,60,30"/>
+      <Button Clicked="AddBLCK"  Style="{StaticResource AppButton}" TextTransform="None" Padding="1" FontSize="18" Text="BLCK" AbsoluteLayout.LayoutBounds="230,160,60,30"/>
+      <Button Clicked="AddASST"  Style="{StaticResource AppButton}" TextTransform="None" Padding="1" FontSize="18" Text="ASST" AbsoluteLayout.LayoutBounds="315,160,60,30"/>
 
 
-      <Button Style="{StaticResource InactiveButtons}" Padding="3" FontSize="Large" Text="Call Play" TextColor="White" AbsoluteLayout.LayoutBounds="210,205,180,45"/>
-      <Button Style="{StaticResource InactiveButtons}" Padding="10" FontSize="Large" FontFamily="Material" Text="                     &#xe166;" TextColor="White" AbsoluteLayout.LayoutBounds="210,260,180,45"/>
-      <Label Padding="3" FontSize="Large" Text="Undo Action" TextColor="White" AbsoluteLayout.LayoutBounds="215,265,180,45"/>
+      <Button Style="{StaticResource InactiveButtons}" TextTransform="None" Padding="3" FontSize="Large" Text="Call Play" AbsoluteLayout.LayoutBounds="210,205,180,45" IsEnabled="false" TextColor="#b1bbca"/>
+      <Button Style="{StaticResource InactiveButtons}" Padding="10" FontSize="Large" FontFamily="Material" Text="                     &#xe166;" AbsoluteLayout.LayoutBounds="210,260,180,45" IsEnabled="false" TextColor="#b1bbca"/>
+      <Label Padding="3" FontSize="Large"  Text="Undo Action" AbsoluteLayout.LayoutBounds="215,265,180,45" TextColor="#b1bbca"/>
 
 
       <BoxView x:Name="BoxScoreBackground" BackgroundColor="PowderBlue" AbsoluteLayout.LayoutBounds="0,0,810,400" IsVisible="False"></BoxView>
