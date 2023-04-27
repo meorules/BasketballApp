@@ -15,7 +15,6 @@ namespace BasketballApp
     {
       InitializeComponent();
 
-      //DependencyService.Register<MockDataStore>();
       BasketballDBService.initialise(false);
       //addSimulatedData();
 

@@ -314,26 +314,6 @@ namespace BasketballApp.Services
       else return false;
     }
 
-    public static Team loadTeam()
-    {
-      var userTeams = conn.Table<Team>().Where(Team => Team.UserID == ApplicationData.currentlySignedInUser.UserID);
-      if(userTeams.Count() > 0)
-      {
-        var userTeamList = userTeams.ToList();
-        for(int i = 0; i < userTeamList.Count; i++)
-        {
-          int currentTeamID = userTeamList[i].TeamID;
-          var teamPlayers = conn.Table<Player>().Where(Player => Player.TeamId == currentTeamID);
-          if(teamPlayers.Count() > 0)
-          {
-            userTeamList[i].Players = teamPlayers.ToList();
-          }
-
-        }
-        return userTeamList[0];
-      }
-      return null;
-    }
 
     public static GameObject getGame(int gameID)
     {
