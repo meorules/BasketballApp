@@ -15,8 +15,8 @@ namespace BasketballApp
     {
       InitializeComponent();
 
-      BasketballDBService.initialise(false);
-      //addSimulatedData();
+      BasketballDBService.initialise(true);
+      addSimulatedData();
 
       MainPage = new AppShell();
     }
