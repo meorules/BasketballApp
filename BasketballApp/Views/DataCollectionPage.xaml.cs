@@ -96,6 +96,8 @@ namespace BasketballApp.Views
         shotClockButton.Text = shotClock.ToString(@"ss\.f");
         if (timePlay)
         {
+          TimerButtonPlay.IsVisible = false;
+          TimerButtonPause.IsVisible = true;
           //Call Add minutes to each player
           viewModel.AddMinutes(TimeSpan.FromMilliseconds(100));
           clock = clock-TimeSpan.FromMilliseconds(100);
@@ -106,6 +108,11 @@ namespace BasketballApp.Views
             shotClock = new TimeSpan(0, 0, 24);
             timePlay = false;
           }
+        }
+        else
+        {
+          TimerButtonPlay.IsVisible = true;
+          TimerButtonPause.IsVisible = false;
         }
         
         return true;
@@ -229,7 +236,7 @@ namespace BasketballApp.Views
         if (x >= 405 && y >= 80)
         {
           timePlay = false;
-          blocked=true;
+          blocked =true;
           string assistedPlayer = "No One";
 
           string playerName = await Shell.Current.DisplayActionSheet("Pick a Player", "Cancel", null, Player1Name.Text, Player2Name.Text, Player3Name.Text, Player4Name.Text, Player5Name.Text);

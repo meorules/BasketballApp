@@ -15,6 +15,7 @@
         <Setter Property="TextColor" Value="Black" />
         <Setter Property="FontSize" Value="Large" />
         <Setter Property="BorderWidth" Value="1" />
+        <Setter Property="FontFamily" Value="Eigrantch"/>
       </Style>
       <Style x:Key="AwayButtons" TargetType="Button">
         <Setter Property="Padding" Value="2" />
@@ -25,7 +26,7 @@
       </Style>
       <Style x:Key="InactiveButtons" TargetType="Button">
         <Setter Property="Padding" Value="2" />
-        <Setter Property="BackgroundColor" Value="Gray" />
+        <Setter Property="BackgroundColor" Value="LightSlateGray" />
         <Setter Property="BorderColor" Value="Black" />
         <Setter Property="TextColor" Value="White" />
         <Setter Property="FontSize" Value="Large" />

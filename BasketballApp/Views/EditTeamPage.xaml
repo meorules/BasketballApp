@@ -39,7 +39,7 @@
 
       <Button Clicked="PlayerAddClicked" Style="{StaticResource AppButton}" Text="Add Player" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2"/>
       <Button Clicked="PlayerEditClicked" Style="{StaticResource AppButton}" Text="Edit Player" Grid.Row="3" Grid.Column="5" Grid.ColumnSpan="2" />
-      <Button Clicked="DeletePlayerClicked" Style="{StaticResource AppButton}" Text="Delete Player" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2"/>
+      <Button Clicked="DeletePlayerClicked" Style="{StaticResource AppButton}" BackgroundColor="Red" Text="Delete Player" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2"/>
 
       <Frame Grid.Row="2" Grid.Column="1" Grid.RowSpan="3" Grid.ColumnSpan="2" BackgroundColor="LightGray" BorderColor="Black">
         <StackLayout>

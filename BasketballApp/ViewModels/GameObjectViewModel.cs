@@ -437,6 +437,7 @@ namespace BasketballApp.ViewModels
 
                     };
                     currentGame.HomeScore += 1;
+                    OnPropertyChanged("HomeScore");
                     curr = BasketballDBService.addGameLog(curr);
                     currentGame.LogActivities.Add(curr);
                   }

@@ -294,6 +294,11 @@ namespace BasketballApp.Views
     private void EndTimePicker_SelectedIndexChanged(object sender, EventArgs e)
     {
       endTime = TimeSpan.FromMinutes(EndTimePicker.SelectedIndex * 2 + 2);
+
+      if (EndTimePicker.SelectedIndex == 5)
+      {
+        endTime = TimeSpan.FromMinutes(5 * 2 + 2+0.0001);
+      }
       canvasView.InvalidateSurface();
 
     }
